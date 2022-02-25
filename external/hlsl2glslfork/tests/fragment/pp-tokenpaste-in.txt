@@ -1,0 +1,25 @@
+#line 1 "pp-tokenpaste-in.txt" 
+
+struct v2f
+{
+	half4 pos 	: POSITION;
+	half2 uv 	: TEXCOORD0;
+};
+
+// Regular thing
+#define TAKE1( x, sampler, i ) x + tex2D (sampler, i.uv)
+// Token pasting in several weird ways that works in HLSL & Cg; we also had a bug where
+// if a macro parameter name was "i" *and* the passed value was "i" then
+// it would fail.
+#define TAKE2( x, sampler, i ) x + tex2D (sampler, i##.uv)
+#define TAKE3( x, sampler, i ) x + tex2D (sampler, i.##uv)
+
+sampler2D _MainTex;
+fixed4 main( v2f i ) : COLOR
+{
+	fixed4 col = tex2D (_MainTex, i.uv);
+	col = TAKE1 (col, _MainTex, i);
+	col = TAKE2 (col, _MainTex, i);
+	col = TAKE3 (col, _MainTex, i);
+	return col;
+}				

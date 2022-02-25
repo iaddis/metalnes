@@ -1,0 +1,132 @@
+uniform float4 _ProjectionParams ;
+uniform float4 _ScreenParams ;
+uniform float4 _ZBufferParams ;
+
+inline fixed3 UnpackNormal ( fixed4 packednormal )
+{
+    fixed3 normal ;
+    normal . xy = packednormal . wy * 2 - 1 ;
+    normal . z = sqrt ( 1 - normal . x * normal . x - normal . y * normal . y ) ;
+    return normal ;
+}
+inline float LinearEyeDepth ( float z )
+{
+    return 1.0 / ( _ZBufferParams . z * z + _ZBufferParams . w ) ;
+}
+
+
+inline half3 PerPixelNormal ( sampler2D bumpMap , half4 coords , half3 vertexNormal , half bumpStrength )
+{
+    half4 bump = tex2D ( bumpMap , coords . xy ) + tex2D ( bumpMap , coords . zw ) ;
+    bump . xy = bump . wy - half2 ( 1.0 , 1.0 ) ;
+    half3 worldNormal = vertexNormal + bump . xxy * bumpStrength * half3 ( 1 , 0 , 1 ) ;
+    return normalize ( worldNormal ) ;
+}
+inline half3 PerPixelNormalUnpacked ( sampler2D bumpMap , half4 coords , half bumpStrength )
+{
+    half4 bump = tex2D ( bumpMap , coords . xy ) + tex2D ( bumpMap , coords . zw ) ;
+    bump = bump * 0.5 ;
+    half3 normal = UnpackNormal ( bump ) ;
+    normal . xy *= bumpStrength ;
+    return normalize ( normal ) ;
+}
+
+inline half3 PerPixelNormalUnpacked ( sampler2D bumpMap , half4 coords , half bumpStrength , half2 perVertxOffset )
+{
+    half4 bump = tex2D ( bumpMap , coords . xy ) + tex2D ( bumpMap , coords . zw ) ;
+    bump = bump * 0.5 ;
+    half3 normal = UnpackNormal ( bump ) ;
+    normal . xy *= bumpStrength ;
+    normal . xy += perVertxOffset ;
+    return normalize ( normal ) ;
+}
+
+inline half4 Foam ( sampler2D shoreTex , half4 coords , half amount )
+{
+    half4 foam = ( tex2D ( shoreTex , coords . xy ) * tex2D ( shoreTex , coords . zw ) ) - 0.125 ;
+    foam . a = amount ;
+    return foam ;
+}
+inline half4 Foam ( sampler2D shoreTex , half4 coords )
+{
+    half4 foam = ( tex2D ( shoreTex , coords . xy ) * tex2D ( shoreTex , coords . zw ) ) - 0.125 ;
+    return foam ;
+}
+inline half Fresnel ( half3 viewVector , half3 worldNormal , half bias , half power )
+{
+    half facing = clamp ( 1.0 - max ( dot ( - viewVector , worldNormal ) , 0.0 ) , 0.0 , 1.0 ) ;
+    half refl2Refr = saturate ( bias + ( 1.0 - bias ) * pow ( facing , power ) ) ;
+    return refl2Refr ;
+}
+inline half FresnelViaTexture ( half3 viewVector , half3 worldNormal , sampler2D fresnel )
+{
+    half facing = saturate ( dot ( - viewVector , worldNormal ) ) ;
+    half fresn = tex2D ( fresnel , half2 ( facing , 0.5f ) ) . b ;
+    return fresn ;
+}
+
+half4 ExtinctColor ( half4 baseColor , half extinctionAmount )
+{
+    return baseColor - extinctionAmount * half4 ( 0.15 , 0.03 , 0.01 , 0.0 ) ;
+}
+
+struct v2f
+{
+    float4 pos : POSITION ;
+    float4 normalInterpolator : TEXCOORD0 ;
+    float4 viewInterpolator : TEXCOORD1 ;
+    float4 bumpCoords : TEXCOORD2 ;
+    float4 screenPos : TEXCOORD3 ;
+    float4 grabPassPos : TEXCOORD4 ;
+}
+;
+sampler2D _BumpMap ;
+sampler2D _ReflectionTex ;
+sampler2D _RefractionTex ;
+sampler2D _ShoreTex ;
+sampler2D _CameraDepthTexture ;
+uniform float4 _RefrColorDepth ;
+uniform float4 _SpecularColor ;
+uniform float4 _BaseColor ;
+uniform float4 _ReflectionColor ;
+uniform float4 _InvFadeParemeter ;
+uniform float _Shininess ;
+uniform float4 _WorldLightDir ;
+uniform float4 _DistortParams ;
+uniform float _FresnelScale ;
+uniform float4 _BumpTiling ;
+uniform float4 _BumpDirection ;
+uniform float4 _Foam ;
+
+half4 main ( v2f i ) : COLOR
+{
+    half3 worldNormal = PerPixelNormal ( _BumpMap , i . bumpCoords , i . normalInterpolator . xyz , _DistortParams . x ) ;
+    half3 viewVector = normalize ( i . viewInterpolator . xyz ) ;
+    half4 distortOffset = half4 ( worldNormal . xz * _DistortParams . y * 10.0 , 0 , 0 ) ;
+    half4 screenWithOffset = i . screenPos + distortOffset ;
+    half4 grabWithOffset = i . grabPassPos + distortOffset ;
+    half4 rtRefractionsNoDistort = tex2Dproj ( _RefractionTex , i . grabPassPos ) ;
+    half refrFix = ( tex2Dproj ( _CameraDepthTexture , grabWithOffset ) ) . r ;
+    half4 rtRefractions = tex2Dproj ( _RefractionTex , grabWithOffset ) ;
+    half4 rtReflections = tex2Dproj ( _ReflectionTex , screenWithOffset ) ;
+    if ( LinearEyeDepth ( refrFix ) < i . screenPos . z ) rtRefractions = rtRefractionsNoDistort ;
+    half3 reflectVector = normalize ( reflect ( viewVector , worldNormal ) ) ;
+    half3 h = normalize ( ( _WorldLightDir . xyz ) + viewVector . xyz ) ;
+    float nh = max ( 0 , dot ( worldNormal , - h ) ) ;
+    float spec = max ( 0.0 , pow ( nh , _Shininess ) ) ;
+    half4 edgeBlendFactors = half4 ( 1.0 , 0.0 , 0.0 , 0.0 ) ;
+    half depth = ( tex2Dproj ( _CameraDepthTexture , i . screenPos ) ) . r ;
+    depth = LinearEyeDepth ( depth ) ;
+    edgeBlendFactors = saturate ( _InvFadeParemeter * ( depth - i . screenPos . w ) ) ;
+    edgeBlendFactors . y = 1.0 - edgeBlendFactors . y ;
+    worldNormal . xz *= _FresnelScale ;
+    half refl2Refr = Fresnel ( viewVector , worldNormal , _DistortParams . w , _DistortParams . z ) ;
+    half4 baseColor = ExtinctColor ( _BaseColor , i . viewInterpolator . w * _InvFadeParemeter . w ) ;
+    half4 reflectionColor = lerp ( rtReflections , _ReflectionColor , _ReflectionColor . a ) ;
+    baseColor = lerp ( lerp ( rtRefractions , baseColor , baseColor . a ) , reflectionColor , refl2Refr ) ;
+    baseColor = baseColor + spec * _SpecularColor ;
+    half4 foam = Foam ( _ShoreTex , i . bumpCoords * 2.0 ) ;
+    baseColor . rgb += foam . rgb * _Foam . x * ( edgeBlendFactors . y + saturate ( i . viewInterpolator . w - _Foam . y ) ) ;
+    baseColor . a = edgeBlendFactors . x ;
+    return baseColor ;
+}

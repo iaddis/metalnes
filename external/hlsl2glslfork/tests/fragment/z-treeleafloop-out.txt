@@ -1,0 +1,92 @@
+void xll_clip_f(float x) {
+  if ( x<0.0 ) discard;
+}
+void xll_clip_vf2(vec2 x) {
+  if (any(lessThan(x,vec2(0.0)))) discard;
+}
+void xll_clip_vf3(vec3 x) {
+  if (any(lessThan(x,vec3(0.0)))) discard;
+}
+void xll_clip_vf4(vec4 x) {
+  if (any(lessThan(x,vec4(0.0)))) discard;
+}
+#line 11
+struct v2f {
+    vec4 pos;
+    vec2 uv;
+    vec3 color;
+    vec3 backContrib;
+    vec3 nl;
+    vec3 nh;
+};
+#line 7
+uniform mat4 UNITY_MATRIX_IT_MV;
+uniform mat4 UNITY_MATRIX_MVP;
+uniform vec4 UNITY_LIGHTMODEL_AMBIENT;
+#line 20
+uniform vec4 _TerrainTreeLightColors[4];
+uniform sampler2D _MainTex;
+uniform sampler2D _BumpSpecMap;
+#line 24
+uniform sampler2D _TranslucencyMap;
+uniform float _Cutoff;
+uniform vec3 _TranslucencyColor;
+#line 28
+uniform vec4 _SpecColor;
+#line 30
+vec4 xlat_main( in v2f i ) {
+    #line 32
+    vec4 col = texture2D( _MainTex, i.uv);
+    xll_clip_f((col.w - _Cutoff));
+    vec3 albedo = (col.xyz * i.color);
+    #line 37
+    float specular = (texture2D( _BumpSpecMap, i.uv).x * 128.0);
+    vec4 trngls = texture2D( _TranslucencyMap, i.uv);
+    float gloss = trngls.w;
+    #line 42
+    vec3 light = (vec3( UNITY_LIGHTMODEL_AMBIENT) * albedo);
+    vec3 backContribs = (i.backContrib * trngls.z);
+    #line 46
+    int j = 0;
+    for ( ; (j < 3); (j++)) {
+        vec3 lightColor = _TerrainTreeLightColors[j].xyz;
+        vec3 translucencyColor = (backContribs[j] * _TranslucencyColor);
+        #line 51
+        float nl = i.nl[j];
+        float nh = i.nh[j];
+        float spec = (pow( nh, specular) * gloss);
+        light += (((albedo * (translucencyColor + nl)) + (_SpecColor.xyz * spec)) * lightColor);
+    }
+    #line 57
+    vec4 c;
+    c.xyz = (light * 2.0);
+    c.w = 1.0;
+    return c;
+}
+varying vec2 xlv_TEXCOORD0;
+varying vec3 xlv_TEXCOORD1;
+varying vec3 xlv_TEXCOORD2;
+varying vec3 xlv_TEXCOORD3;
+varying vec3 xlv_TEXCOORD4;
+void main() {
+    vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.uv = vec2(xlv_TEXCOORD0);
+    xlt_i.color = vec3(xlv_TEXCOORD1);
+    xlt_i.backContrib = vec3(xlv_TEXCOORD2);
+    xlt_i.nl = vec3(xlv_TEXCOORD3);
+    xlt_i.nh = vec3(xlv_TEXCOORD4);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// UNITY_LIGHTMODEL_AMBIENT:<none> type 12 arrsize 0
+// _BumpSpecMap:<none> type 25 arrsize 0
+// _Cutoff:<none> type 9 arrsize 0
+// _MainTex:<none> type 25 arrsize 0
+// _SpecColor:<none> type 12 arrsize 0
+// _TerrainTreeLightColors:<none> type 12 arrsize 4
+// _TranslucencyColor:<none> type 11 arrsize 0
+// _TranslucencyMap:<none> type 25 arrsize 0

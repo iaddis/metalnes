@@ -1,0 +1,37 @@
+#line 1 "funccalls-in.txt" 
+float4x4 mvp;
+
+struct a2v {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+	float3 normal : NORMAL;
+	float4 color : COLOR;
+};
+
+struct v2f {
+	float4 pos : POSITION;
+	float fog : FOG;
+	float2 uv : TEXCOORD0;
+	float4 color : COLOR;
+};
+
+float4 DoPosMul (float4 pos, float4x4 mvp)
+{
+	return mul (mvp, pos);
+}
+
+float4 DoColor (float4 color, float3 normal)
+{
+	float4 c = color;
+	c.rgb += normal;
+	return c;
+}
+
+v2f main (a2v v)
+{
+	v2f o;
+	o.pos = DoPosMul (v.pos, mvp);
+	o.color = DoColor (v.color, v.normal);
+	o.uv = v.uv;
+	return o;
+}

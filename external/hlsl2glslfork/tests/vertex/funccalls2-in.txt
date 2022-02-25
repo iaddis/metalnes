@@ -1,0 +1,41 @@
+#line 1 "funccalls2-in.txt" 
+float4x4 mvp;
+
+struct a2v {
+	float4 pos : POSITION;
+};
+
+struct v2f {
+	float4 pos : POSITION;
+	float4 color : COLOR;
+};
+
+float4 _LightColor;
+float3 _LightPos;
+
+float ComputeShadow (float3 pos)
+{
+	return pow (pos.x, 4.0);
+}
+
+float ComputeAtten (float3 pos, float3 lightPos)
+{
+	return distance (pos, lightPos) * ComputeShadow (pos);
+}
+
+float4 ComputeSomeLighting (float3 pos)
+{
+	float4 res;
+	res = _LightColor;
+	res *= ComputeAtten (pos, _LightPos);
+	return res;
+}
+
+v2f main (a2v v)
+{
+	v2f o;
+	float4 pos = mul (mvp, v.pos);
+	o.pos = pos;
+	o.color = ComputeSomeLighting (v.pos.xyz);
+	return o;
+}

@@ -1,0 +1,98 @@
+
+#line 15
+struct SurfaceOutput {
+    lowp vec3 Albedo;
+    lowp vec3 Normal;
+    lowp vec3 Emission;
+    mediump float Specular;
+    lowp float Gloss;
+    lowp float Alpha;
+};
+#line 28
+struct Input {
+    highp vec2 uv_MainTex;
+};
+#line 45
+struct v2f_surf {
+    highp vec4 pos;
+    highp vec2 pack0;
+    lowp vec3 normal;
+    lowp vec3 vlight;
+};
+#line 6
+struct appdata_full {
+    highp vec4 vertex;
+    highp vec4 tangent;
+    highp vec3 normal;
+    highp vec4 texcoord;
+    highp vec4 texcoord1;
+    lowp vec4 color;
+};
+uniform highp mat4 UNITY_MATRIX_MVP;
+#line 3
+uniform highp mat4 _Object2World;
+uniform highp vec4 _WorldSpaceLightPos0;
+#line 24
+uniform sampler2D _MainTex;
+uniform lowp vec4 ololo;
+#line 32
+#line 51
+uniform highp vec4 _MainTex_ST;
+lowp vec4 xlat_mutableololo;
+#line 32
+lowp vec4 LightingNoLight( in SurfaceOutput s, in lowp vec3 lightDir, in lowp float atten ) {
+    lowp vec4 c;
+    c.xyz = (s.Alpha * (s.Albedo + vec3( xlat_mutableololo)));
+    c.w = 1.0;
+    #line 36
+    return c;
+}
+#line 39
+void surf( in Input IN, inout SurfaceOutput o ) {
+    #line 40
+    mediump vec4 c = texture2D( _MainTex, IN.uv_MainTex);
+    xlat_mutableololo = c;
+    o.Albedo = c.xyz;
+    o.Alpha = c.w;
+}
+#line 62
+lowp vec4 xlat_main( in v2f_surf IN ) {
+    #line 63
+    Input surfIN;
+    surfIN.uv_MainTex = IN.pack0.xy;
+    SurfaceOutput o;
+    o.Albedo = vec3( 0.0);
+    #line 67
+    o.Emission = vec3( 0.0);
+    o.Specular = 0.0;
+    o.Alpha = 0.0;
+    o.Gloss = 0.0;
+    #line 71
+    o.Normal = IN.normal;
+    surf( surfIN, o);
+    lowp float atten = 1.0;
+    lowp vec4 c = vec4( 0.0);
+    #line 75
+    c = LightingNoLight( o, _WorldSpaceLightPos0.xyz, atten);
+    c.xyz += (o.Albedo * IN.vlight);
+    return c;
+}
+varying highp vec2 xlv_TEXCOORD0;
+varying lowp vec3 xlv_TEXCOORD1;
+varying lowp vec3 xlv_TEXCOORD2;
+void main() {
+    xlat_mutableololo = ololo;
+    lowp vec4 xl_retval;
+    v2f_surf xlt_IN;
+    xlt_IN.pos = vec4(0.0);
+    xlt_IN.pack0 = vec2(xlv_TEXCOORD0);
+    xlt_IN.normal = vec3(xlv_TEXCOORD1);
+    xlt_IN.vlight = vec3(xlv_TEXCOORD2);
+    xl_retval = xlat_main( xlt_IN);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _MainTex:<none> type 25 arrsize 0
+// _WorldSpaceLightPos0:<none> type 12 arrsize 0
+// ololo:<none> type 12 arrsize 0

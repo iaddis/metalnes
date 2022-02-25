@@ -1,0 +1,29 @@
+#line 1 "multiple-file-lines-in.txt" 
+#line 1 "multiple-file-lines-in.hlsl"
+#ifdef FREAKY
+#ifdef FREAKY
+#ifdef FREAKY
+#ifdef FREAKY
+#ifdef FREAKY
+#ifdef FREAKY
+#ifdef FREAKY
+#ifdef FREAKY
+#ifdef FREAKY
+#ifdef FREAKY
+#line 2 "multiple-file-lines-in.hlsl"
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+void main(out float4 overtex : POSITION)
+{
+    bloat4 b(1.f, 1.f, 1.f, 1.f);
+    overtex = float4(b.x,b.y,b,z,b.w);
+}
+

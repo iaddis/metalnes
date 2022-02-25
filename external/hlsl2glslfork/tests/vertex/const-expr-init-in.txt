@@ -1,0 +1,21 @@
+static const int kInt1 = 3;
+const int kInt2 = 7;
+static int kInt3 = 11;
+
+float size1 = 512.0;
+float size2 = 1.0 / 512.0;
+float size3 = kInt1;
+float size4 = kInt2 / 3.0;
+float size5 = 5 - kInt2;
+float size6 = kInt2 * 512.0;
+float size7 = -kInt1;
+float size8 = -(1.0 / 4.0 + (4.0 * (-(2.0/4.0))));
+float size9 = -(1.0 / 4 + (4.0 * (-(2/4))));
+
+uniform float3 my_vec3a = float3(1,2,3);
+uniform float3 my_vec3b = {1,2,3};
+
+float4 main() : POSITION
+{
+	return float4(kInt1, kInt2, kInt3, size2 + size8);
+}

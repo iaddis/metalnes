@@ -1,0 +1,66 @@
+
+#line 14
+struct v2f {
+    highp vec4 pos;
+    mediump vec4 color;
+};
+#line 9
+struct appdata {
+    highp vec4 vertex;
+    highp vec3 normal;
+};
+#line 1
+uniform highp vec4 unity_LightColor[4];
+uniform highp vec4 unity_LightPosition[4];
+uniform highp vec4 unity_LightAtten[4];
+#line 5
+uniform highp mat4 UNITY_MATRIX_MVP;
+uniform highp mat4 UNITY_MATRIX_MV;
+uniform highp mat4 UNITY_MATRIX_IT_MV;
+#line 19
+#line 19
+highp vec3 ShadeMyVertexLights( in highp vec4 vertex, in highp vec3 normal ) {
+    highp vec3 viewpos = (UNITY_MATRIX_MV * vertex).xyz;
+    highp vec3 viewN = (mat3( UNITY_MATRIX_IT_MV) * normal);
+    #line 23
+    highp vec3 lightColor = vec3( 0.0, 0.0, 0.0);
+    highp int i = 0;
+    for ( ; (i < 2); (i++)) {
+        highp vec3 toLight = (unity_LightPosition[i].xyz - viewpos.xyz);
+        #line 27
+        highp float lengthSq = dot( toLight, toLight);
+        highp float atten = (1.0 / (1.0 + (lengthSq * unity_LightAtten[i].z)));
+        highp float diff = max( 0.0, dot( viewN, normalize(toLight)));
+        lightColor += (unity_LightColor[i].xyz * (diff * atten));
+    }
+    #line 32
+    return (lightColor * 2.0);
+}
+#line 35
+v2f xlat_main( in appdata v ) {
+    #line 37
+    v2f o;
+    o.pos = (UNITY_MATRIX_MVP * v.vertex);
+    o.color = vec4( ShadeMyVertexLights( v.vertex, v.normal), 1.0);
+    return o;
+}
+in highp vec4 xlat_attrib_POSITION;
+in highp vec3 xlat_attrib_NORMAL;
+out mediump vec4 xlv_TEXCOORD0;
+void main() {
+    v2f xl_retval;
+    appdata xlt_v;
+    xlt_v.vertex = vec4(xlat_attrib_POSITION);
+    xlt_v.normal = vec3(xlat_attrib_NORMAL);
+    xl_retval = xlat_main( xlt_v);
+    gl_Position = vec4(xl_retval.pos);
+    xlv_TEXCOORD0 = vec4(xl_retval.color);
+}
+
+// uniforms:
+// UNITY_MATRIX_IT_MV:<none> type 21 arrsize 0
+// UNITY_MATRIX_MV:<none> type 21 arrsize 0
+// UNITY_MATRIX_MVP:<none> type 21 arrsize 0
+// unity_LightAtten:<none> type 12 arrsize 4
+// unity_LightColor:<none> type 12 arrsize 4
+// unity_LightPosition:<none> type 12 arrsize 4

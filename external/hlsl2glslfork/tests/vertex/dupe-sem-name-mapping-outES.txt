@@ -1,0 +1,32 @@
+
+#line 10
+struct v2f {
+    highp vec4 pos;
+    highp vec4 uv;
+};
+#line 2
+struct a2v1 {
+    highp vec4 texcoord;
+};
+#line 6
+struct a2v2 {
+    highp vec4 texcoord;
+};
+#line 15
+#line 15
+v2f xlat_main( in a2v1 v, in a2v2 v2 ) {
+    v2f o;
+    return o;
+}
+attribute highp vec4 xlat_attrib_TEXCOORD;
+varying highp vec4 xlv_TEXCOORD;
+void main() {
+    v2f xl_retval;
+    a2v1 xlt_v;
+    xlt_v.texcoord = vec4(xlat_attrib_TEXCOORD);
+    a2v2 xlt_v2;
+    xlt_v2.texcoord = vec4(xlat_attrib_TEXCOORD);
+    xl_retval = xlat_main( xlt_v, xlt_v2);
+    gl_Position = vec4(xl_retval.pos);
+    xlv_TEXCOORD = vec4(xl_retval.uv);
+}

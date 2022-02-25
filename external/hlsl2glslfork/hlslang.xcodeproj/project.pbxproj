@@ -1,0 +1,1009 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		21AD093F2333300A00ED24E7 /* build-parser */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 21AD09422333300A00ED24E7 /* Build configuration list for PBXAggregateTarget "build-parser" */;
+			buildPhases = (
+				21AD09432333301C00ED24E7 /* Generate LexerParser */,
+			);
+			dependencies = (
+			);
+			name = "build-parser";
+			productName = "build-parser";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		2175F778231C9CCB0089D595 /* mslFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F764231C9CCB0089D595 /* mslFunction.cpp */; };
+		2175F779231C9CCB0089D595 /* mslFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F764231C9CCB0089D595 /* mslFunction.cpp */; };
+		2175F77A231C9CCB0089D595 /* mslFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F764231C9CCB0089D595 /* mslFunction.cpp */; };
+		2175F77B231C9CCB0089D595 /* mslOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F766231C9CCB0089D595 /* mslOutput.cpp */; };
+		2175F77C231C9CCB0089D595 /* mslOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F766231C9CCB0089D595 /* mslOutput.cpp */; };
+		2175F77D231C9CCB0089D595 /* mslOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F766231C9CCB0089D595 /* mslOutput.cpp */; };
+		2175F77E231C9CCB0089D595 /* mslLinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F768231C9CCB0089D595 /* mslLinker.cpp */; };
+		2175F77F231C9CCB0089D595 /* mslLinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F768231C9CCB0089D595 /* mslLinker.cpp */; };
+		2175F780231C9CCB0089D595 /* mslLinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F768231C9CCB0089D595 /* mslLinker.cpp */; };
+		2175F781231C9CCB0089D595 /* mslSymbol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F769231C9CCB0089D595 /* mslSymbol.cpp */; };
+		2175F782231C9CCB0089D595 /* mslSymbol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F769231C9CCB0089D595 /* mslSymbol.cpp */; };
+		2175F783231C9CCB0089D595 /* mslSymbol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F769231C9CCB0089D595 /* mslSymbol.cpp */; };
+		2175F784231C9CCB0089D595 /* mslCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76B231C9CCB0089D595 /* mslCommon.cpp */; };
+		2175F785231C9CCB0089D595 /* mslCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76B231C9CCB0089D595 /* mslCommon.cpp */; };
+		2175F786231C9CCB0089D595 /* mslCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76B231C9CCB0089D595 /* mslCommon.cpp */; };
+		2175F787231C9CCB0089D595 /* mslStruct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76C231C9CCB0089D595 /* mslStruct.cpp */; };
+		2175F788231C9CCB0089D595 /* mslStruct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76C231C9CCB0089D595 /* mslStruct.cpp */; };
+		2175F789231C9CCB0089D595 /* mslStruct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76C231C9CCB0089D595 /* mslStruct.cpp */; };
+		2175F78A231C9CCB0089D595 /* mslSupportLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76E231C9CCB0089D595 /* mslSupportLib.cpp */; };
+		2175F78B231C9CCB0089D595 /* mslSupportLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76E231C9CCB0089D595 /* mslSupportLib.cpp */; };
+		2175F78C231C9CCB0089D595 /* mslSupportLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76E231C9CCB0089D595 /* mslSupportLib.cpp */; };
+		2175F78D231C9CCB0089D595 /* mslPropagateMutable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76F231C9CCB0089D595 /* mslPropagateMutable.cpp */; };
+		2175F78E231C9CCB0089D595 /* mslPropagateMutable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76F231C9CCB0089D595 /* mslPropagateMutable.cpp */; };
+		2175F78F231C9CCB0089D595 /* mslPropagateMutable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F76F231C9CCB0089D595 /* mslPropagateMutable.cpp */; };
+		2175F790231C9CCB0089D595 /* mslTypeSamplers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F771231C9CCB0089D595 /* mslTypeSamplers.cpp */; };
+		2175F791231C9CCB0089D595 /* mslTypeSamplers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F771231C9CCB0089D595 /* mslTypeSamplers.cpp */; };
+		2175F792231C9CCB0089D595 /* mslTypeSamplers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F771231C9CCB0089D595 /* mslTypeSamplers.cpp */; };
+		2175F793231C9CCB0089D595 /* mslCrossCompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F773231C9CCB0089D595 /* mslCrossCompiler.cpp */; };
+		2175F794231C9CCB0089D595 /* mslCrossCompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F773231C9CCB0089D595 /* mslCrossCompiler.cpp */; };
+		2175F795231C9CCB0089D595 /* mslCrossCompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2175F773231C9CCB0089D595 /* mslCrossCompiler.cpp */; };
+		21A3B11B22990C2700540D1A /* Gen_hlslang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E5B0AF107780045E29C /* Gen_hlslang.cpp */; };
+		21A3B11C22990C2700540D1A /* glslCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10DFD0AF103660045E29C /* glslCommon.cpp */; };
+		21A3B11D22990C2700540D1A /* glslFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10DFE0AF103660045E29C /* glslFunction.cpp */; };
+		21A3B11E22990C2700540D1A /* glslOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10DFF0AF103660045E29C /* glslOutput.cpp */; };
+		21A3B11F22990C2700540D1A /* glslStruct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E000AF103660045E29C /* glslStruct.cpp */; };
+		21A3B12022990C2700540D1A /* glslSymbol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E010AF103660045E29C /* glslSymbol.cpp */; };
+		21A3B12122990C2700540D1A /* HLSL2GLSL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E260AF106F40045E29C /* HLSL2GLSL.cpp */; };
+		21A3B12222990C2700540D1A /* hlslang_tab.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E5C0AF107780045E29C /* hlslang_tab.cpp */; };
+		21A3B12322990C2700540D1A /* hlslCrossCompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E020AF103660045E29C /* hlslCrossCompiler.cpp */; };
+		21A3B12422990C2700540D1A /* hlslLinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E030AF103660045E29C /* hlslLinker.cpp */; };
+		21A3B12522990C2700540D1A /* hlslSupportLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E040AF103660045E29C /* hlslSupportLib.cpp */; };
+		21A3B12622990C2700540D1A /* InfoSink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E270AF106F40045E29C /* InfoSink.cpp */; };
+		21A3B12722990C2700540D1A /* Initialize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E280AF106F40045E29C /* Initialize.cpp */; };
+		21A3B12822990C2700540D1A /* mojoshader_lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C7019571AE600912D42 /* mojoshader_lexer.cpp */; };
+		21A3B12922990C2700540D1A /* Intermediate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E290AF106F40045E29C /* Intermediate.cpp */; };
+		21A3B12A22990C2700540D1A /* intermOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2A0AF106F40045E29C /* intermOut.cpp */; };
+		21A3B12B22990C2700540D1A /* IntermTraverse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2B0AF106F40045E29C /* IntermTraverse.cpp */; };
+		21A3B12C22990C2700540D1A /* ossource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E480AF107290045E29C /* ossource.cpp */; };
+		21A3B12D22990C2700540D1A /* mojoshader_preprocessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C7119571AE600912D42 /* mojoshader_preprocessor.cpp */; };
+		21A3B12E22990C2700540D1A /* sourceloc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B5867F71956E82F0092978D /* sourceloc.cpp */; };
+		21A3B12F22990C2700540D1A /* mojoshader_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C6F19571AE600912D42 /* mojoshader_common.cpp */; };
+		21A3B13022990C2700540D1A /* ParseHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2D0AF106F40045E29C /* ParseHelper.cpp */; };
+		21A3B13122990C2700540D1A /* PoolAlloc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2E0AF106F40045E29C /* PoolAlloc.cpp */; };
+		21A3B13222990C2700540D1A /* propagateMutable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E060AF103660045E29C /* propagateMutable.cpp */; };
+		21A3B13322990C2700540D1A /* RemoveTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E300AF106F40045E29C /* RemoveTree.cpp */; };
+		21A3B13422990C2700540D1A /* SymbolTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E310AF106F40045E29C /* SymbolTable.cpp */; };
+		21A3B13522990C2700540D1A /* typeSamplers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E070AF103660045E29C /* typeSamplers.cpp */; };
+		21A3B13622990C2700540D1A /* ConstantFolding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C96AE1639C18100CB13EE /* ConstantFolding.cpp */; };
+		21A3B13722990C2700540D1A /* mojoshader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C7219571AE600912D42 /* mojoshader.cpp */; };
+		21A3B165229C5B7300540D1A /* Gen_hlslang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E5B0AF107780045E29C /* Gen_hlslang.cpp */; };
+		21A3B166229C5B7300540D1A /* glslCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10DFD0AF103660045E29C /* glslCommon.cpp */; };
+		21A3B167229C5B7300540D1A /* glslFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10DFE0AF103660045E29C /* glslFunction.cpp */; };
+		21A3B168229C5B7300540D1A /* glslOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10DFF0AF103660045E29C /* glslOutput.cpp */; };
+		21A3B169229C5B7300540D1A /* glslStruct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E000AF103660045E29C /* glslStruct.cpp */; };
+		21A3B16A229C5B7300540D1A /* glslSymbol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E010AF103660045E29C /* glslSymbol.cpp */; };
+		21A3B16B229C5B7300540D1A /* HLSL2GLSL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E260AF106F40045E29C /* HLSL2GLSL.cpp */; };
+		21A3B16C229C5B7300540D1A /* hlslang_tab.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E5C0AF107780045E29C /* hlslang_tab.cpp */; };
+		21A3B16D229C5B7300540D1A /* hlslCrossCompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E020AF103660045E29C /* hlslCrossCompiler.cpp */; };
+		21A3B16E229C5B7300540D1A /* hlslLinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E030AF103660045E29C /* hlslLinker.cpp */; };
+		21A3B16F229C5B7300540D1A /* hlslSupportLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E040AF103660045E29C /* hlslSupportLib.cpp */; };
+		21A3B170229C5B7300540D1A /* InfoSink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E270AF106F40045E29C /* InfoSink.cpp */; };
+		21A3B171229C5B7300540D1A /* Initialize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E280AF106F40045E29C /* Initialize.cpp */; };
+		21A3B172229C5B7300540D1A /* mojoshader_lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C7019571AE600912D42 /* mojoshader_lexer.cpp */; };
+		21A3B173229C5B7300540D1A /* Intermediate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E290AF106F40045E29C /* Intermediate.cpp */; };
+		21A3B174229C5B7300540D1A /* intermOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2A0AF106F40045E29C /* intermOut.cpp */; };
+		21A3B175229C5B7300540D1A /* IntermTraverse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2B0AF106F40045E29C /* IntermTraverse.cpp */; };
+		21A3B176229C5B7300540D1A /* ossource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E480AF107290045E29C /* ossource.cpp */; };
+		21A3B177229C5B7300540D1A /* mojoshader_preprocessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C7119571AE600912D42 /* mojoshader_preprocessor.cpp */; };
+		21A3B178229C5B7300540D1A /* sourceloc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B5867F71956E82F0092978D /* sourceloc.cpp */; };
+		21A3B179229C5B7300540D1A /* mojoshader_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C6F19571AE600912D42 /* mojoshader_common.cpp */; };
+		21A3B17A229C5B7300540D1A /* ParseHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2D0AF106F40045E29C /* ParseHelper.cpp */; };
+		21A3B17B229C5B7300540D1A /* PoolAlloc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2E0AF106F40045E29C /* PoolAlloc.cpp */; };
+		21A3B17C229C5B7300540D1A /* propagateMutable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E060AF103660045E29C /* propagateMutable.cpp */; };
+		21A3B17D229C5B7300540D1A /* RemoveTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E300AF106F40045E29C /* RemoveTree.cpp */; };
+		21A3B17E229C5B7300540D1A /* SymbolTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E310AF106F40045E29C /* SymbolTable.cpp */; };
+		21A3B17F229C5B7300540D1A /* typeSamplers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E070AF103660045E29C /* typeSamplers.cpp */; };
+		21A3B180229C5B7300540D1A /* ConstantFolding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C96AE1639C18100CB13EE /* ConstantFolding.cpp */; };
+		21A3B181229C5B7300540D1A /* mojoshader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C7219571AE600912D42 /* mojoshader.cpp */; };
+		21D5C038231CC42C00686025 /* HLSL2MSL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21D5C037231CC42C00686025 /* HLSL2MSL.cpp */; };
+		21D5C039231CC42C00686025 /* HLSL2MSL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21D5C037231CC42C00686025 /* HLSL2MSL.cpp */; };
+		21D5C03A231CC42C00686025 /* HLSL2MSL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21D5C037231CC42C00686025 /* HLSL2MSL.cpp */; };
+		2B1D3C7319571AE600912D42 /* mojoshader_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C6F19571AE600912D42 /* mojoshader_common.cpp */; };
+		2B1D3C7419571AE600912D42 /* mojoshader_lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C7019571AE600912D42 /* mojoshader_lexer.cpp */; };
+		2B1D3C7519571AE600912D42 /* mojoshader_preprocessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C7119571AE600912D42 /* mojoshader_preprocessor.cpp */; };
+		2B1D3C7619571AE600912D42 /* mojoshader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D3C7219571AE600912D42 /* mojoshader.cpp */; };
+		2B5867F81956E82F0092978D /* sourceloc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B5867F71956E82F0092978D /* sourceloc.cpp */; };
+		2B6C96AF1639C18100CB13EE /* ConstantFolding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C96AE1639C18100CB13EE /* ConstantFolding.cpp */; };
+		2B951CA11135197300DBAF46 /* Gen_hlslang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E5B0AF107780045E29C /* Gen_hlslang.cpp */; };
+		2B951CA21135197300DBAF46 /* glslCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10DFD0AF103660045E29C /* glslCommon.cpp */; };
+		2B951CA31135197300DBAF46 /* glslFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10DFE0AF103660045E29C /* glslFunction.cpp */; };
+		2B951CA41135197300DBAF46 /* glslOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10DFF0AF103660045E29C /* glslOutput.cpp */; };
+		2B951CA51135197300DBAF46 /* glslStruct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E000AF103660045E29C /* glslStruct.cpp */; };
+		2B951CA61135197300DBAF46 /* glslSymbol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E010AF103660045E29C /* glslSymbol.cpp */; };
+		2B951CA71135197300DBAF46 /* HLSL2GLSL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E260AF106F40045E29C /* HLSL2GLSL.cpp */; };
+		2B951CA81135197300DBAF46 /* hlslang_tab.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E5C0AF107780045E29C /* hlslang_tab.cpp */; };
+		2B951CA91135197300DBAF46 /* hlslCrossCompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E020AF103660045E29C /* hlslCrossCompiler.cpp */; };
+		2B951CAA1135197300DBAF46 /* hlslLinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E030AF103660045E29C /* hlslLinker.cpp */; };
+		2B951CAB1135197300DBAF46 /* hlslSupportLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E040AF103660045E29C /* hlslSupportLib.cpp */; };
+		2B951CAC1135197300DBAF46 /* InfoSink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E270AF106F40045E29C /* InfoSink.cpp */; };
+		2B951CAD1135197300DBAF46 /* Initialize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E280AF106F40045E29C /* Initialize.cpp */; };
+		2B951CAF1135197300DBAF46 /* Intermediate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E290AF106F40045E29C /* Intermediate.cpp */; };
+		2B951CB01135197300DBAF46 /* intermOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2A0AF106F40045E29C /* intermOut.cpp */; };
+		2B951CB11135197300DBAF46 /* IntermTraverse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2B0AF106F40045E29C /* IntermTraverse.cpp */; };
+		2B951CB41135197300DBAF46 /* ossource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E480AF107290045E29C /* ossource.cpp */; };
+		2B951CB61135197300DBAF46 /* ParseHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2D0AF106F40045E29C /* ParseHelper.cpp */; };
+		2B951CB71135197300DBAF46 /* PoolAlloc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E2E0AF106F40045E29C /* PoolAlloc.cpp */; };
+		2B951CB81135197300DBAF46 /* propagateMutable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E060AF103660045E29C /* propagateMutable.cpp */; };
+		2B951CBA1135197300DBAF46 /* RemoveTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E300AF106F40045E29C /* RemoveTree.cpp */; };
+		2B951CBD1135197300DBAF46 /* SymbolTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E310AF106F40045E29C /* SymbolTable.cpp */; };
+		2B951CBF1135197300DBAF46 /* typeSamplers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC10E070AF103660045E29C /* typeSamplers.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		21AD0944233330A100ED24E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21AD093F2333300A00ED24E7;
+			remoteInfo = "build-parser";
+		};
+		21AD0946233330A400ED24E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21AD093F2333300A00ED24E7;
+			remoteInfo = "build-parser";
+		};
+		21AD0948233330A800ED24E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21AD093F2333300A00ED24E7;
+			remoteInfo = "build-parser";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		2175F764231C9CCB0089D595 /* mslFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslFunction.cpp; sourceTree = "<group>"; };
+		2175F765231C9CCB0089D595 /* mslOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslOutput.h; sourceTree = "<group>"; };
+		2175F766231C9CCB0089D595 /* mslOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslOutput.cpp; sourceTree = "<group>"; };
+		2175F767231C9CCB0089D595 /* mslStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslStruct.h; sourceTree = "<group>"; };
+		2175F768231C9CCB0089D595 /* mslLinker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslLinker.cpp; sourceTree = "<group>"; };
+		2175F769231C9CCB0089D595 /* mslSymbol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslSymbol.cpp; sourceTree = "<group>"; };
+		2175F76A231C9CCB0089D595 /* mslSupportLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslSupportLib.h; sourceTree = "<group>"; };
+		2175F76B231C9CCB0089D595 /* mslCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslCommon.cpp; sourceTree = "<group>"; };
+		2175F76C231C9CCB0089D595 /* mslStruct.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslStruct.cpp; sourceTree = "<group>"; };
+		2175F76D231C9CCB0089D595 /* mslSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslSymbol.h; sourceTree = "<group>"; };
+		2175F76E231C9CCB0089D595 /* mslSupportLib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslSupportLib.cpp; sourceTree = "<group>"; };
+		2175F76F231C9CCB0089D595 /* mslPropagateMutable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslPropagateMutable.cpp; sourceTree = "<group>"; };
+		2175F770231C9CCB0089D595 /* mslCrossCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslCrossCompiler.h; sourceTree = "<group>"; };
+		2175F771231C9CCB0089D595 /* mslTypeSamplers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslTypeSamplers.cpp; sourceTree = "<group>"; };
+		2175F772231C9CCB0089D595 /* mslFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslFunction.h; sourceTree = "<group>"; };
+		2175F773231C9CCB0089D595 /* mslCrossCompiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mslCrossCompiler.cpp; sourceTree = "<group>"; };
+		2175F774231C9CCB0089D595 /* mslCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslCommon.h; sourceTree = "<group>"; };
+		2175F775231C9CCB0089D595 /* mslTypeSamplers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslTypeSamplers.h; sourceTree = "<group>"; };
+		2175F776231C9CCB0089D595 /* mslLinker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslLinker.h; sourceTree = "<group>"; };
+		2175F777231C9CCB0089D595 /* mslPropagateMutable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mslPropagateMutable.h; sourceTree = "<group>"; };
+		21A3B13B22990C2700540D1A /* libhlsl2glsl-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libhlsl2glsl-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21A3B185229C5B7300540D1A /* libhlsl2glsl-tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libhlsl2glsl-tvos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21C9C13425AC34A000DDB35E /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		21D5C036231CC41500686025 /* hlsl2msl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = hlsl2msl.h; path = include/hlsl2msl.h; sourceTree = "<group>"; };
+		21D5C037231CC42C00686025 /* HLSL2MSL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HLSL2MSL.cpp; path = hlslang/MachineIndependent/HLSL2MSL.cpp; sourceTree = "<group>"; };
+		2B1D3C6F19571AE600912D42 /* mojoshader_common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mojoshader_common.cpp; path = hlslang/MachineIndependent/preprocessor/mojoshader_common.cpp; sourceTree = "<group>"; };
+		2B1D3C7019571AE600912D42 /* mojoshader_lexer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mojoshader_lexer.cpp; path = hlslang/MachineIndependent/preprocessor/mojoshader_lexer.cpp; sourceTree = "<group>"; };
+		2B1D3C7119571AE600912D42 /* mojoshader_preprocessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mojoshader_preprocessor.cpp; path = hlslang/MachineIndependent/preprocessor/mojoshader_preprocessor.cpp; sourceTree = "<group>"; };
+		2B1D3C7219571AE600912D42 /* mojoshader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mojoshader.cpp; path = hlslang/MachineIndependent/preprocessor/mojoshader.cpp; sourceTree = "<group>"; };
+		2B5867EC1955EE460092978D /* mojoshader_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mojoshader_internal.h; path = hlslang/MachineIndependent/preprocessor/mojoshader_internal.h; sourceTree = "<group>"; };
+		2B5867EE1955EE460092978D /* mojoshader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mojoshader.h; path = hlslang/MachineIndependent/preprocessor/mojoshader.h; sourceTree = "<group>"; };
+		2B5867F31956D8970092978D /* mojoshader_lexer.re */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mojoshader_lexer.re; path = hlslang/MachineIndependent/preprocessor/mojoshader_lexer.re; sourceTree = "<group>"; };
+		2B5867F71956E82F0092978D /* sourceloc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sourceloc.cpp; path = hlslang/MachineIndependent/preprocessor/sourceloc.cpp; sourceTree = "<group>"; };
+		2B67D1C615DFFC4D0073924D /* sourceloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sourceloc.h; path = hlslang/MachineIndependent/preprocessor/sourceloc.h; sourceTree = SOURCE_ROOT; };
+		2B6C96AE1639C18100CB13EE /* ConstantFolding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstantFolding.cpp; path = hlslang/MachineIndependent/ConstantFolding.cpp; sourceTree = SOURCE_ROOT; };
+		2B951C991135194700DBAF46 /* libhlsl2glsl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libhlsl2glsl.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B951CC011351A2500DBAF46 /* hlsl2glsl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hlsl2glsl.h; path = include/hlsl2glsl.h; sourceTree = SOURCE_ROOT; };
+		2B951CE1113527BC00DBAF46 /* hlslang.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = hlslang.l; path = hlslang/MachineIndependent/hlslang.l; sourceTree = SOURCE_ROOT; };
+		2B951CE2113527BC00DBAF46 /* hlslang.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = hlslang.y; path = hlslang/MachineIndependent/hlslang.y; sourceTree = SOURCE_ROOT; };
+		3AC10DD20AF103020045E29C /* BaseTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BaseTypes.h; path = hlslang/Include/BaseTypes.h; sourceTree = "<group>"; };
+		3AC10DD30AF103020045E29C /* Common.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Common.h; path = hlslang/Include/Common.h; sourceTree = "<group>"; };
+		3AC10DD50AF103020045E29C /* InfoSink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = InfoSink.h; path = hlslang/Include/InfoSink.h; sourceTree = "<group>"; };
+		3AC10DD60AF103020045E29C /* InitializeGlobals.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = InitializeGlobals.h; path = hlslang/Include/InitializeGlobals.h; sourceTree = "<group>"; };
+		3AC10DD70AF103020045E29C /* InitializeParseContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = InitializeParseContext.h; path = hlslang/Include/InitializeParseContext.h; sourceTree = "<group>"; };
+		3AC10DD80AF103020045E29C /* intermediate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = intermediate.h; path = hlslang/Include/intermediate.h; sourceTree = "<group>"; };
+		3AC10DD90AF103020045E29C /* PoolAlloc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PoolAlloc.h; path = hlslang/Include/PoolAlloc.h; sourceTree = "<group>"; };
+		3AC10DDB0AF103020045E29C /* Types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Types.h; path = hlslang/Include/Types.h; sourceTree = "<group>"; };
+		3AC10DE80AF103410045E29C /* glslCommon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = glslCommon.h; path = hlslang/GLSLCodeGen/glslCommon.h; sourceTree = "<group>"; };
+		3AC10DE90AF103410045E29C /* glslFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = glslFunction.h; path = hlslang/GLSLCodeGen/glslFunction.h; sourceTree = "<group>"; };
+		3AC10DEA0AF103410045E29C /* glslOutput.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = glslOutput.h; path = hlslang/GLSLCodeGen/glslOutput.h; sourceTree = "<group>"; };
+		3AC10DEB0AF103410045E29C /* glslStruct.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = glslStruct.h; path = hlslang/GLSLCodeGen/glslStruct.h; sourceTree = "<group>"; };
+		3AC10DEC0AF103410045E29C /* glslSymbol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = glslSymbol.h; path = hlslang/GLSLCodeGen/glslSymbol.h; sourceTree = "<group>"; };
+		3AC10DED0AF103410045E29C /* hlslCrossCompiler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = hlslCrossCompiler.h; path = hlslang/GLSLCodeGen/hlslCrossCompiler.h; sourceTree = "<group>"; };
+		3AC10DEE0AF103410045E29C /* hlslLinker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = hlslLinker.h; path = hlslang/GLSLCodeGen/hlslLinker.h; sourceTree = "<group>"; };
+		3AC10DEF0AF103410045E29C /* hlslSupportLib.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = hlslSupportLib.h; path = hlslang/GLSLCodeGen/hlslSupportLib.h; sourceTree = "<group>"; };
+		3AC10DF00AF103410045E29C /* propagateMutable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = propagateMutable.h; path = hlslang/GLSLCodeGen/propagateMutable.h; sourceTree = "<group>"; };
+		3AC10DF10AF103410045E29C /* typeSamplers.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = typeSamplers.h; path = hlslang/GLSLCodeGen/typeSamplers.h; sourceTree = "<group>"; };
+		3AC10DFD0AF103660045E29C /* glslCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = glslCommon.cpp; path = hlslang/GLSLCodeGen/glslCommon.cpp; sourceTree = "<group>"; };
+		3AC10DFE0AF103660045E29C /* glslFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = glslFunction.cpp; path = hlslang/GLSLCodeGen/glslFunction.cpp; sourceTree = "<group>"; };
+		3AC10DFF0AF103660045E29C /* glslOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = glslOutput.cpp; path = hlslang/GLSLCodeGen/glslOutput.cpp; sourceTree = "<group>"; };
+		3AC10E000AF103660045E29C /* glslStruct.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = glslStruct.cpp; path = hlslang/GLSLCodeGen/glslStruct.cpp; sourceTree = "<group>"; };
+		3AC10E010AF103660045E29C /* glslSymbol.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = glslSymbol.cpp; path = hlslang/GLSLCodeGen/glslSymbol.cpp; sourceTree = "<group>"; };
+		3AC10E020AF103660045E29C /* hlslCrossCompiler.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hlslCrossCompiler.cpp; path = hlslang/GLSLCodeGen/hlslCrossCompiler.cpp; sourceTree = "<group>"; };
+		3AC10E030AF103660045E29C /* hlslLinker.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hlslLinker.cpp; path = hlslang/GLSLCodeGen/hlslLinker.cpp; sourceTree = "<group>"; };
+		3AC10E040AF103660045E29C /* hlslSupportLib.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hlslSupportLib.cpp; path = hlslang/GLSLCodeGen/hlslSupportLib.cpp; sourceTree = "<group>"; };
+		3AC10E060AF103660045E29C /* propagateMutable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = propagateMutable.cpp; path = hlslang/GLSLCodeGen/propagateMutable.cpp; sourceTree = "<group>"; };
+		3AC10E070AF103660045E29C /* typeSamplers.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = typeSamplers.cpp; path = hlslang/GLSLCodeGen/typeSamplers.cpp; sourceTree = "<group>"; };
+		3AC10E160AF106C40045E29C /* Initialize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Initialize.h; path = hlslang/MachineIndependent/Initialize.h; sourceTree = "<group>"; };
+		3AC10E170AF106C40045E29C /* localintermediate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = localintermediate.h; path = hlslang/MachineIndependent/localintermediate.h; sourceTree = "<group>"; };
+		3AC10E190AF106C40045E29C /* ParseHelper.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ParseHelper.h; path = hlslang/MachineIndependent/ParseHelper.h; sourceTree = "<group>"; };
+		3AC10E1B0AF106C40045E29C /* RemoveTree.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RemoveTree.h; path = hlslang/MachineIndependent/RemoveTree.h; sourceTree = "<group>"; };
+		3AC10E1C0AF106C40045E29C /* SymbolTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SymbolTable.h; path = hlslang/MachineIndependent/SymbolTable.h; sourceTree = "<group>"; };
+		3AC10E260AF106F40045E29C /* HLSL2GLSL.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = HLSL2GLSL.cpp; path = hlslang/MachineIndependent/HLSL2GLSL.cpp; sourceTree = "<group>"; };
+		3AC10E270AF106F40045E29C /* InfoSink.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = InfoSink.cpp; path = hlslang/MachineIndependent/InfoSink.cpp; sourceTree = "<group>"; };
+		3AC10E280AF106F40045E29C /* Initialize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Initialize.cpp; path = hlslang/MachineIndependent/Initialize.cpp; sourceTree = "<group>"; };
+		3AC10E290AF106F40045E29C /* Intermediate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Intermediate.cpp; path = hlslang/MachineIndependent/Intermediate.cpp; sourceTree = "<group>"; };
+		3AC10E2A0AF106F40045E29C /* intermOut.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = intermOut.cpp; path = hlslang/MachineIndependent/intermOut.cpp; sourceTree = "<group>"; };
+		3AC10E2B0AF106F40045E29C /* IntermTraverse.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = IntermTraverse.cpp; path = hlslang/MachineIndependent/IntermTraverse.cpp; sourceTree = "<group>"; };
+		3AC10E2D0AF106F40045E29C /* ParseHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ParseHelper.cpp; path = hlslang/MachineIndependent/ParseHelper.cpp; sourceTree = "<group>"; };
+		3AC10E2E0AF106F40045E29C /* PoolAlloc.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = PoolAlloc.cpp; path = hlslang/MachineIndependent/PoolAlloc.cpp; sourceTree = "<group>"; };
+		3AC10E300AF106F40045E29C /* RemoveTree.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = RemoveTree.cpp; path = hlslang/MachineIndependent/RemoveTree.cpp; sourceTree = "<group>"; };
+		3AC10E310AF106F40045E29C /* SymbolTable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SymbolTable.cpp; path = hlslang/MachineIndependent/SymbolTable.cpp; sourceTree = "<group>"; };
+		3AC10E460AF107220045E29C /* osinclude.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = osinclude.h; path = hlslang/OSDependent/Mac/osinclude.h; sourceTree = "<group>"; };
+		3AC10E480AF107290045E29C /* ossource.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ossource.cpp; path = hlslang/OSDependent/Mac/ossource.cpp; sourceTree = "<group>"; };
+		3AC10E5B0AF107780045E29C /* Gen_hlslang.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Gen_hlslang.cpp; path = hlslang/MachineIndependent/Gen_hlslang.cpp; sourceTree = "<group>"; };
+		3AC10E5C0AF107780045E29C /* hlslang_tab.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hlslang_tab.cpp; path = hlslang/MachineIndependent/hlslang_tab.cpp; sourceTree = "<group>"; };
+		3AC10E5D0AF107780045E29C /* hlslang_tab.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = hlslang_tab.h; path = hlslang/MachineIndependent/hlslang_tab.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B951C991135194700DBAF46 /* libhlsl2glsl.a */,
+				21A3B13B22990C2700540D1A /* libhlsl2glsl-ios.a */,
+				21A3B185229C5B7300540D1A /* libhlsl2glsl-tvos.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* glslang */ = {
+			isa = PBXGroup;
+			children = (
+				21C9C13425AC34A000DDB35E /* CMakeLists.txt */,
+				08FB77ACFE841707C02AAC07 /* hlslang */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+			);
+			name = glslang;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AAFE841565C02AAC07 /* Carbon.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		08FB77ACFE841707C02AAC07 /* hlslang */ = {
+			isa = PBXGroup;
+			children = (
+				3AC10DB60AF1028F0045E29C /* Include */,
+				3AC10DC50AF102D00045E29C /* PublicInclude */,
+				3AC10DB00AF1027A0045E29C /* GLSLCodeGen */,
+				2175F763231C9CCB0089D595 /* MetalCodeGen */,
+				3AC10DB90AF102990045E29C /* MachineIndependent */,
+				3AC10DC20AF102BB0045E29C /* OSDependent */,
+			);
+			name = hlslang;
+			sourceTree = "<group>";
+		};
+		2175F763231C9CCB0089D595 /* MetalCodeGen */ = {
+			isa = PBXGroup;
+			children = (
+				2175F76B231C9CCB0089D595 /* mslCommon.cpp */,
+				2175F774231C9CCB0089D595 /* mslCommon.h */,
+				2175F773231C9CCB0089D595 /* mslCrossCompiler.cpp */,
+				2175F770231C9CCB0089D595 /* mslCrossCompiler.h */,
+				2175F764231C9CCB0089D595 /* mslFunction.cpp */,
+				2175F772231C9CCB0089D595 /* mslFunction.h */,
+				2175F768231C9CCB0089D595 /* mslLinker.cpp */,
+				2175F776231C9CCB0089D595 /* mslLinker.h */,
+				2175F766231C9CCB0089D595 /* mslOutput.cpp */,
+				2175F765231C9CCB0089D595 /* mslOutput.h */,
+				2175F76F231C9CCB0089D595 /* mslPropagateMutable.cpp */,
+				2175F777231C9CCB0089D595 /* mslPropagateMutable.h */,
+				2175F76C231C9CCB0089D595 /* mslStruct.cpp */,
+				2175F767231C9CCB0089D595 /* mslStruct.h */,
+				2175F76E231C9CCB0089D595 /* mslSupportLib.cpp */,
+				2175F76A231C9CCB0089D595 /* mslSupportLib.h */,
+				2175F769231C9CCB0089D595 /* mslSymbol.cpp */,
+				2175F76D231C9CCB0089D595 /* mslSymbol.h */,
+				2175F771231C9CCB0089D595 /* mslTypeSamplers.cpp */,
+				2175F775231C9CCB0089D595 /* mslTypeSamplers.h */,
+			);
+			name = MetalCodeGen;
+			path = hlslang/MetalCodeGen;
+			sourceTree = "<group>";
+		};
+		3AC10DB00AF1027A0045E29C /* GLSLCodeGen */ = {
+			isa = PBXGroup;
+			children = (
+				3AC10DB30AF102890045E29C /* Headers */,
+				3AC10DFD0AF103660045E29C /* glslCommon.cpp */,
+				3AC10DFE0AF103660045E29C /* glslFunction.cpp */,
+				3AC10DFF0AF103660045E29C /* glslOutput.cpp */,
+				3AC10E000AF103660045E29C /* glslStruct.cpp */,
+				3AC10E010AF103660045E29C /* glslSymbol.cpp */,
+				3AC10E020AF103660045E29C /* hlslCrossCompiler.cpp */,
+				3AC10E030AF103660045E29C /* hlslLinker.cpp */,
+				3AC10E040AF103660045E29C /* hlslSupportLib.cpp */,
+				3AC10E060AF103660045E29C /* propagateMutable.cpp */,
+				3AC10E070AF103660045E29C /* typeSamplers.cpp */,
+			);
+			name = GLSLCodeGen;
+			sourceTree = "<group>";
+		};
+		3AC10DB30AF102890045E29C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				3AC10DE80AF103410045E29C /* glslCommon.h */,
+				3AC10DE90AF103410045E29C /* glslFunction.h */,
+				3AC10DEA0AF103410045E29C /* glslOutput.h */,
+				3AC10DEB0AF103410045E29C /* glslStruct.h */,
+				3AC10DEC0AF103410045E29C /* glslSymbol.h */,
+				3AC10DED0AF103410045E29C /* hlslCrossCompiler.h */,
+				3AC10DEE0AF103410045E29C /* hlslLinker.h */,
+				3AC10DEF0AF103410045E29C /* hlslSupportLib.h */,
+				3AC10DF00AF103410045E29C /* propagateMutable.h */,
+				3AC10DF10AF103410045E29C /* typeSamplers.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		3AC10DB60AF1028F0045E29C /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				21D5C036231CC41500686025 /* hlsl2msl.h */,
+				3AC10DD20AF103020045E29C /* BaseTypes.h */,
+				3AC10DD30AF103020045E29C /* Common.h */,
+				3AC10DD50AF103020045E29C /* InfoSink.h */,
+				3AC10DD60AF103020045E29C /* InitializeGlobals.h */,
+				3AC10DD70AF103020045E29C /* InitializeParseContext.h */,
+				3AC10DD80AF103020045E29C /* intermediate.h */,
+				3AC10DD90AF103020045E29C /* PoolAlloc.h */,
+				3AC10DDB0AF103020045E29C /* Types.h */,
+			);
+			name = Include;
+			sourceTree = "<group>";
+		};
+		3AC10DB90AF102990045E29C /* MachineIndependent */ = {
+			isa = PBXGroup;
+			children = (
+				2B6C96AE1639C18100CB13EE /* ConstantFolding.cpp */,
+				2B951CE1113527BC00DBAF46 /* hlslang.l */,
+				2B951CE2113527BC00DBAF46 /* hlslang.y */,
+				3AC10DBF0AF102B20045E29C /* Headers */,
+				3AC10E8C0AF109150045E29C /* PreProcessor */,
+				3AC10DBC0AF102AB0045E29C /* AutoGen */,
+				3AC10E260AF106F40045E29C /* HLSL2GLSL.cpp */,
+				21D5C037231CC42C00686025 /* HLSL2MSL.cpp */,
+				3AC10E270AF106F40045E29C /* InfoSink.cpp */,
+				3AC10E280AF106F40045E29C /* Initialize.cpp */,
+				3AC10E290AF106F40045E29C /* Intermediate.cpp */,
+				3AC10E2A0AF106F40045E29C /* intermOut.cpp */,
+				3AC10E2B0AF106F40045E29C /* IntermTraverse.cpp */,
+				3AC10E2D0AF106F40045E29C /* ParseHelper.cpp */,
+				3AC10E2E0AF106F40045E29C /* PoolAlloc.cpp */,
+				3AC10E300AF106F40045E29C /* RemoveTree.cpp */,
+				3AC10E310AF106F40045E29C /* SymbolTable.cpp */,
+			);
+			name = MachineIndependent;
+			sourceTree = "<group>";
+		};
+		3AC10DBC0AF102AB0045E29C /* AutoGen */ = {
+			isa = PBXGroup;
+			children = (
+				3AC10E5B0AF107780045E29C /* Gen_hlslang.cpp */,
+				3AC10E5C0AF107780045E29C /* hlslang_tab.cpp */,
+				3AC10E5D0AF107780045E29C /* hlslang_tab.h */,
+			);
+			name = AutoGen;
+			sourceTree = "<group>";
+		};
+		3AC10DBF0AF102B20045E29C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				3AC10E160AF106C40045E29C /* Initialize.h */,
+				3AC10E170AF106C40045E29C /* localintermediate.h */,
+				3AC10E190AF106C40045E29C /* ParseHelper.h */,
+				3AC10E1B0AF106C40045E29C /* RemoveTree.h */,
+				3AC10E1C0AF106C40045E29C /* SymbolTable.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		3AC10DC20AF102BB0045E29C /* OSDependent */ = {
+			isa = PBXGroup;
+			children = (
+				3AC10E440AF1071A0045E29C /* Headers */,
+				3AC10E480AF107290045E29C /* ossource.cpp */,
+			);
+			name = OSDependent;
+			sourceTree = "<group>";
+		};
+		3AC10DC50AF102D00045E29C /* PublicInclude */ = {
+			isa = PBXGroup;
+			children = (
+				2B951CC011351A2500DBAF46 /* hlsl2glsl.h */,
+			);
+			name = PublicInclude;
+			sourceTree = "<group>";
+		};
+		3AC10E440AF1071A0045E29C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				3AC10E460AF107220045E29C /* osinclude.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		3AC10E8C0AF109150045E29C /* PreProcessor */ = {
+			isa = PBXGroup;
+			children = (
+				2B5867F71956E82F0092978D /* sourceloc.cpp */,
+				2B67D1C615DFFC4D0073924D /* sourceloc.h */,
+				2B1D3C7219571AE600912D42 /* mojoshader.cpp */,
+				2B1D3C6F19571AE600912D42 /* mojoshader_common.cpp */,
+				2B1D3C7019571AE600912D42 /* mojoshader_lexer.cpp */,
+				2B5867F31956D8970092978D /* mojoshader_lexer.re */,
+				2B5867EC1955EE460092978D /* mojoshader_internal.h */,
+				2B1D3C7119571AE600912D42 /* mojoshader_preprocessor.cpp */,
+				2B5867EE1955EE460092978D /* mojoshader.h */,
+			);
+			name = PreProcessor;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		21A3B11822990C2700540D1A /* hlsl2glsl-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21A3B13822990C2700540D1A /* Build configuration list for PBXNativeTarget "hlsl2glsl-ios" */;
+			buildPhases = (
+				21A3B11A22990C2700540D1A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				21AD0947233330A400ED24E7 /* PBXTargetDependency */,
+			);
+			name = "hlsl2glsl-ios";
+			productName = hlsl2glsl;
+			productReference = 21A3B13B22990C2700540D1A /* libhlsl2glsl-ios.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		21A3B162229C5B7300540D1A /* hlsl2glsl-tvos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21A3B182229C5B7300540D1A /* Build configuration list for PBXNativeTarget "hlsl2glsl-tvos" */;
+			buildPhases = (
+				21A3B164229C5B7300540D1A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				21AD0949233330A800ED24E7 /* PBXTargetDependency */,
+			);
+			name = "hlsl2glsl-tvos";
+			productName = hlsl2glsl;
+			productReference = 21A3B185229C5B7300540D1A /* libhlsl2glsl-tvos.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		2B951C981135194700DBAF46 /* hlsl2glsl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B951C9C1135196500DBAF46 /* Build configuration list for PBXNativeTarget "hlsl2glsl" */;
+			buildPhases = (
+				2B951C961135194700DBAF46 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				21AD0945233330A100ED24E7 /* PBXTargetDependency */,
+			);
+			name = hlsl2glsl;
+			productName = hlsl2glsl;
+			productReference = 2B951C991135194700DBAF46 /* libhlsl2glsl.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					21AD093F2333300A00ED24E7 = {
+						CreatedOnToolsVersion = 11.0;
+						DevelopmentTeam = QYP333B5SE;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "hlslang" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				ja,
+				fr,
+				Base,
+				en,
+				de,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* glslang */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2B951C981135194700DBAF46 /* hlsl2glsl */,
+				21A3B11822990C2700540D1A /* hlsl2glsl-ios */,
+				21A3B162229C5B7300540D1A /* hlsl2glsl-tvos */,
+				21AD093F2333300A00ED24E7 /* build-parser */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		21AD09432333301C00ED24E7 /* Generate LexerParser */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/hlslang/MachineIndependent/hlslang.l",
+				"$(SRCROOT)/hlslang/MachineIndependent/hlslang.y",
+			);
+			name = "Generate LexerParser";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/hlslang/MachineIndependent/gen_hlslang.cpp",
+				"$(SRCROOT)/hlslang/MachineIndependent/hlslang_tab.cpp",
+				"$(SRCROOT)/hlslang/MachineIndependent/hlslang_tab.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd hlslang/MachineIndependent\nflex -ogen_hlslang.cpp hlslang.l\nbison -o hlslang_tab.cpp -d -v hlslang.y\nmv hlslang_tab.hpp hlslang_tab.h\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		21A3B11A22990C2700540D1A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21A3B11B22990C2700540D1A /* Gen_hlslang.cpp in Sources */,
+				2175F785231C9CCB0089D595 /* mslCommon.cpp in Sources */,
+				21A3B11C22990C2700540D1A /* glslCommon.cpp in Sources */,
+				21A3B11D22990C2700540D1A /* glslFunction.cpp in Sources */,
+				21A3B11E22990C2700540D1A /* glslOutput.cpp in Sources */,
+				21A3B11F22990C2700540D1A /* glslStruct.cpp in Sources */,
+				21D5C039231CC42C00686025 /* HLSL2MSL.cpp in Sources */,
+				21A3B12022990C2700540D1A /* glslSymbol.cpp in Sources */,
+				21A3B12122990C2700540D1A /* HLSL2GLSL.cpp in Sources */,
+				21A3B12222990C2700540D1A /* hlslang_tab.cpp in Sources */,
+				21A3B12322990C2700540D1A /* hlslCrossCompiler.cpp in Sources */,
+				21A3B12422990C2700540D1A /* hlslLinker.cpp in Sources */,
+				2175F78E231C9CCB0089D595 /* mslPropagateMutable.cpp in Sources */,
+				21A3B12522990C2700540D1A /* hlslSupportLib.cpp in Sources */,
+				21A3B12622990C2700540D1A /* InfoSink.cpp in Sources */,
+				2175F794231C9CCB0089D595 /* mslCrossCompiler.cpp in Sources */,
+				21A3B12722990C2700540D1A /* Initialize.cpp in Sources */,
+				21A3B12822990C2700540D1A /* mojoshader_lexer.cpp in Sources */,
+				2175F791231C9CCB0089D595 /* mslTypeSamplers.cpp in Sources */,
+				21A3B12922990C2700540D1A /* Intermediate.cpp in Sources */,
+				2175F77F231C9CCB0089D595 /* mslLinker.cpp in Sources */,
+				21A3B12A22990C2700540D1A /* intermOut.cpp in Sources */,
+				21A3B12B22990C2700540D1A /* IntermTraverse.cpp in Sources */,
+				2175F788231C9CCB0089D595 /* mslStruct.cpp in Sources */,
+				21A3B12C22990C2700540D1A /* ossource.cpp in Sources */,
+				2175F782231C9CCB0089D595 /* mslSymbol.cpp in Sources */,
+				21A3B12D22990C2700540D1A /* mojoshader_preprocessor.cpp in Sources */,
+				21A3B12E22990C2700540D1A /* sourceloc.cpp in Sources */,
+				21A3B12F22990C2700540D1A /* mojoshader_common.cpp in Sources */,
+				21A3B13022990C2700540D1A /* ParseHelper.cpp in Sources */,
+				2175F779231C9CCB0089D595 /* mslFunction.cpp in Sources */,
+				21A3B13122990C2700540D1A /* PoolAlloc.cpp in Sources */,
+				21A3B13222990C2700540D1A /* propagateMutable.cpp in Sources */,
+				21A3B13322990C2700540D1A /* RemoveTree.cpp in Sources */,
+				2175F78B231C9CCB0089D595 /* mslSupportLib.cpp in Sources */,
+				21A3B13422990C2700540D1A /* SymbolTable.cpp in Sources */,
+				21A3B13522990C2700540D1A /* typeSamplers.cpp in Sources */,
+				21A3B13622990C2700540D1A /* ConstantFolding.cpp in Sources */,
+				21A3B13722990C2700540D1A /* mojoshader.cpp in Sources */,
+				2175F77C231C9CCB0089D595 /* mslOutput.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21A3B164229C5B7300540D1A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21A3B165229C5B7300540D1A /* Gen_hlslang.cpp in Sources */,
+				2175F786231C9CCB0089D595 /* mslCommon.cpp in Sources */,
+				21A3B166229C5B7300540D1A /* glslCommon.cpp in Sources */,
+				21A3B167229C5B7300540D1A /* glslFunction.cpp in Sources */,
+				21A3B168229C5B7300540D1A /* glslOutput.cpp in Sources */,
+				21A3B169229C5B7300540D1A /* glslStruct.cpp in Sources */,
+				21D5C03A231CC42C00686025 /* HLSL2MSL.cpp in Sources */,
+				21A3B16A229C5B7300540D1A /* glslSymbol.cpp in Sources */,
+				21A3B16B229C5B7300540D1A /* HLSL2GLSL.cpp in Sources */,
+				21A3B16C229C5B7300540D1A /* hlslang_tab.cpp in Sources */,
+				21A3B16D229C5B7300540D1A /* hlslCrossCompiler.cpp in Sources */,
+				21A3B16E229C5B7300540D1A /* hlslLinker.cpp in Sources */,
+				2175F78F231C9CCB0089D595 /* mslPropagateMutable.cpp in Sources */,
+				21A3B16F229C5B7300540D1A /* hlslSupportLib.cpp in Sources */,
+				21A3B170229C5B7300540D1A /* InfoSink.cpp in Sources */,
+				2175F795231C9CCB0089D595 /* mslCrossCompiler.cpp in Sources */,
+				21A3B171229C5B7300540D1A /* Initialize.cpp in Sources */,
+				21A3B172229C5B7300540D1A /* mojoshader_lexer.cpp in Sources */,
+				2175F792231C9CCB0089D595 /* mslTypeSamplers.cpp in Sources */,
+				21A3B173229C5B7300540D1A /* Intermediate.cpp in Sources */,
+				2175F780231C9CCB0089D595 /* mslLinker.cpp in Sources */,
+				21A3B174229C5B7300540D1A /* intermOut.cpp in Sources */,
+				21A3B175229C5B7300540D1A /* IntermTraverse.cpp in Sources */,
+				2175F789231C9CCB0089D595 /* mslStruct.cpp in Sources */,
+				21A3B176229C5B7300540D1A /* ossource.cpp in Sources */,
+				2175F783231C9CCB0089D595 /* mslSymbol.cpp in Sources */,
+				21A3B177229C5B7300540D1A /* mojoshader_preprocessor.cpp in Sources */,
+				21A3B178229C5B7300540D1A /* sourceloc.cpp in Sources */,
+				21A3B179229C5B7300540D1A /* mojoshader_common.cpp in Sources */,
+				21A3B17A229C5B7300540D1A /* ParseHelper.cpp in Sources */,
+				2175F77A231C9CCB0089D595 /* mslFunction.cpp in Sources */,
+				21A3B17B229C5B7300540D1A /* PoolAlloc.cpp in Sources */,
+				21A3B17C229C5B7300540D1A /* propagateMutable.cpp in Sources */,
+				21A3B17D229C5B7300540D1A /* RemoveTree.cpp in Sources */,
+				2175F78C231C9CCB0089D595 /* mslSupportLib.cpp in Sources */,
+				21A3B17E229C5B7300540D1A /* SymbolTable.cpp in Sources */,
+				21A3B17F229C5B7300540D1A /* typeSamplers.cpp in Sources */,
+				21A3B180229C5B7300540D1A /* ConstantFolding.cpp in Sources */,
+				21A3B181229C5B7300540D1A /* mojoshader.cpp in Sources */,
+				2175F77D231C9CCB0089D595 /* mslOutput.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B951C961135194700DBAF46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B951CA11135197300DBAF46 /* Gen_hlslang.cpp in Sources */,
+				2175F784231C9CCB0089D595 /* mslCommon.cpp in Sources */,
+				2B951CA21135197300DBAF46 /* glslCommon.cpp in Sources */,
+				2B951CA31135197300DBAF46 /* glslFunction.cpp in Sources */,
+				2B951CA41135197300DBAF46 /* glslOutput.cpp in Sources */,
+				2B951CA51135197300DBAF46 /* glslStruct.cpp in Sources */,
+				21D5C038231CC42C00686025 /* HLSL2MSL.cpp in Sources */,
+				2B951CA61135197300DBAF46 /* glslSymbol.cpp in Sources */,
+				2B951CA71135197300DBAF46 /* HLSL2GLSL.cpp in Sources */,
+				2B951CA81135197300DBAF46 /* hlslang_tab.cpp in Sources */,
+				2B951CA91135197300DBAF46 /* hlslCrossCompiler.cpp in Sources */,
+				2B951CAA1135197300DBAF46 /* hlslLinker.cpp in Sources */,
+				2175F78D231C9CCB0089D595 /* mslPropagateMutable.cpp in Sources */,
+				2B951CAB1135197300DBAF46 /* hlslSupportLib.cpp in Sources */,
+				2B951CAC1135197300DBAF46 /* InfoSink.cpp in Sources */,
+				2175F793231C9CCB0089D595 /* mslCrossCompiler.cpp in Sources */,
+				2B951CAD1135197300DBAF46 /* Initialize.cpp in Sources */,
+				2B1D3C7419571AE600912D42 /* mojoshader_lexer.cpp in Sources */,
+				2175F790231C9CCB0089D595 /* mslTypeSamplers.cpp in Sources */,
+				2B951CAF1135197300DBAF46 /* Intermediate.cpp in Sources */,
+				2175F77E231C9CCB0089D595 /* mslLinker.cpp in Sources */,
+				2B951CB01135197300DBAF46 /* intermOut.cpp in Sources */,
+				2B951CB11135197300DBAF46 /* IntermTraverse.cpp in Sources */,
+				2175F787231C9CCB0089D595 /* mslStruct.cpp in Sources */,
+				2B951CB41135197300DBAF46 /* ossource.cpp in Sources */,
+				2175F781231C9CCB0089D595 /* mslSymbol.cpp in Sources */,
+				2B1D3C7519571AE600912D42 /* mojoshader_preprocessor.cpp in Sources */,
+				2B5867F81956E82F0092978D /* sourceloc.cpp in Sources */,
+				2B1D3C7319571AE600912D42 /* mojoshader_common.cpp in Sources */,
+				2B951CB61135197300DBAF46 /* ParseHelper.cpp in Sources */,
+				2175F778231C9CCB0089D595 /* mslFunction.cpp in Sources */,
+				2B951CB71135197300DBAF46 /* PoolAlloc.cpp in Sources */,
+				2B951CB81135197300DBAF46 /* propagateMutable.cpp in Sources */,
+				2B951CBA1135197300DBAF46 /* RemoveTree.cpp in Sources */,
+				2175F78A231C9CCB0089D595 /* mslSupportLib.cpp in Sources */,
+				2B951CBD1135197300DBAF46 /* SymbolTable.cpp in Sources */,
+				2B951CBF1135197300DBAF46 /* typeSamplers.cpp in Sources */,
+				2B6C96AF1639C18100CB13EE /* ConstantFolding.cpp in Sources */,
+				2B1D3C7619571AE600912D42 /* mojoshader.cpp in Sources */,
+				2175F77B231C9CCB0089D595 /* mslOutput.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		21AD0945233330A100ED24E7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21AD093F2333300A00ED24E7 /* build-parser */;
+			targetProxy = 21AD0944233330A100ED24E7 /* PBXContainerItemProxy */;
+		};
+		21AD0947233330A400ED24E7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21AD093F2333300A00ED24E7 /* build-parser */;
+			targetProxy = 21AD0946233330A400ED24E7 /* PBXContainerItemProxy */;
+		};
+		21AD0949233330A800ED24E7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21AD093F2333300A00ED24E7 /* build-parser */;
+			targetProxy = 21AD0948233330A800ED24E7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB916508733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		1DEB916608733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+			};
+			name = Release;
+		};
+		21A3B13922990C2700540D1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNREACHABLE_CODE = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INSTALL_PATH = /usr/local/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+			};
+			name = Debug;
+		};
+		21A3B13A22990C2700540D1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNREACHABLE_CODE = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INSTALL_PATH = /usr/local/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+			};
+			name = Release;
+		};
+		21A3B183229C5B7300540D1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNREACHABLE_CODE = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+			};
+			name = Debug;
+		};
+		21A3B184229C5B7300540D1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNREACHABLE_CODE = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				INSTALL_PATH = /usr/local/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+			};
+			name = Release;
+		};
+		21AD09402333300A00ED24E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QYP333B5SE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		21AD09412333300A00ED24E7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QYP333B5SE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		2B951C9A1135194700DBAF46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNREACHABLE_CODE = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = ../hlslang/OSDependent/Mac;
+				INSTALL_PATH = /usr/local/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_NAME = hlsl2glsl;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2B951C9B1135194700DBAF46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNREACHABLE_CODE = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				HEADER_SEARCH_PATHS = ../hlslang/OSDependent/Mac;
+				INSTALL_PATH = /usr/local/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_NAME = hlsl2glsl;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "hlslang" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916508733D950010E9CD /* Debug */,
+				1DEB916608733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21A3B13822990C2700540D1A /* Build configuration list for PBXNativeTarget "hlsl2glsl-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21A3B13922990C2700540D1A /* Debug */,
+				21A3B13A22990C2700540D1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21A3B182229C5B7300540D1A /* Build configuration list for PBXNativeTarget "hlsl2glsl-tvos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21A3B183229C5B7300540D1A /* Debug */,
+				21A3B184229C5B7300540D1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21AD09422333300A00ED24E7 /* Build configuration list for PBXAggregateTarget "build-parser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21AD09402333300A00ED24E7 /* Debug */,
+				21AD09412333300A00ED24E7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B951C9C1135196500DBAF46 /* Build configuration list for PBXNativeTarget "hlsl2glsl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B951C9A1135194700DBAF46 /* Debug */,
+				2B951C9B1135194700DBAF46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

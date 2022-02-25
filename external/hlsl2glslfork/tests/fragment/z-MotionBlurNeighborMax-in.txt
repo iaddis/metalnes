@@ -1,0 +1,39 @@
+// motion blur neighborhood max pass
+
+// noisiness
+#define JITTER_SCALE (0.275f)
+// 's' in paper (# of samples for reconstruction)
+#define NUM_SAMPLES (13)
+// # samples for valve style blur
+#define MOTION_SAMPLES (16)
+// 'k' in paper
+// (make sure to match this to MAX_RADIUS in script)    
+#define MAX_RADIUS (8)
+
+struct v2f {
+    float4 pos : POSITION;
+    float2 uv  : TEXCOORD0;
+};
+            
+sampler2D _MainTex;
+float4 _MainTex_TexelSize;
+
+float2 maxMag(float2 a, float2 b)
+{
+    float ma = dot(a, a);
+    float mb = dot(b, b);
+    return lerp(a, b, step(ma,mb));
+}
+
+// find maximum velocity in any adjacent tile
+float4 main(v2f i) : COLOR
+{
+    float2 mx = tex2D(_MainTex, i.uv).xy;
+    for(int j = -1; j<2; j++) {
+        for(int l = -1; l<2; l++) {
+            float2 v = tex2D(_MainTex, i.uv + float2(l,j) * _MainTex_TexelSize.xy).xy;
+            mx = maxMag(mx, v);
+        }
+    }
+    return float4(mx, 0, 0);        
+}

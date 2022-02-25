@@ -1,0 +1,25 @@
+#version 120
+
+#line 1
+vec4 xlat_main( in vec4 c ) {
+    #line 4
+    int stack[64];
+    int stackPos = 0;
+    int node = 0;
+    float[4] fltArrInit = float[4]( 1, 2, 3, 4);
+    #line 8
+    float[4] fltArrInit2 = float[4]( 1, 2, 3, 4);
+    float fltInit2 = 1.3;
+    float fltArrInit2a[5];
+    float[6] fltArrInit2b = float[6]( 1, 2, 3, 4, 5, 6);
+    float fltInit3 = 1.3;
+    float[4] fltArrInit3 = float[4]( 1, 2, 3, 4);
+    float fltArrInit3a[5];
+    return c;
+}
+varying vec4 xlv_TEXCOORD0;
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_TEXCOORD0));
+    gl_FragData[0] = vec4(xl_retval);
+}

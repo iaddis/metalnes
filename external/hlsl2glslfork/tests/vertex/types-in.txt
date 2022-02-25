@@ -1,0 +1,46 @@
+#line 1 "types-in.txt" 
+float4x4 mvp;
+half4x4 hmat4;
+half3x3 hmat3;
+half2x2 hmat2;
+fixed4x4 fmat4;
+fixed3x3 fmat3;
+fixed2x2 fmat2;
+
+struct a2v {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+	half3 normal : NORMAL;
+	fixed4 color : COLOR;
+};
+
+struct v2f {
+	float4 pos : POSITION;
+	float fog : FOG;
+	float2 uv : TEXCOORD0;
+	float4 color : COLOR;
+};
+
+v2f main (a2v v)
+{
+	v2f o;
+	o.pos = mul ((float4x4)mvp, v.pos);
+	o.pos += mul (hmat4, v.pos);
+	o.pos.xyz += mul (hmat3, v.pos.xyz);
+	o.pos.xy += mul (hmat2, v.pos.xy);
+	o.pos += mul (fmat4, v.pos);
+	o.pos.xyz += mul (fmat3, v.pos.xyz);
+	o.pos.xy += mul (fmat2, v.pos.xy);
+	o.color = v.color;
+	o.color = (fixed4)v.color;
+	o.color = (half4)v.color;
+	o.color = (float4)v.color;
+	o.color.rgb += v.normal;
+	o.uv = v.uv;
+	
+	float dx = v.pos.x;
+	half dy = v.pos.y;
+	fixed dz = v.pos.z;
+
+	return o;
+}

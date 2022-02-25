@@ -1,0 +1,11 @@
+
+#line 1
+vec4 xlat_main( in vec2 pos ) {
+    #line 2
+    return vec4( pos, 0.0, 0.0);
+}
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( vec2(gl_FragCoord));
+    gl_FragData[0] = vec4(xl_retval);
+}

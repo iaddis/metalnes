@@ -1,0 +1,29 @@
+
+#line 2
+struct v2f {
+    vec4 pos;
+    vec2 uv;
+};
+#line 16
+uniform sampler2D _MainTex;
+#line 17
+vec4 xlat_main( in v2f i ) {
+    vec4 col = texture2D( _MainTex, i.uv);
+    #line 20
+    col = (col + texture2D( _MainTex, i.uv));
+    col = (col + texture2D( _MainTex, i.uv));
+    col = (col + texture2D( _MainTex, i.uv));
+    return col;
+}
+varying vec2 xlv_TEXCOORD0;
+void main() {
+    vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.uv = vec2(xlv_TEXCOORD0);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _MainTex:<none> type 25 arrsize 0

@@ -1,0 +1,14 @@
+
+#line 3
+uniform lowp sampler2DShadow shadowmap;
+#line 6
+highp vec4 xlat_main( in highp vec4 pos ) {
+    #line 8
+    return pos;
+}
+in highp vec4 xlat_attrib_POSITION;
+void main() {
+    highp vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlat_attrib_POSITION));
+    gl_Position = vec4(xl_retval);
+}

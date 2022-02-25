@@ -1,0 +1,27 @@
+
+#line 1
+struct v2f {
+    highp vec4 pos;
+    highp vec2 uv;
+    highp vec4 color;
+};
+#line 7
+#line 7
+mediump vec4 xlat_main( in v2f i ) {
+    mediump vec4 c;
+    c = i.color;
+    #line 11
+    c.xy += i.uv;
+    return c;
+}
+in highp vec2 xlv_TEXCOORD0;
+in highp vec4 xlv_COLOR;
+void main() {
+    mediump vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.uv = vec2(xlv_TEXCOORD0);
+    xlt_i.color = vec4(xlv_COLOR);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}

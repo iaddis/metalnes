@@ -1,0 +1,118 @@
+nes15 - by Mathew Brenaman
+
+	nes15 is an implementation of the classic Fifteen Puzzle for the
+	Nintendo Entertainment System. This version is an NROM-128 (16kb
+	PRG, 8kb CHR) and was tested on the real system with a PowerPak. It
+	should also work with most emulators such as Nestopia and FCE Ultra.
+
+	The fifteen puzzle consists of a frame of numbered square tiles in
+	random order with one tile missing. The object of the puzzle is to
+	place the tiles in order by sliding them into the empty position:
+
+		1   2   3   4
+
+		5   6   7   8
+
+		9  10  11  12
+
+		13 14  15  --
+
+	If you become frustrated trying solve the puzzle, I've implemented
+	an auto-solver that allows you to watch it be solved. While the
+	auto-solver does not always make the least amount of moves needed
+	to solve the puzzle, it should always at least solve it.
+
+	This program is free software. It is distributed under the terms
+	of a simple BSD-style license (OSI-approved). See the 'LICENSE'
+	file for details.
+
+	This product is not sponsored or endorsed by Nintendo.
+
+
+
+How to play
+-----------
+
+	At the title screen, pressing any button will began play.
+
+	Game controls:
+
+	Directional buttons:	Move the cursor
+	A:			Slide the tile under cursor into the gap
+	Start:			Pause the game
+	Select:			Toggle the auto-solver
+
+	After the puzzle has been completed by either you or the auto-solver,
+	press either A or B and new puzzle will be generated.
+
+
+
+Compiling
+---------
+
+	You will need ca65, a macro assembler included with cc65, which
+	can be found at:
+	http://www.cc65.org/
+
+	You will also need to compile and locally install the tools provided.
+
+	If you are using Linux or something similar, simply running 'make'
+	should produce the NTSC ROM image. If you wish to build the PAL
+	version, run 'make PAL=1'.
+
+	For other OS's, you will need to do a bit of fiddling with the
+	makefile and other witchery which I will not cover here.
+
+
+
+Contacting
+----------
+
+	If you have any comments, questions, or bug reports, send them to:
+	mbrenaman@gmail.com
+
+
+
+Acknowledgements
+----------------
+
+	Sources of NES programming information:
+
+	http://wiki.nesdev.com/w/index.php/Nesdev_Wiki
+	http://nesdev.parodius.com/bbs/index.php
+	http://nintendoage.com/forum/messageview.cfm?catid=22&threadid=22487
+
+
+	Some aspects of the game's implementation where inspired by:
+
+	Posts found at:
+	http://nesdev.parodius.com/bbs/index.php
+
+	SMBDis - A comprehensive disassembly of Super Mario Bros:
+	http://www.romhacking.net/docs/344/
+
+	Concentration Room:
+	http://www.pineight.com/croom/
+
+	LJ65:
+	http://www.pineight.com/nes/#t
+
+
+	The Font used for the digits on puzzle tiles is from what I believe
+	is an old DOS font, which can be found at:
+	http://orangetide.com/nesdev/gamefonts/
+
+	And possibly also at:
+	http://chris.pirillo.com/dos-fonts/
+
+
+	The font used, titled "Ghost", I found here:
+	http://kofler.dot.at/c64/
+
+	It's seems to actually be the font used in the Commodore 64 version
+	of "Ghosts and Goblins".
+
+
+	The music is from "Eight Short Preludes and Fugues" by J.S. Bach
+	(possibly by J.T. Krebs), BWV 558.
+

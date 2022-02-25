@@ -1,0 +1,19 @@
+sampler2D texlow;
+sampler2D_half texmed;
+sampler2D_float texhigh;
+
+samplerCUBE cubelow;
+samplerCUBE_half cubemed;
+samplerCUBE_float cubehigh;
+
+half4 main (float4 uv : TEXCOORD0) : COLOR0
+{
+	half4 c;
+	c = tex2D (texlow, uv.xy);
+	c += tex2D (texmed, uv.xy);
+	c += tex2D (texhigh, uv.xy);
+	c += texCUBE (cubelow, uv.xyz);
+	c += texCUBE (cubemed, uv.xyz);
+	c += texCUBE (cubehigh, uv.xyz);
+	return c;
+}

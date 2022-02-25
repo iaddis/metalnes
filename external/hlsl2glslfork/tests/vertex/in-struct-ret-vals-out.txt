@@ -1,0 +1,41 @@
+
+#line 3
+struct a2v {
+    vec4 pos;
+    vec2 uv;
+    vec3 normal;
+    vec4 color;
+};
+#line 1
+uniform mat4 mvp;
+#line 15
+#line 15
+void xlat_main( in a2v v, out vec4 opos, out float ofog, out vec2 ouv, out vec4 ocolor ) {
+    opos = (mvp * v.pos);
+    ocolor = v.color;
+    #line 19
+    ocolor.xyz += v.normal;
+    ouv = v.uv;
+}
+varying float xlv_FOG;
+varying vec2 xlv_TEXCOORD0;
+varying vec4 xlv_COLOR;
+void main() {
+    a2v xlt_v;
+    xlt_v.pos = vec4(gl_Vertex);
+    xlt_v.uv = vec2(gl_MultiTexCoord0);
+    xlt_v.normal = vec3(gl_Normal);
+    xlt_v.color = vec4(gl_Color);
+    vec4 xlt_opos;
+    float xlt_ofog;
+    vec2 xlt_ouv;
+    vec4 xlt_ocolor;
+    xlat_main( xlt_v, xlt_opos, xlt_ofog, xlt_ouv, xlt_ocolor);
+    gl_Position = vec4(xlt_opos);
+    xlv_FOG = float(xlt_ofog);
+    xlv_TEXCOORD0 = vec2(xlt_ouv);
+    xlv_COLOR = vec4(xlt_ocolor);
+}
+
+// uniforms:
+// mvp:<none> type 21 arrsize 0

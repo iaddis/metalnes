@@ -1,0 +1,35 @@
+
+#line 0
+struct Input {
+    lowp vec4 color;
+    mediump vec3 interpolator1;
+    mediump vec3 interpolator2;
+};
+#line 9
+struct v2f {
+    highp vec4 vertex;
+    Input data;
+};
+#line 16
+#line 16
+mediump vec4 xlat_main( in v2f i ) {
+    mediump vec4 res = vec4( 0.0);
+    res += i.data.color;
+    #line 20
+    res.xyz += i.data.interpolator1;
+    res.xyz += i.data.interpolator2;
+    return res;
+}
+in lowp vec4 xlv_TEXCOORD1;
+in mediump vec3 xlv_TEXCOORD2;
+in mediump vec3 xlv_TEXCOORD3;
+void main() {
+    mediump vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.vertex = vec4(0.0);
+    xlt_i.data.color = vec4(xlv_TEXCOORD1);
+    xlt_i.data.interpolator1 = vec3(xlv_TEXCOORD2);
+    xlt_i.data.interpolator2 = vec3(xlv_TEXCOORD3);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}

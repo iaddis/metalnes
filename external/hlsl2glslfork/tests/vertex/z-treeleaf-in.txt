@@ -1,0 +1,131 @@
+#line 1 "complex-treeleaf-in.txt" 
+float4x4 glstate_matrix_mvp ;
+float4x4 glstate_matrix_modelview0 ;
+float4x4 glstate_matrix_invtrans_modelview0 ;
+uniform float4 _Time ;
+uniform float4 _ProjectionParams ;
+uniform float4 unity_Scale ;
+uniform float3 _WorldSpaceCameraPos ;
+uniform float4 _WorldSpaceLightPos0 ;
+uniform float4x4 _Object2World , _World2Object ;
+struct appdata_full
+{
+    float4 vertex : POSITION ;
+    float4 tangent : TANGENT ;
+    float3 normal : NORMAL ;
+    float4 texcoord : TEXCOORD0 ;
+    float4 texcoord1 : TEXCOORD1 ;
+    float4 color : COLOR ;
+}
+;
+inline float3 ObjSpaceLightDir ( in float4 v )
+{
+    float3 objSpaceLightPos = mul ( _World2Object , _WorldSpaceLightPos0 ) . xyz ;
+    return objSpaceLightPos . xyz ;
+}
+inline float3 ObjSpaceViewDir ( in float4 v )
+{
+    float3 objSpaceCameraPos = mul ( _World2Object , float4 ( _WorldSpaceCameraPos . xyz , 1 ) ) . xyz * unity_Scale . w ;
+    return objSpaceCameraPos - v . xyz ;
+}
+float4 _LightColor0 ;
+float4 _SpecColor ;
+uniform float4x4 _LightMatrix0 ;
+struct appdata_tree
+{
+    float4 vertex : POSITION ;
+    float4 tangent : TANGENT ;
+    float3 normal : NORMAL ;
+    float4 color : COLOR ;
+    float4 texcoord : TEXCOORD0 ;
+}
+;
+uniform float4 _Scale ;
+uniform float4 _SquashPlaneNormal ;
+uniform float _SquashAmount ;
+inline float4 Squash ( in float4 pos )
+{
+    float3 planeNormal = _SquashPlaneNormal . xyz ;
+    float3 projectedVertex = pos . xyz - ( dot ( planeNormal , pos ) + _SquashPlaneNormal . w ) * planeNormal ;
+    pos = float4 ( lerp ( projectedVertex , pos . xyz , _SquashAmount ) , 1 ) ;
+    return pos ;
+}
+float4 _Wind ;
+inline void ExpandBillboard ( in float4x4 mat , inout float4 pos , inout float3 normal , inout float4 tangent )
+{
+    float isBillboard = 1.0f - abs ( tangent . w ) ;
+    float3 norb = normalize ( mul ( float4 ( normal , 0 ) , mat ) ) ;
+    float3 tanb = normalize ( mul ( float4 ( tangent . xyz , 0.0f ) , mat ) ) ;
+    pos += mul ( float4 ( normal . xy , 0 , 0 ) , mat ) * isBillboard ;
+    normal = lerp ( normal , norb , isBillboard ) ;
+    tangent = lerp ( tangent , float4 ( tanb , - 1.0f ) , isBillboard ) ;
+}
+float4 SmoothCurve ( float4 x )
+{
+    return x * x * ( 3.0 - 2.0 * x ) ;
+}
+float4 TriangleWave ( float4 x )
+{
+    return abs ( frac ( x + 0.5 ) * 2.0 - 1.0 ) ;
+}
+float4 SmoothTriangleWave ( float4 x )
+{
+    return SmoothCurve ( TriangleWave ( x ) ) ;
+}
+inline float4 AnimateVertex ( float4 pos , float3 normal , float4 animParams )
+{
+    float fDetailAmp = 0.1f ;
+    float fBranchAmp = 0.3f ;
+    float fObjPhase = dot ( _Object2World [ 3 ] . xyz , 1 ) ;
+    float fBranchPhase = fObjPhase + animParams . x ;
+    float fVtxPhase = dot ( pos . xyz , animParams . y + fBranchPhase ) ;
+    float2 vWavesIn = _Time . yy + float2 ( fVtxPhase , fBranchPhase ) ;
+    float4 vWaves = ( frac ( vWavesIn . xxyy * float4 ( 1.975 , 0.793 , 0.375 , 0.193 ) ) * 2.0 - 1.0 ) ;
+    vWaves = SmoothTriangleWave ( vWaves ) ;
+    float2 vWavesSum = vWaves . xz + vWaves . yw ;
+    float3 bend = animParams . y * fDetailAmp * normal . xyz ;
+    bend . y = animParams . w * fBranchAmp ;
+    pos . xyz += ( ( vWavesSum . xyx * bend ) + ( _Wind . xyz * vWavesSum . y * animParams . w ) ) * _Wind . w ;
+    pos . xyz += animParams . z * _Wind . xyz ;
+    return pos ;
+}
+void TreeVertLeaf ( inout appdata_full v )
+{
+    ExpandBillboard ( glstate_matrix_invtrans_modelview0 , v . vertex , v . normal , v . tangent ) ;
+    v . vertex . xyz *= _Scale . xyz ;
+    v . vertex = AnimateVertex ( v . vertex , v . normal , float4 ( v . color . xy , v . texcoord1 . xy ) ) ;
+    v . vertex = Squash ( v . vertex ) ;
+    v . color = float4 ( 1 , 1 , 1 , v . color . a ) ;
+    v . normal = normalize ( v . normal ) ;
+    v . tangent . xyz = normalize ( v . tangent . xyz ) ;
+}
+float4 _Color ;
+half3 _TranslucencyColor ;
+half _TranslucencyViewDependency ;
+half _ShadowStrength ;
+struct v2f_surf
+{
+    float4 pos : POSITION ;
+    float2 hip_pack0 : TEXCOORD0 ;
+    float4 lop_color : COLOR0 ;
+    float3 lightDir : TEXCOORD1 ;
+    float3 viewDir : TEXCOORD2 ;
+    float2 _LightCoord : TEXCOORD3 ;
+}
+;
+float4 _MainTex_ST ;
+v2f_surf main ( appdata_full v )
+{
+    v2f_surf o ;
+    TreeVertLeaf ( v ) ;
+    o . pos = mul ( glstate_matrix_mvp , v . vertex ) ;
+    o . hip_pack0 . xy = ( v . texcoord . xy * _MainTex_ST . xy + _MainTex_ST . zw ) ;
+    o . lop_color = v . color ;
+    float3 binormal = cross ( v . normal , v . tangent . xyz ) * v . tangent . w ;
+    float3x3 rotation = float3x3 ( v . tangent . x , binormal . x , v . normal . x , v . tangent . y , binormal . y , v . normal . y , v . tangent . z , binormal . z , v . normal . z ) ;
+    o . lightDir = mul ( rotation , ObjSpaceLightDir ( v . vertex ) ) ;
+    o . viewDir = mul ( rotation , ObjSpaceViewDir ( v . vertex ) ) ;
+    o . _LightCoord = mul ( _LightMatrix0 , mul ( _Object2World , v . vertex ) ) . xy ;
+    ;
+    return o ;
+}

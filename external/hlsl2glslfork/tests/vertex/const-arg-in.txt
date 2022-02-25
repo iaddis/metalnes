@@ -1,0 +1,40 @@
+#line 1 "const-arg-in.txt" 
+struct fake4
+{
+    float fx;
+    float fy;
+    float fz;
+    float fw;
+};
+
+fake4 fake_splat(const float f)
+{
+    fake4 fake;
+    fake.fx = f;
+    fake.fy = f;
+    fake.fz = f;
+    fake.fw = f;
+   
+    return(fake);
+}
+
+float4 fake_to_float(const in fake4 fake)
+{
+    float4 real;
+    real.x = fake.fx;
+    real.y = fake.fy;
+    real.z = fake.fz;
+    real.w = fake.fw;
+   
+    return(real);
+}
+
+float4 splat(const float f)
+{
+    return(fake_to_float(fake_splat(f)));
+}
+
+float4 main() : POSITION
+{
+    return(splat(1.f));
+}

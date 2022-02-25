@@ -1,0 +1,11 @@
+#line 1 "non-matching-type-init-in.txt" 
+uniform half4 _Color;
+
+half4 main() : COLOR0
+{
+    const half r = _Color.rg;
+    const half g = _Color.g;
+    const half b = _Color.b;
+    const half a = _Color.a;
+    return half4(r, g, b, a);
+}

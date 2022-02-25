@@ -1,0 +1,19 @@
+vec4 xll_tex2Dlod(sampler2D s, vec4 coord) {
+   return texture2DLod( s, coord.xy, coord.w);
+}
+#line 1
+uniform sampler2D tex;
+#line 3
+vec4 xlat_main( in vec4 pos, in vec2 uv ) {
+    vec4 c = xll_tex2Dlod( tex, vec4( uv, 0.0, 0.0));
+    #line 5
+    return (pos + c);
+}
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( vec4(gl_Vertex), vec2(gl_MultiTexCoord0));
+    gl_Position = vec4(xl_retval);
+}
+
+// uniforms:
+// tex:<none> type 25 arrsize 0

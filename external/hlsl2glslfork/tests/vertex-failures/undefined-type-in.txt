@@ -1,0 +1,8 @@
+#line 1 "undefined-type-in.txt" 
+#line 1 "undefined-type-in.hlsl"
+void main(out float4 overtex : POSITION)
+{
+    bloat4 b(1.f, 1.f, 1.f, 1.f);
+    overtex = float4(b.x,b.y,b,z,b.w);
+}
+

@@ -1,0 +1,1136 @@
+#line 1 "pp-complex2-in.txt" 
+#define DIRECTIONAL 1
+#define LIGHTMAP_OFF 1
+#define DIRLIGHTMAP_OFF 1
+#define SHADOWS_SCREEN 1
+#define SHADER_API_GLES 1
+#define SHADER_API_MOBILE 1
+#define SHADER_TARGET_GLSL
+#ifndef HLSL_SUPPORT_INCLUDED
+#define HLSL_SUPPORT_INCLUDED
+
+#if !defined(SHADER_TARGET_GLSL)
+#define fixed half
+#define fixed2 half2
+#define fixed3 half3
+#define fixed4 half4
+#define fixed4x4 half4x4
+#define fixed3x3 half3x3
+#define fixed2x2 half2x2
+#endif
+
+
+#define samplerRECT sampler2D
+#define texRECT tex2D
+#define texRECTlod tex2Dlod
+#define texRECTbias tex2Dbias
+#define texRECTproj tex2Dproj
+
+#if (defined(SHADER_API_D3D9) || defined(SHADER_API_OPENGL) || defined(SHADER_API_PS3)) && !defined(SHADER_TARGET_GLSL)
+// Cg seems to use WPOS instead of VPOS semantic?
+#define VPOS WPOS
+// Cg does not have tex2Dgrad and friends, but has tex2D overload that
+// can take the derivatives
+half4 tex2Dgrad (in sampler2D s, in float2 t, in float2 dx, in float2 dy) { return tex2D (s, t, dx, dy); }
+#endif
+
+#if !defined(SHADER_API_XBOX360) && !defined(SHADER_API_PS3) && !defined(SHADER_API_GLES) && !defined(SHADER_TARGET_GLSL) && !defined(SHADER_API_D3D11)
+#define UNITY_HAS_LIGHT_PARAMETERS 1
+#endif
+
+#if defined(SHADER_API_XBOX360)
+
+float4 tex2Dproj(in sampler2D s, in float4 t) 
+{ 
+	float2 ti=t.xy / t.w;
+	return tex2D( s, ti);
+}
+
+float4 tex2Dproj(in sampler2D s, in float3 t) 
+{ 
+	float2 ti=t.xy / t.z;
+	return tex2D( s, ti);
+}
+
+
+#endif
+
+#if defined(SHADER_API_XBOX360) || defined(SHADER_API_D3D11) || defined (SHADER_TARGET_GLSL) || defined(SHADER_API_PS3)
+
+float4x4 glstate_matrix_mvp;
+float4x4 glstate_matrix_modelview0;
+float4x4 glstate_matrix_projection;
+float4x4 glstate_matrix_transpose_modelview0;
+float4x4 glstate_matrix_invtrans_modelview0;
+#ifndef SHADER_TARGET_GLSL
+float4x4 glstate_matrix_texture[8];
+#endif
+float4x4 glstate_matrix_texture0;
+float4x4 glstate_matrix_texture1;
+float4x4 glstate_matrix_texture2;
+float4x4 glstate_matrix_texture3;
+float4	 glstate_lightmodel_ambient;
+
+
+#define UNITY_MATRIX_MVP glstate_matrix_mvp
+#define UNITY_MATRIX_MV glstate_matrix_modelview0
+#define UNITY_MATRIX_P glstate_matrix_projection
+#define UNITY_MATRIX_T_MV glstate_matrix_transpose_modelview0
+#define UNITY_MATRIX_IT_MV glstate_matrix_invtrans_modelview0
+#define UNITY_MATRIX_TEXTURE glstate_matrix_texture
+#define UNITY_MATRIX_TEXTURE0 glstate_matrix_texture0
+#define UNITY_MATRIX_TEXTURE1 glstate_matrix_texture1
+#define UNITY_MATRIX_TEXTURE2 glstate_matrix_texture2
+#define UNITY_MATRIX_TEXTURE3 glstate_matrix_texture3
+#define UNITY_LIGHTMODEL_AMBIENT glstate_lightmodel_ambient
+
+
+#define FOGC FOG
+
+#else
+
+#define UNITY_MATRIX_MVP glstate.matrix.mvp
+#define UNITY_MATRIX_MV glstate.matrix.modelview[0]
+#define UNITY_MATRIX_P glstate.matrix.projection
+#define UNITY_MATRIX_T_MV glstate.matrix.transpose.modelview[0]
+#define UNITY_MATRIX_IT_MV glstate.matrix.invtrans.modelview[0]
+#define UNITY_MATRIX_TEXTURE glstate.matrix.texture
+#define UNITY_MATRIX_TEXTURE0 glstate.matrix.texture[0]
+#define UNITY_MATRIX_TEXTURE1 glstate.matrix.texture[1]
+#define UNITY_MATRIX_TEXTURE2 glstate.matrix.texture[2]
+#define UNITY_MATRIX_TEXTURE3 glstate.matrix.texture[3]
+#define UNITY_LIGHTMODEL_AMBIENT glstate.lightmodel.ambient
+
+#endif
+
+
+#if !defined(SHADER_API_D3D11)
+#define SV_POSITION POSITION
+#endif
+
+
+#if defined(SHADER_API_D3D9) || defined(SHADER_API_XBOX360) || defined(SHADER_API_PS3)
+#define UNITY_ATTEN_CHANNEL r
+#else
+#define UNITY_ATTEN_CHANNEL a
+#endif
+
+#if defined(SHADER_API_D3D9) || defined(SHADER_API_XBOX360)
+#define UNITY_HALF_TEXEL_OFFSET
+#endif
+
+#if defined(SHADER_API_D3D9) || defined(SHADER_API_XBOX360) || defined(SHADER_API_PS3)
+#define UNITY_UV_STARTS_AT_TOP 1
+#else
+#define UNITY_UV_STARTS_AT_TOP 0
+#endif
+
+#if defined(SHADER_API_D3D9)
+#define UNITY_MIGHT_NOT_HAVE_DEPTH_TEXTURE
+#endif
+
+
+#if defined(SHADER_API_OPENGL) && !defined(SHADER_TARGET_GLSL)
+#define UNITY_BUGGY_TEX2DPROJ4
+#define UNITY_PROJ_COORD(a) a.xyw
+#else
+#define UNITY_PROJ_COORD(a) a
+#endif
+
+#endif
+
+#define UNITY_PASS_FORWARDBASE
+#ifndef UNITY_CG_INCLUDED
+#define UNITY_CG_INCLUDED
+
+#if defined (DIRECTIONAL_COOKIE) || defined (DIRECTIONAL)
+#define USING_DIRECTIONAL_LIGHT
+#endif
+
+
+// -------------------------------------------------------------------
+//  builtin values exposed from Unity
+
+// Time values from Unity
+uniform float4 _Time;
+uniform float4 _SinTime;
+uniform float4 _CosTime;
+
+// x = 1 or -1 (-1 if projection is flipped)
+// y = near plane
+// z = far plane
+// w = 1/far plane
+uniform float4 _ProjectionParams;
+
+// x = width
+// y = height
+// z = 1 + 1.0/width
+// w = 1 + 1.0/height
+uniform float4 _ScreenParams;
+
+// w = 1 / uniform scale
+uniform float4 unity_Scale;
+
+uniform float3 _WorldSpaceCameraPos;
+#ifdef USING_DIRECTIONAL_LIGHT
+uniform fixed4 _WorldSpaceLightPos0;
+#else
+uniform float4 _WorldSpaceLightPos0;
+#endif
+
+uniform float4x4 _Object2World, _World2Object;
+
+uniform float4 _LightPositionRange; // xyz = pos, w = 1/range
+
+
+#if defined(SHADER_API_PS3)
+#	define UNITY_SAMPLE_DEPTH(value) (dot((value).wxy, float3(0.996093809371817670572857294849, 0.0038909914428586627756752238080039, 1.5199185323666651467481343000015e-5)))
+#else
+#	define UNITY_SAMPLE_DEPTH(value) (value).r
+#endif
+
+uniform fixed4 unity_ColorSpaceGrey;
+
+// -------------------------------------------------------------------
+//  helper functions and macros used in many standard shaders
+
+
+#if defined (DIRECTIONAL) || defined (DIRECTIONAL_COOKIE) || defined (POINT) || defined (SPOT) || defined (POINT_NOATT) || defined (POINT_COOKIE)
+#define USING_LIGHT_MULTI_COMPILE
+#endif
+
+#define SCALED_NORMAL (v.normal * unity_Scale.w)
+
+struct appdata_base {
+    float4 vertex : POSITION;
+    float3 normal : NORMAL;
+    float4 texcoord : TEXCOORD0;
+};
+
+struct appdata_tan {
+    float4 vertex : POSITION;
+    float4 tangent : TANGENT;
+    float3 normal : NORMAL;
+    float4 texcoord : TEXCOORD0;
+};
+
+struct appdata_full {
+    float4 vertex : POSITION;
+    float4 tangent : TANGENT;
+    float3 normal : NORMAL;
+    float4 texcoord : TEXCOORD0;
+    float4 texcoord1 : TEXCOORD1;
+    fixed4 color : COLOR;
+};
+
+// Computes world space light direction
+inline float3 WorldSpaceLightDir( in float4 v )
+{
+	float3 worldPos = mul(_Object2World, v).xyz;
+	#ifndef USING_LIGHT_MULTI_COMPILE
+		return _WorldSpaceLightPos0.xyz - worldPos * _WorldSpaceLightPos0.w;
+	#else
+		#ifndef USING_DIRECTIONAL_LIGHT
+		return _WorldSpaceLightPos0.xyz - worldPos;
+		#else
+		return _WorldSpaceLightPos0.xyz;
+		#endif
+	#endif
+}
+
+// Computes object space light direction
+inline float3 ObjSpaceLightDir( in float4 v )
+{
+	float3 objSpaceLightPos = mul(_World2Object, _WorldSpaceLightPos0).xyz;
+	#ifndef USING_LIGHT_MULTI_COMPILE
+		return objSpaceLightPos.xyz - v.xyz * _WorldSpaceLightPos0.w;
+	#else
+		#ifndef USING_DIRECTIONAL_LIGHT
+		return objSpaceLightPos.xyz * unity_Scale.w - v.xyz;
+		#else
+		return objSpaceLightPos.xyz;
+		#endif
+	#endif
+}
+
+// Computes world space view direction
+inline float3 WorldSpaceViewDir( in float4 v )
+{
+	return _WorldSpaceCameraPos.xyz - mul(_Object2World, v).xyz;
+}
+
+// Computes object space view direction
+inline float3 ObjSpaceViewDir( in float4 v )
+{
+	float3 objSpaceCameraPos = mul(_World2Object, float4(_WorldSpaceCameraPos.xyz, 1)).xyz * unity_Scale.w;
+	return objSpaceCameraPos - v.xyz;
+}
+
+// Declares 3x3 matrix 'rotation', filled with tangent space basis
+#define TANGENT_SPACE_ROTATION \
+	float3 binormal = cross( v.normal, v.tangent.xyz ) * v.tangent.w; \
+	float3x3 rotation = float3x3( v.tangent.xyz, binormal, v.normal )
+
+
+float4 unity_4LightPosX0;
+float4 unity_4LightPosY0;
+float4 unity_4LightPosZ0;
+float4 unity_4LightAtten0;
+
+float4 unity_LightColor[4];
+float4 unity_LightPosition[4];
+float4 unity_LightAtten[4];
+
+float3 unity_LightColor0, unity_LightColor1, unity_LightColor2, unity_LightColor3; // keeping those only for any existing shaders; remove in 4.0
+
+
+float3 Shade4PointLights (
+	float4 lightPosX, float4 lightPosY, float4 lightPosZ,
+	float3 lightColor0, float3 lightColor1, float3 lightColor2, float3 lightColor3,
+	float4 lightAttenSq,
+	float3 pos, float3 normal)
+{
+	// to light vectors
+	float4 toLightX = lightPosX - pos.x;
+	float4 toLightY = lightPosY - pos.y;
+	float4 toLightZ = lightPosZ - pos.z;
+	// squared lengths
+	float4 lengthSq = 0;
+	lengthSq += toLightX * toLightX;
+	lengthSq += toLightY * toLightY;
+	lengthSq += toLightZ * toLightZ;
+	// NdotL
+	float4 ndotl = 0;
+	ndotl += toLightX * normal.x;
+	ndotl += toLightY * normal.y;
+	ndotl += toLightZ * normal.z;
+	// correct NdotL
+	float4 corr = rsqrt(lengthSq);
+	ndotl = max (float4(0,0,0,0), ndotl * corr);
+	// attenuation
+	float4 atten = 1.0 / (1.0 + lengthSq * lightAttenSq);
+	float4 diff = ndotl * atten;
+	// final color
+	float3 col = 0;
+	col += lightColor0 * diff.x;
+	col += lightColor1 * diff.y;
+	col += lightColor2 * diff.z;
+	col += lightColor3 * diff.w;
+	return col;
+}
+
+
+float3 ShadeVertexLights (float4 vertex, float3 normal)
+{
+	float3 viewpos = mul (UNITY_MATRIX_MV, vertex).xyz;
+	float3 viewN = mul ((float3x3)UNITY_MATRIX_IT_MV, normal);
+	float3 lightColor = UNITY_LIGHTMODEL_AMBIENT.xyz;
+	for (int i = 0; i < 4; i++) {
+		float3 toLight = unity_LightPosition[i].xyz - viewpos.xyz * unity_LightPosition[i].w;
+		float lengthSq = dot(toLight, toLight);
+		float atten = 1.0 / (1.0 + lengthSq * unity_LightAtten[i].z);
+		float diff = max (0, dot (viewN, normalize(toLight)));
+		lightColor += unity_LightColor[i].rgb * (diff * atten);
+	}
+	return lightColor;
+}
+
+
+
+// SH lighting environment
+float4 unity_SHAr;
+float4 unity_SHAg;
+float4 unity_SHAb;
+float4 unity_SHBr;
+float4 unity_SHBg;
+float4 unity_SHBb;
+float4 unity_SHC;
+
+// normal should be normalized, w=1.0
+half3 ShadeSH9 (half4 normal)
+{
+	half3 x1, x2, x3;
+	
+	// Linear + constant polynomial terms
+	x1.r = dot(unity_SHAr,normal);
+	x1.g = dot(unity_SHAg,normal);
+	x1.b = dot(unity_SHAb,normal);
+	
+	// 4 of the quadratic polynomials
+	half4 vB = normal.xyzz * normal.yzzx;
+	x2.r = dot(unity_SHBr,vB);
+	x2.g = dot(unity_SHBg,vB);
+	x2.b = dot(unity_SHBb,vB);
+	
+	// Final quadratic polynomial
+	float vC = normal.x*normal.x - normal.y*normal.y;
+	x3 = unity_SHC.rgb * vC;
+    return x1 + x2 + x3;
+} 
+
+
+// Transforms 2D UV by scale/bias property
+#define TRANSFORM_TEX(tex,name) (tex.xy * name##_ST.xy + name##_ST.zw)
+// Transforms 4D UV by a texture matrix (use only if you know exactly which matrix you need)
+#define TRANSFORM_UV(idx) mul (UNITY_MATRIX_TEXTURE##idx, v.texcoord).xy
+
+
+
+struct v2f_vertex_lit {
+	float2 uv	: TEXCOORD0;
+	fixed4 diff	: COLOR0;
+	fixed4 spec	: COLOR1;
+};  
+
+inline fixed4 VertexLight( v2f_vertex_lit i, sampler2D mainTex )
+{
+	fixed4 texcol = tex2D( mainTex, i.uv );
+	fixed4 c;
+	c.xyz = ( texcol.xyz * i.diff.xyz + i.spec.xyz * texcol.a ) * 2;
+	c.w = texcol.w * i.diff.w;
+	return c;
+}
+
+
+// Calculates UV offset for parallax bump mapping
+inline float2 ParallaxOffset( half h, half height, half3 viewDir )
+{
+	h = h * height - height/2.0;
+	float3 v = normalize(viewDir);
+	v.z += 0.42;
+	return h * (v.xy / v.z);
+}
+
+
+// Converts color to luminance (grayscale)
+inline fixed Luminance( fixed3 c )
+{
+	return dot( c, fixed3(0.22, 0.707, 0.071) );
+}
+
+// Decodes lightmaps:
+// - doubleLDR encoded on GLES
+// - RGBM encoded with range [0;8] on other platforms using surface shaders
+inline fixed3 DecodeLightmap( fixed4 color )
+{
+#if defined(SHADER_API_GLES) && defined(SHADER_API_MOBILE)
+	return 2.0 * color.rgb;
+#else
+	// potentially faster to do the scalar multiplication
+	// in parenthesis for scalar GPUs
+	return (8.0 * color.a) * color.rgb;
+#endif
+}
+
+
+// Helpers used in image effects. Most image effects use the same
+// minimal vertex shader (vert_img).
+
+struct appdata_img {
+    float4 vertex : POSITION;
+    half2 texcoord : TEXCOORD0;
+};
+struct v2f_img {
+	float4 pos : SV_POSITION;
+	half2 uv : TEXCOORD0;
+};
+
+float2 MultiplyUV (float4x4 mat, float2 inUV) {
+	float4 temp = float4 (inUV.x, inUV.y, 0, 0);
+	temp = mul (mat, temp);
+	return temp.xy;
+}
+
+v2f_img vert_img( appdata_img v )
+{
+	v2f_img o;
+	o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+	o.uv = MultiplyUV( UNITY_MATRIX_TEXTURE0, v.texcoord );
+	return o;
+}
+
+
+// Encoding/decoding [0..1) floats into 8 bit/channel RGBA. Note that 1.0 will not be encoded properly.
+inline float4 EncodeFloatRGBA( float v )
+{
+	float4 kEncodeMul = float4(1.0, 255.0, 65025.0, 160581375.0);
+	float kEncodeBit = 1.0/255.0;
+	float4 enc = kEncodeMul * v;
+	enc = frac (enc);
+	enc -= enc.yzww * kEncodeBit;
+	return enc;
+}
+inline float DecodeFloatRGBA( float4 enc )
+{
+	float4 kDecodeDot = float4(1.0, 1/255.0, 1/65025.0, 1/160581375.0);
+	return dot( enc, kDecodeDot );
+}
+
+// Encoding/decoding [0..1) floats into 8 bit/channel RG. Note that 1.0 will not be encoded properly.
+inline float2 EncodeFloatRG( float v )
+{
+	float2 kEncodeMul = float2(1.0, 255.0);
+	float kEncodeBit = 1.0/255.0;
+	float2 enc = kEncodeMul * v;
+	enc = frac (enc);
+	enc.x -= enc.y * kEncodeBit;
+	return enc;
+}
+inline float DecodeFloatRG( float2 enc )
+{
+	float2 kDecodeDot = float2(1.0, 1/255.0);
+	return dot( enc, kDecodeDot );
+}
+
+
+// Encoding/decoding view space normals into 2D 0..1 vector
+inline float2 EncodeViewNormalStereo( float3 n )
+{
+	float kScale = 1.7777;
+	float2 enc;
+	enc = n.xy / (n.z+1);
+	enc /= kScale;
+	enc = enc*0.5+0.5;
+	return enc;
+}
+inline float3 DecodeViewNormalStereo( float4 enc4 )
+{
+	float kScale = 1.7777;
+	float3 nn = enc4.xyz*float3(2*kScale,2*kScale,0) + float3(-kScale,-kScale,1);
+	float g = 2.0 / dot(nn.xyz,nn.xyz);
+	float3 n;
+	n.xy = g*nn.xy;
+	n.z = g-1;
+	return n;
+}
+
+inline float4 EncodeDepthNormal( float depth, float3 normal )
+{
+	float4 enc;
+	enc.xy = EncodeViewNormalStereo (normal);
+	enc.zw = EncodeFloatRG (depth);
+	return enc;
+}
+
+inline void DecodeDepthNormal( float4 enc, out float depth, out float3 normal )
+{
+	depth = DecodeFloatRG (enc.zw);
+	normal = DecodeViewNormalStereo (enc);
+}
+
+inline fixed3 UnpackNormalDXT5nm (fixed4 packednormal)
+{
+	fixed3 normal;
+	normal.xy = packednormal.wy * 2 - 1;
+	normal.z = sqrt(1 - normal.x*normal.x - normal.y * normal.y);
+	return normal;
+}
+
+inline fixed3 UnpackNormal(fixed4 packednormal)
+{
+#if defined(SHADER_API_GLES) && defined(SHADER_API_MOBILE)
+	return packednormal.xyz * 2 - 1;
+#else
+	fixed3 normal;
+	normal.xy = packednormal.wy * 2 - 1;
+	normal.z = sqrt(1 - normal.x*normal.x - normal.y * normal.y);
+	return normal;
+#endif
+}
+
+uniform float4 _ZBufferParams;
+
+// Z buffer to linear 0..1 depth (0 at eye, 1 at far plane)
+inline float Linear01Depth( float z )
+{
+	return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
+}
+// Z buffer to linear depth
+inline float LinearEyeDepth( float z )
+{
+	return 1.0 / (_ZBufferParams.z * z + _ZBufferParams.w);
+}
+
+
+// Depth render texture helpers
+#if defined(UNITY_MIGHT_NOT_HAVE_DEPTH_TEXTURE)
+	#define UNITY_TRANSFER_DEPTH(oo) oo = o.pos.zw
+	#define UNITY_OUTPUT_DEPTH(i) return i.x/i.y
+#else
+	#define UNITY_TRANSFER_DEPTH(oo) 
+	#define UNITY_OUTPUT_DEPTH(i) return 0
+#endif
+#define DECODE_EYEDEPTH(i) LinearEyeDepth(i)
+#define COMPUTE_EYEDEPTH(o) o = -mul( UNITY_MATRIX_MV, v.vertex ).z
+#define COMPUTE_DEPTH_01 -(mul( UNITY_MATRIX_MV, v.vertex ).z * _ProjectionParams.w)
+#define COMPUTE_VIEW_NORMAL mul((float3x3)UNITY_MATRIX_IT_MV, v.normal)
+
+
+// Projected screen position helpers
+#define V2F_SCREEN_TYPE float4
+inline float4 ComputeScreenPos (float4 pos) {
+	float4 o = pos * 0.5f;
+	#if defined(UNITY_HALF_TEXEL_OFFSET)
+	o.xy = float2(o.x, o.y*_ProjectionParams.x) + o.w * _ScreenParams.zw;
+	#else
+	o.xy = float2(o.x, o.y*_ProjectionParams.x) + o.w;
+	#endif
+	o.zw = pos.zw;
+	return o;
+}
+
+inline float4 ComputeGrabScreenPos (float4 pos) {
+	#if UNITY_UV_STARTS_AT_TOP
+	float scale = -1.0;
+	#else
+	float scale = 1.0;
+	#endif
+	float4 o = pos * 0.5f;
+	o.xy = float2(o.x, o.y*scale) + o.w;
+	o.zw = pos.zw;
+	return o;
+}
+
+
+inline float2 TransformViewToProjection (float2 v) {
+	return float2(v.x*UNITY_MATRIX_P[0][0], v.y*UNITY_MATRIX_P[1][1]);
+}
+
+inline float3 TransformViewToProjection (float3 v) {
+	return float3(v.x*UNITY_MATRIX_P[0][0], v.y*UNITY_MATRIX_P[1][1], v.z*UNITY_MATRIX_P[2][2]);
+}
+
+
+
+
+// Shadow caster pass helpers
+
+float4 unity_LightShadowBias;
+
+#ifdef SHADOWS_CUBE
+	#define V2F_SHADOW_CASTER float4 pos : SV_POSITION; float3 vec : TEXCOORD0
+	#define TRANSFER_SHADOW_CASTER(o) o.vec = mul( _Object2World, v.vertex ).xyz - _LightPositionRange.xyz; o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	#define SHADOW_CASTER_FRAGMENT(i) return EncodeFloatRGBA( length(i.vec) * _LightPositionRange.w );
+#else
+	#if defined(UNITY_MIGHT_NOT_HAVE_DEPTH_TEXTURE)
+	#define V2F_SHADOW_CASTER float4 pos : SV_POSITION; float4 hpos : TEXCOORD0
+	#define TRANSFER_SHADOW_CASTER(o) o.pos = mul(UNITY_MATRIX_MVP, v.vertex); o.pos.z += unity_LightShadowBias.x; \
+	float clamped = max(o.pos.z, 0.0); o.pos.z = lerp(o.pos.z, clamped, unity_LightShadowBias.y); o.hpos = o.pos;
+	#define SHADOW_CASTER_FRAGMENT(i) return i.hpos.z / i.hpos.w;
+	#else
+	#define V2F_SHADOW_CASTER float4 pos : SV_POSITION
+	#define TRANSFER_SHADOW_CASTER(o) o.pos = mul(UNITY_MATRIX_MVP, v.vertex); o.pos.z += unity_LightShadowBias.x; \
+	float clamped = max(o.pos.z, -o.pos.w); o.pos.z = lerp(o.pos.z, clamped, unity_LightShadowBias.y);
+	#define SHADOW_CASTER_FRAGMENT(i) return 0;
+	#endif
+#endif
+
+// Shadow collector pass helpers
+#ifdef SHADOW_COLLECTOR_PASS
+
+// Keeping these for compatibility
+uniform float4x4 _World2Shadow;
+uniform float4x4 _World2Shadow1;
+uniform float4x4 _World2Shadow2;
+uniform float4x4 _World2Shadow3;
+
+uniform float4x4 unity_World2Shadow[4];
+uniform float4 _LightShadowData;
+
+#define V2F_SHADOW_COLLECTOR float4 pos : SV_POSITION; float3 _ShadowCoord0 : TEXCOORD0; float3 _ShadowCoord1 : TEXCOORD1; float3 _ShadowCoord2 : TEXCOORD2; float3 _ShadowCoord3 : TEXCOORD3; float4 _WorldPosViewZ : TEXCOORD4
+#define TRANSFER_SHADOW_COLLECTOR(o)	\
+	o.pos = mul(UNITY_MATRIX_MVP, v.vertex); \
+	float4 wpos = mul(_Object2World, v.vertex); \
+	o._WorldPosViewZ.xyz = wpos; \
+	o._WorldPosViewZ.w = -mul( UNITY_MATRIX_MV, v.vertex ).z; \
+	o._ShadowCoord0 = mul(unity_World2Shadow[0], wpos).xyz; \
+	o._ShadowCoord1 = mul(unity_World2Shadow[1], wpos).xyz; \
+	o._ShadowCoord2 = mul(unity_World2Shadow[2], wpos).xyz; \
+	o._ShadowCoord3 = mul(unity_World2Shadow[3], wpos).xyz;
+
+uniform float4 _LightSplitsNear;
+uniform float4 _LightSplitsFar;
+uniform float4 unity_ShadowFadeCenterAndType;
+uniform float4 unity_ShadowSplitSpheres[4];
+uniform float4 unity_ShadowSplitSqRadii;
+sampler2D _ShadowMapTexture;
+
+#if defined (SHADOWS_NATIVE)
+	#define SAMPLE_SHADOW_COLLECTOR_SHADOW(coord) \
+	half shadow = tex2Dproj( _ShadowMapTexture, UNITY_PROJ_COORD(coord) ).r; \
+	shadow = _LightShadowData.r + shadow * (1-_LightShadowData.r);
+#else
+	#define SAMPLE_SHADOW_COLLECTOR_SHADOW(coord) \
+	float shadow = tex2D( _ShadowMapTexture, coord.xy ).r < coord.z ? _LightShadowData.r : 1.0;
+#endif
+
+#define COMPUTE_SHADOW_COLLECTOR_SHADOW(i, weights, shadowFade) \
+	float4 coord = float4(i._ShadowCoord0 * weights[0] + i._ShadowCoord1 * weights[1] + i._ShadowCoord2 * weights[2] + i._ShadowCoord3 * weights[3], 1); \
+	SAMPLE_SHADOW_COLLECTOR_SHADOW(coord) \
+	float4 res; \
+	res.x = saturate(shadow + shadowFade); \
+	res.y = 1.0; \
+	res.zw = EncodeFloatRG (1 - i._WorldPosViewZ.w * _ProjectionParams.w); \
+	return res;	
+
+#if defined (SHADOWS_SPLIT_SPHERES)
+#define SHADOW_COLLECTOR_FRAGMENT(i) \
+	float3 fromCenter0 = i._WorldPosViewZ.xyz - unity_ShadowSplitSpheres[0].xyz; \
+	float3 fromCenter1 = i._WorldPosViewZ.xyz - unity_ShadowSplitSpheres[1].xyz; \
+	float3 fromCenter2 = i._WorldPosViewZ.xyz - unity_ShadowSplitSpheres[2].xyz; \
+	float3 fromCenter3 = i._WorldPosViewZ.xyz - unity_ShadowSplitSpheres[3].xyz; \
+	float4 distances2 = float4(dot(fromCenter0,fromCenter0), dot(fromCenter1,fromCenter1), dot(fromCenter2,fromCenter2), dot(fromCenter3,fromCenter3)); \
+	float4 cascadeWeights = float4(distances2 < unity_ShadowSplitSqRadii); \
+	cascadeWeights.yzw = saturate(cascadeWeights.yzw - cascadeWeights.xyz); \
+	float sphereDist = distance(i._WorldPosViewZ.xyz, unity_ShadowFadeCenterAndType.xyz); \
+	float shadowFade = saturate(sphereDist * _LightShadowData.z + _LightShadowData.w); \
+	COMPUTE_SHADOW_COLLECTOR_SHADOW(i, cascadeWeights, shadowFade)
+#else
+#define SHADOW_COLLECTOR_FRAGMENT(i) \
+	float4 viewZ = i._WorldPosViewZ.w; \
+	float4 zNear = float4( viewZ >= _LightSplitsNear ); \
+	float4 zFar = float4( viewZ < _LightSplitsFar ); \
+	float4 cascadeWeights = zNear * zFar; \
+	float shadowFade = saturate(i._WorldPosViewZ.w * _LightShadowData.z + _LightShadowData.w); \
+	COMPUTE_SHADOW_COLLECTOR_SHADOW(i, cascadeWeights, shadowFade)
+#endif
+	
+#endif
+
+#endif
+
+#ifndef LIGHTING_INCLUDED
+#define LIGHTING_INCLUDED
+
+struct SurfaceOutput {
+	fixed3 Albedo;
+	fixed3 Normal;
+	fixed3 Emission;
+	half Specular;
+	fixed Gloss;
+	fixed Alpha;
+};
+
+#ifndef USING_DIRECTIONAL_LIGHT
+#if defined (DIRECTIONAL_COOKIE) || defined (DIRECTIONAL)
+#define USING_DIRECTIONAL_LIGHT
+#endif
+#endif
+
+
+#define UNITY_DIRBASIS \
+const half3x3 unity_DirBasis = half3x3( \
+	half3(0.816496580927726, 0.0, 0.5773502691896258), \
+	half3(-0.408248290463863, 0.7071067811865475, 0.5773502691896258), \
+	half3(-0.408248290463863, -0.7071067811865475, 0.5773502691896258) \
+);
+
+inline half3 DirLightmapDiffuse(in half3x3 dirBasis, fixed4 color, fixed4 scale, half3 normal, bool surfFuncWritesNormal, out half3 scalePerBasisVector)
+{
+	half3 lm = DecodeLightmap (color);
+	
+	// will be compiled out (and so will the texture sample providing the value)
+	// if it's not used in the lighting function, like in LightingLambert
+	scalePerBasisVector = DecodeLightmap (scale);
+
+	// will be compiled out when surface function does not write into o.Normal
+	if (surfFuncWritesNormal)
+	{
+		half3 normalInRnmBasis = saturate (mul (dirBasis, normal));
+		lm *= dot (normalInRnmBasis, scalePerBasisVector);
+	}
+
+	return lm;
+}
+
+
+fixed4 _LightColor0;
+fixed4 _SpecColor;
+
+inline fixed4 LightingLambert (SurfaceOutput s, fixed3 lightDir, fixed atten)
+{
+	fixed diff = max (0, dot (s.Normal, lightDir));
+	
+	fixed4 c;
+	c.rgb = s.Albedo * _LightColor0.rgb * (diff * atten * 2);
+	c.a = s.Alpha;
+	return c;
+}
+
+
+inline fixed4 LightingLambert_PrePass (SurfaceOutput s, half4 light)
+{
+	fixed4 c;
+	c.rgb = s.Albedo * light.rgb;
+	c.a = s.Alpha;
+	return c;
+}
+
+inline half4 LightingLambert_DirLightmap (SurfaceOutput s, fixed4 color, fixed4 scale, bool surfFuncWritesNormal)
+{
+	UNITY_DIRBASIS
+	half3 scalePerBasisVector;
+	
+	half3 lm = DirLightmapDiffuse (unity_DirBasis, color, scale, s.Normal, surfFuncWritesNormal, scalePerBasisVector);
+	
+	return half4(lm, 0);
+}
+
+
+// NOTE: some intricacy in shader compiler on some GLES2.0 platforms (iOS) needs 'viewDir' & 'h'
+// to be mediump instead of lowp, otherwise specular highlight becomes too bright.
+inline fixed4 LightingBlinnPhong (SurfaceOutput s, fixed3 lightDir, half3 viewDir, fixed atten)
+{
+	half3 h = normalize (lightDir + viewDir);
+	
+	fixed diff = max (0, dot (s.Normal, lightDir));
+	
+	float nh = max (0, dot (s.Normal, h));
+	float spec = pow (nh, s.Specular*128.0) * s.Gloss;
+	
+	fixed4 c;
+	c.rgb = (s.Albedo * _LightColor0.rgb * diff + _LightColor0.rgb * _SpecColor.rgb * spec) * (atten * 2);
+	c.a = s.Alpha + _LightColor0.a * _SpecColor.a * spec * atten;
+	return c;
+}
+
+inline fixed4 LightingBlinnPhong_PrePass (SurfaceOutput s, half4 light)
+{
+	fixed spec = light.a * s.Gloss;
+	
+	fixed4 c;
+	c.rgb = (s.Albedo * light.rgb + light.rgb * _SpecColor.rgb * spec);
+	c.a = s.Alpha + spec * _SpecColor.a;
+	return c;
+}
+
+inline half4 LightingBlinnPhong_DirLightmap (SurfaceOutput s, fixed4 color, fixed4 scale, half3 viewDir, bool surfFuncWritesNormal, out half3 specColor)
+{
+	UNITY_DIRBASIS
+	half3 scalePerBasisVector;
+	
+	half3 lm = DirLightmapDiffuse (unity_DirBasis, color, scale, s.Normal, surfFuncWritesNormal, scalePerBasisVector);
+	
+	half3 lightDir = normalize (scalePerBasisVector.x * unity_DirBasis[0] + scalePerBasisVector.y * unity_DirBasis[1] + scalePerBasisVector.z * unity_DirBasis[2]);
+	half3 h = normalize (lightDir + viewDir);
+
+	float nh = max (0, dot (s.Normal, h));
+	float spec = pow (nh, s.Specular * 128.0);
+	
+	// specColor used outside in the forward path, compiled out in prepass
+	specColor = lm * _SpecColor.rgb * s.Gloss * spec;
+	
+	// spec from the alpha component is used to calculate specular
+	// in the Lighting*_Prepass function, it's not used in forward
+	return half4(lm, spec);
+}
+
+#endif
+
+#ifndef AUTOLIGHT_INCLUDED
+#define AUTOLIGHT_INCLUDED
+
+
+// ------------ Shadow helpers --------
+
+// ---- Screen space shadows
+#if defined (SHADOWS_SCREEN)
+
+uniform float4 _ShadowOffsets[4];
+
+#define SHADOW_COORDS(idx1) float4 _ShadowCoord : TEXCOORD##idx1;
+#define TRANSFER_SHADOW(a) a._ShadowCoord = ComputeScreenPos(o.pos);
+uniform sampler2D _ShadowMapTexture;
+
+inline fixed unitySampleShadow (float4 shadowCoord)
+{
+	fixed shadow = tex2Dproj( _ShadowMapTexture, UNITY_PROJ_COORD(shadowCoord) ).r;
+	return shadow;
+}
+#define SHADOW_ATTENUATION(a) unitySampleShadow(a._ShadowCoord)
+
+#endif
+
+
+// ---- Depth map shadows
+
+#if defined (SHADOWS_DEPTH) && defined (SPOT)
+
+sampler2D _ShadowMapTexture;
+float4x4 unity_World2Shadow;
+float4 _LightShadowData;
+#if defined (SHADOWS_SOFT)
+uniform float4 _ShadowOffsets[4];
+#endif
+
+inline fixed unitySampleShadow (float4 shadowCoord)
+{
+	#if defined (SHADOWS_SOFT)
+	
+	// 4-tap shadows
+	
+	float3 coord = shadowCoord.xyz / shadowCoord.w;
+	#if defined (SHADOWS_NATIVE) && !defined (SHADER_API_OPENGL)
+	half4 shadows;
+	shadows.x = tex2D( _ShadowMapTexture, coord + _ShadowOffsets[0] ).r;
+	shadows.y = tex2D( _ShadowMapTexture, coord + _ShadowOffsets[1] ).r;
+	shadows.z = tex2D( _ShadowMapTexture, coord + _ShadowOffsets[2] ).r;
+	shadows.w = tex2D( _ShadowMapTexture, coord + _ShadowOffsets[3] ).r;	
+	shadows = _LightShadowData.rrrr + shadows * (1-_LightShadowData.rrrr);
+	#else
+	float4 shadowVals;
+	shadowVals.x = tex2D( _ShadowMapTexture, coord + _ShadowOffsets[0].xy ).r;
+	shadowVals.y = tex2D( _ShadowMapTexture, coord + _ShadowOffsets[1].xy ).r;
+	shadowVals.z = tex2D( _ShadowMapTexture, coord + _ShadowOffsets[2].xy ).r;
+	shadowVals.w = tex2D( _ShadowMapTexture, coord + _ShadowOffsets[3].xy ).r;
+	half4 shadows = (shadowVals < coord.zzzz) ? _LightShadowData.rrrr : 1.0f;
+	#endif
+	
+	// average-4 PCF
+	half shadow = dot (shadows, 0.25f);
+	
+	#else
+	
+	// 1-tap shadows
+	
+	// Native sampling of depth textures is broken on Intel 10.4.8, and does not exist on PPC. So sample manually :(
+	#if defined (SHADOWS_NATIVE) && !defined (SHADER_API_OPENGL)
+	half shadow = tex2Dproj (_ShadowMapTexture, UNITY_PROJ_COORD(shadowCoord)).r;
+	shadow = _LightShadowData.r + shadow * (1-_LightShadowData.r);
+	#else
+	half shadow = tex2Dproj (_ShadowMapTexture, UNITY_PROJ_COORD(shadowCoord)).r < (shadowCoord.z / shadowCoord.w) ? _LightShadowData.r : 1.0;
+	#endif
+	
+	#endif
+	
+	return shadow;
+}
+#define SHADOW_COORDS(idx1) float4 _ShadowCoord : TEXCOORD##idx1;
+#define TRANSFER_SHADOW(a) a._ShadowCoord = mul (unity_World2Shadow, mul(_Object2World,v.vertex));
+#define SHADOW_ATTENUATION(a) unitySampleShadow(a._ShadowCoord)
+
+#endif
+
+
+// ---- Point light shadows
+
+#if defined (SHADOWS_CUBE)
+
+float4 _LightShadowData;
+uniform samplerCUBE _ShadowMapTexture;
+inline float SampleCubeDistance (float3 vec)
+{
+	float4 packDist = texCUBE (_ShadowMapTexture, vec);
+	return DecodeFloatRGBA( packDist );
+}
+inline float unityCubeShadow (float3 vec)
+{
+	float mydist = length(vec) * _LightPositionRange.w;
+	mydist *= 0.97; // bias
+	
+	#if defined (SHADOWS_SOFT)
+	float z = 1.0/128.0;
+	float4 shadowVals;
+	shadowVals.x = SampleCubeDistance (vec+float3( z, z, z));
+	shadowVals.y = SampleCubeDistance (vec+float3(-z,-z, z));
+	shadowVals.z = SampleCubeDistance (vec+float3(-z, z,-z));
+	shadowVals.w = SampleCubeDistance (vec+float3( z,-z,-z));
+	half4 shadows = (shadowVals < mydist.xxxx) ? _LightShadowData.rrrr : 1.0f;
+	return dot(shadows,0.25);	
+	#else
+	float dist = SampleCubeDistance (vec);
+	return dist < mydist ? _LightShadowData.r : 1.0;
+	#endif
+}
+#define SHADOW_COORDS(idx1) float3 _ShadowCoord : TEXCOORD##idx1;
+#define TRANSFER_SHADOW(a) a._ShadowCoord = mul(_Object2World, v.vertex).xyz - _LightPositionRange.xyz;
+#define SHADOW_ATTENUATION(a) unityCubeShadow(a._ShadowCoord)
+
+#endif
+
+
+
+// ---- Shadows off
+#if !defined (SHADOWS_SCREEN) && !defined (SHADOWS_DEPTH) && !defined (SHADOWS_CUBE)
+
+#define SHADOW_COORDS(idx1)
+#define TRANSFER_SHADOW(a)
+#define SHADOW_ATTENUATION(a) 1.0
+
+#endif
+
+
+
+// ------------ Light helpers --------
+
+#ifdef POINT
+#define LIGHTING_COORDS(idx1,idx2) float3 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
+uniform sampler2D _LightTexture0;
+uniform float4x4 _LightMatrix0;
+#define TRANSFER_VERTEX_TO_FRAGMENT(a) a._LightCoord = mul(_LightMatrix0, mul(_Object2World, v.vertex)).xyz; TRANSFER_SHADOW(a)
+#define LIGHT_ATTENUATION(a)	(tex2D(_LightTexture0, dot(a._LightCoord,a._LightCoord).rr).UNITY_ATTEN_CHANNEL * SHADOW_ATTENUATION(a))
+#endif
+
+#ifdef SPOT
+#define LIGHTING_COORDS(idx1,idx2) float4 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
+uniform sampler2D _LightTexture0;
+uniform float4x4 _LightMatrix0;
+uniform sampler2D _LightTextureB0;
+#define TRANSFER_VERTEX_TO_FRAGMENT(a) a._LightCoord = mul(_LightMatrix0, mul(_Object2World, v.vertex)); TRANSFER_SHADOW(a)
+inline fixed UnitySpotCookie(float4 LightCoord)
+{
+	return tex2D(_LightTexture0, LightCoord.xy / LightCoord.w + 0.5).w;
+}
+inline fixed UnitySpotAttenuate(float3 LightCoord)
+{
+	return tex2D(_LightTextureB0, dot(LightCoord, LightCoord).xx).UNITY_ATTEN_CHANNEL;
+}
+#define LIGHT_ATTENUATION(a)	( (a._LightCoord.z > 0) * UnitySpotCookie(a._LightCoord) * UnitySpotAttenuate(a._LightCoord.xyz) * SHADOW_ATTENUATION(a) )
+#endif
+
+
+#ifdef DIRECTIONAL
+#define LIGHTING_COORDS(idx1,idx2) SHADOW_COORDS(idx1)
+#define TRANSFER_VERTEX_TO_FRAGMENT(a) TRANSFER_SHADOW(a)
+#define LIGHT_ATTENUATION(a)	SHADOW_ATTENUATION(a)
+#endif
+
+
+#ifdef POINT_COOKIE
+#define LIGHTING_COORDS(idx1,idx2) float3 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
+uniform samplerCUBE _LightTexture0;
+uniform float4x4 _LightMatrix0;
+uniform sampler2D _LightTextureB0;
+#define TRANSFER_VERTEX_TO_FRAGMENT(a) a._LightCoord = mul(_LightMatrix0, mul(_Object2World, v.vertex)).xyz; TRANSFER_SHADOW(a)
+#define LIGHT_ATTENUATION(a)	(tex2D(_LightTextureB0, dot(a._LightCoord,a._LightCoord).rr).UNITY_ATTEN_CHANNEL * texCUBE(_LightTexture0, a._LightCoord).w * SHADOW_ATTENUATION(a))
+#endif
+
+#ifdef DIRECTIONAL_COOKIE
+#define LIGHTING_COORDS(idx1,idx2) float2 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
+uniform sampler2D _LightTexture0;
+uniform float4x4 _LightMatrix0;
+#define TRANSFER_VERTEX_TO_FRAGMENT(a) a._LightCoord = mul(_LightMatrix0, mul(_Object2World, v.vertex)).xy; TRANSFER_SHADOW(a)
+#define LIGHT_ATTENUATION(a)	(tex2D(_LightTexture0, a._LightCoord).w * SHADOW_ATTENUATION(a))
+#endif
+
+
+#endif
+
+
+#define INTERNAL_DATA
+#define WorldReflectionVector(data,normal) data.worldRefl
+#define WorldNormalVector(data,normal) normal
+#line 1
+#line 11
+
+// #pragma surface surf Lambert
+// #pragma only_renderers opengl gles
+
+sampler2D _MainTex;
+fixed4 _Color;
+
+struct Input {
+	float2 uv_MainTex;
+};
+
+void surf (Input IN, inout SurfaceOutput o) {
+	fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
+	o.Albedo = c.rgb;
+	o.Alpha = c.a;
+}
+#ifdef LIGHTMAP_OFF
+struct v2f_surf {
+  float4 pos : SV_POSITION;
+  float2 pack0 : TEXCOORD0;
+  fixed3 normal : TEXCOORD1;
+  fixed3 vlight : TEXCOORD2;
+  LIGHTING_COORDS(3,4)
+};
+#endif
+#ifndef LIGHTMAP_OFF
+struct v2f_surf {
+  float4 pos : SV_POSITION;
+  float2 pack0 : TEXCOORD0;
+  float2 lmap : TEXCOORD1;
+  LIGHTING_COORDS(2,3)
+};
+#endif
+#ifndef LIGHTMAP_OFF
+float4 unity_LightmapST;
+float4 unity_ShadowFadeCenterAndType;
+#endif
+float4 _MainTex_ST;
+v2f_surf vert_surf (appdata_full v) {
+  v2f_surf o;
+  o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+  o.pack0.xy = TRANSFORM_TEX(v.texcoord, _MainTex);
+  #ifndef LIGHTMAP_OFF
+  o.lmap.xy = v.texcoord1.xy * unity_LightmapST.xy + unity_LightmapST.zw;
+  #endif
+  float3 worldN = mul((float3x3)_Object2World, SCALED_NORMAL);
+  #ifdef LIGHTMAP_OFF
+  o.normal = worldN;
+  #endif
+  #ifdef LIGHTMAP_OFF
+  float3 shlight = ShadeSH9 (float4(worldN,1.0));
+  o.vlight = shlight;
+  #ifdef VERTEXLIGHT_ON
+  float3 worldPos = mul(_Object2World, v.vertex).xyz;
+  o.vlight += Shade4PointLights (
+    unity_4LightPosX0, unity_4LightPosY0, unity_4LightPosZ0,
+    unity_LightColor[0].rgb, unity_LightColor[1].rgb, unity_LightColor[2].rgb, unity_LightColor[3].rgb,
+    unity_4LightAtten0, worldPos, worldN );
+  #endif // VERTEXLIGHT_ON
+  #endif // LIGHTMAP_OFF
+  TRANSFER_VERTEX_TO_FRAGMENT(o);
+  return o;
+}
+#ifndef LIGHTMAP_OFF
+sampler2D unity_Lightmap;
+#ifndef DIRLIGHTMAP_OFF
+sampler2D unity_LightmapInd;
+#endif
+#endif
+fixed4 main (v2f_surf IN) : COLOR {
+  Input surfIN;
+  surfIN.uv_MainTex = IN.pack0.xy;
+  SurfaceOutput o;
+  o.Albedo = 0.0;
+  o.Emission = 0.0;
+  o.Specular = 0.0;
+  o.Alpha = 0.0;
+  o.Gloss = 0.0;
+  #ifdef LIGHTMAP_OFF
+  o.Normal = IN.normal;
+  #endif
+  surf (surfIN, o);
+  fixed atten = LIGHT_ATTENUATION(IN);
+  fixed4 c = 0;
+  #ifdef LIGHTMAP_OFF
+  c = LightingLambert (o, _WorldSpaceLightPos0.xyz, atten);
+  #endif // LIGHTMAP_OFF
+  #ifdef LIGHTMAP_OFF
+  c.rgb += o.Albedo * IN.vlight;
+  #endif // LIGHTMAP_OFF
+  #ifndef LIGHTMAP_OFF
+  #ifdef DIRLIGHTMAP_OFF
+  fixed4 lmtex = tex2D(unity_Lightmap, IN.lmap.xy);
+  fixed3 lm = DecodeLightmap (lmtex);
+  #else
+  fixed4 lmtex = tex2D(unity_Lightmap, IN.lmap.xy);
+  fixed4 lmIndTex = tex2D(unity_LightmapInd, IN.lmap.xy);
+  half3 lm = LightingLambert_DirLightmap(o, lmtex, lmIndTex, 0).rgb;
+  #endif
+  #ifdef SHADOWS_SCREEN
+  #if defined(SHADER_API_GLES) && defined(SHADER_API_MOBILE)
+  c.rgb += o.Albedo * min(lm, atten*2);
+  #else
+  c.rgb += o.Albedo * max(min(lm,(atten*2)*lmtex.rgb), lm*atten);
+  #endif
+  #else // SHADOWS_SCREEN
+  c.rgb += o.Albedo * lm;
+  #endif // SHADOWS_SCREEN
+  c.a = o.Alpha;
+#endif // LIGHTMAP_OFF
+  return c;
+}

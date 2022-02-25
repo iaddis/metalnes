@@ -1,0 +1,14 @@
+uniform float RIGHT;
+#line 4
+#line 4
+vec4 xlat_main(  ) {
+    return vec4( RIGHT);
+}
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// RIGHT:<none> type 9 arrsize 0

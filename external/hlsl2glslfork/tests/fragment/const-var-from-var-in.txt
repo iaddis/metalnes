@@ -1,0 +1,8 @@
+#line 1 "const-var-from-var-in.txt" 
+uniform half4 _Color;
+
+half4 main() : COLOR0
+{
+    const half4 c = _Color;
+    return c;
+}

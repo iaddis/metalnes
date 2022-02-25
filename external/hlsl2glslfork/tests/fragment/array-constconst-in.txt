@@ -1,0 +1,17 @@
+#line 1 "array-constconst-in.txt" 
+half4 main () : COLOR0 {
+	const float2 poisson[8] = {
+		float2( 0.0, 0.0),
+		float2( 0.527837,-0.085868),
+		float2(-0.040088, 0.536087),
+		float2(-0.670445,-0.179949),
+		float2(-0.419418,-0.616039),
+		float2( 0.440453,-0.639399),
+		float2(-0.757088, 0.349334),
+		float2( 0.574619, 0.685879),
+	};
+	half4 c = 0;
+	for (int i = 0; i < 8; ++i)
+		c.xy += poisson[i];
+	return c;
+}

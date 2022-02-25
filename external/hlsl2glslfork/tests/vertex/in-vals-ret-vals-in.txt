@@ -1,0 +1,19 @@
+#line 1 "in-vals-ret-vals-in.txt" 
+float4x4 mvp;
+
+void main (
+	float4 pos : POSITION,
+	float2 uv : TEXCOORD0,
+	float3 normal : NORMAL,
+	float4 color : COLOR,
+	out float4 opos : POSITION,
+	out float ofog : FOG,
+	out float2 ouv : TEXCOORD0,
+	out float4 ocolor : COLOR
+)
+{
+	opos = mul (mvp, pos);
+	ocolor = color;
+	ocolor.rgb += normal;
+	ouv = uv;
+}

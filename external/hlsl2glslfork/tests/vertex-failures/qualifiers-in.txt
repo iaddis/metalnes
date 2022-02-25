@@ -1,0 +1,7 @@
+static const float stat_2; // must be initialized
+const float const_3; // must be initialized
+
+float4 main () : POSITION
+{
+	return stat_2 + const_3;
+}

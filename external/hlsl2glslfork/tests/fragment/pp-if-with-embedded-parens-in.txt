@@ -1,0 +1,9 @@
+// At some point, the preprocessor incorrectly thought
+//  that the '+' is a unary operator and would fail to parse the expression.
+#if ((1) + (0) < 12)
+float a;
+#else
+WRONG
+#endif
+
+float4 main() : COLOR { return a; }

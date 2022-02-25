@@ -1,0 +1,33 @@
+const highp int kInt1 = 3;
+const highp int kInt2 = 7;
+#line 3
+highp int kInt3;
+uniform highp float size1;
+uniform highp float size2;
+#line 7
+uniform highp float size3;
+uniform highp float size4;
+uniform highp float size5;
+uniform highp float size6;
+#line 11
+uniform highp float size7;
+uniform highp float size8;
+uniform highp float size9;
+#line 15
+uniform highp vec3 my_vec3a;
+uniform highp vec3 my_vec3b;
+#line 18
+highp vec4 xlat_main(  ) {
+    #line 20
+    return vec4( 3.0, 7.0, float(kInt3), (size2 + size8));
+}
+void main() {
+kInt3 = 11;
+    highp vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_Position = vec4(xl_retval);
+}
+
+// uniforms:
+// size2:<none> type 9 arrsize 0
+// size8:<none> type 9 arrsize 0

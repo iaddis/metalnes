@@ -1,0 +1,18 @@
+
+#line 1
+mediump vec4 xlat_main(  ) {
+    #line 2
+    const highp vec2[8] poisson = vec2[8]( vec2( 0.0, 0.0), vec2( 0.527837, -0.085868), vec2( -0.040088, 0.536087), vec2( -0.670445, -0.179949), vec2( -0.419418, -0.616039), vec2( 0.440453, -0.639399), vec2( -0.757088, 0.349334), vec2( 0.574619, 0.685879));
+    #line 12
+    mediump vec4 c = vec4( 0.0);
+    highp int i = 0;
+    for ( ; (i < 8); (++i)) {
+        c.xy += poisson[i];
+    }
+    return c;
+}
+void main() {
+    mediump vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_FragData[0] = vec4(xl_retval);
+}

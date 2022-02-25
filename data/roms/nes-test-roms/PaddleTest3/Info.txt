@@ -1,0 +1,3 @@
+Use NESASM3 to assemble code.
+
+Program made by Aaron Bottegal (3GenGames) and finished on 3/17/2011, at 2:25AM. No warranty implied on this program. Use at your own risk. Don't steal my code!  If you want to use my program, contact me please. Some of this is still a template from the Nerdy Nights tutorials that I've never really had to change yet, thanks bunnyboy. (www.retrousb.com)

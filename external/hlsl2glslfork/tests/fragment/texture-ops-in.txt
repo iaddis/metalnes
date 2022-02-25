@@ -1,0 +1,11 @@
+#line 1 "texture-ops-in.txt" 
+sampler2D tex;
+samplerCUBE cub;
+
+half4 main (float4 uv : TEXCOORD0) : COLOR0 {
+	half4 c = 0;
+	c += texCUBElod (cub, float4(uv.xyz,0));
+	c += tex2Dgrad (tex, uv.xy, ddx(uv.xy), ddy(uv.xy));
+	c += texCUBEgrad (cub, uv.xyz, ddx(uv.xyz), ddy(uv.xyz));
+	return c;
+}

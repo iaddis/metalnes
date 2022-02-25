@@ -1,0 +1,4 @@
+#line 1 "pos-unused-in.txt" 
+half4 main (float4 pos : POSITION, float4 color : COLOR) : COLOR0 {
+	return color;
+}

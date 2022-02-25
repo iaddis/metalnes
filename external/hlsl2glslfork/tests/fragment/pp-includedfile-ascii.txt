@@ -1,0 +1,11 @@
+#ifndef INCLUDED_FILE_ASCII_INCLUDED
+#define INCLUDED_FILE_ASCII_INCLUDED
+
+#include "pp-includedfile-нонасции.txt"
+
+float MyFunc()
+{
+	return 7 + MyFunc2();
+}
+
+#endif

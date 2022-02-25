@@ -1,0 +1,671 @@
+#extension GL_EXT_shader_texture_lod : require
+#extension GL_OES_standard_derivatives : require
+float xll_dFdx_f(float f) {
+  return dFdx(f);
+}
+vec2 xll_dFdx_vf2(vec2 v) {
+  return dFdx(v);
+}
+vec3 xll_dFdx_vf3(vec3 v) {
+  return dFdx(v);
+}
+vec4 xll_dFdx_vf4(vec4 v) {
+  return dFdx(v);
+}
+mat2 xll_dFdx_mf2x2(mat2 m) {
+  return mat2( dFdx(m[0]), dFdx(m[1]));
+}
+mat3 xll_dFdx_mf3x3(mat3 m) {
+  return mat3( dFdx(m[0]), dFdx(m[1]), dFdx(m[2]));
+}
+mat4 xll_dFdx_mf4x4(mat4 m) {
+  return mat4( dFdx(m[0]), dFdx(m[1]), dFdx(m[2]), dFdx(m[3]));
+}
+float xll_dFdy_f(float f) {
+  return dFdy(f);
+}
+vec2 xll_dFdy_vf2(vec2 v) {
+  return dFdy(v);
+}
+vec3 xll_dFdy_vf3(vec3 v) {
+  return dFdy(v);
+}
+vec4 xll_dFdy_vf4(vec4 v) {
+  return dFdy(v);
+}
+mat2 xll_dFdy_mf2x2(mat2 m) {
+  return mat2( dFdy(m[0]), dFdy(m[1]));
+}
+mat3 xll_dFdy_mf3x3(mat3 m) {
+  return mat3( dFdy(m[0]), dFdy(m[1]), dFdy(m[2]));
+}
+mat4 xll_dFdy_mf4x4(mat4 m) {
+  return mat4( dFdy(m[0]), dFdy(m[1]), dFdy(m[2]), dFdy(m[3]));
+}
+vec4 xll_tex2Dlod(sampler2D s, vec4 coord) {
+   return texture2DLodEXT( s, coord.xy, coord.w);
+}
+vec4 xll_texCUBElod(samplerCube s, vec4 coord) {
+  return textureCubeLodEXT( s, coord.xyz, coord.w);
+}
+mat2 xll_transpose_mf2x2(mat2 m) {
+  return mat2( m[0][0], m[1][0], m[0][1], m[1][1]);
+}
+mat3 xll_transpose_mf3x3(mat3 m) {
+  return mat3( m[0][0], m[1][0], m[2][0],
+               m[0][1], m[1][1], m[2][1],
+               m[0][2], m[1][2], m[2][2]);
+}
+mat4 xll_transpose_mf4x4(mat4 m) {
+  return mat4( m[0][0], m[1][0], m[2][0], m[3][0],
+               m[0][1], m[1][1], m[2][1], m[3][1],
+               m[0][2], m[1][2], m[2][2], m[3][2],
+               m[0][3], m[1][3], m[2][3], m[3][3]);
+}
+float xll_saturate_f( float x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec2 xll_saturate_vf2( vec2 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec3 xll_saturate_vf3( vec3 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec4 xll_saturate_vf4( vec4 x) {
+  return clamp( x, 0.0, 1.0);
+}
+mat2 xll_saturate_mf2x2(mat2 m) {
+  return mat2( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0));
+}
+mat3 xll_saturate_mf3x3(mat3 m) {
+  return mat3( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0));
+}
+mat4 xll_saturate_mf4x4(mat4 m) {
+  return mat4( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0), clamp(m[3], 0.0, 1.0));
+}
+vec2 xll_matrixindex_mf2x2_i (mat2 m, int i) { vec2 v; v.x=m[0][i]; v.y=m[1][i]; return v; }
+vec3 xll_matrixindex_mf3x3_i (mat3 m, int i) { vec3 v; v.x=m[0][i]; v.y=m[1][i]; v.z=m[2][i]; return v; }
+vec4 xll_matrixindex_mf4x4_i (mat4 m, int i) { vec4 v; v.x=m[0][i]; v.y=m[1][i]; v.z=m[2][i]; v.w=m[3][i]; return v; }
+#line 104
+struct MySurfaceOutput {
+    highp vec3 Albedo;
+    highp vec3 Normal;
+    highp vec3 Emission;
+    highp vec3 Specular;
+    highp float Reflectivity;
+    highp float Roughness;
+    highp float Alpha;
+};
+#line 253
+struct ContinuousSamplerLOD {
+    highp float mip0;
+    highp float mip1;
+    highp float mipFrac;
+};
+#line 268
+struct PlanarMapping {
+    highp vec4 plane;
+    highp vec3 tangent;
+    highp vec3 bitangent;
+    highp vec2 uvOffset;
+};
+#line 91
+struct Input {
+    highp vec2 uv_MainTex;
+    highp vec2 uv_BumpMap;
+    highp vec3 viewDir;
+    highp vec3 worldPos;
+    highp vec3 worldNormal;
+    highp vec3 worldRefl;
+    mediump vec3 TtoW0;
+    mediump vec3 TtoW1;
+    mediump vec3 TtoW2;
+};
+#line 407
+struct v2f_surf {
+    highp vec4 pos;
+    highp vec4 pack0;
+    highp vec3 worldPos;
+    highp vec3 viewDir;
+    lowp vec4 TtoW0;
+    lowp vec4 TtoW1;
+    lowp vec4 TtoW2;
+    highp vec4 lmap;
+    lowp vec3 lightDir;
+};
+#line 17
+struct appdata_full {
+    highp vec4 vertex;
+    highp vec4 tangent;
+    highp vec3 normal;
+    highp vec4 texcoord;
+    highp vec4 texcoord1;
+    lowp vec4 color;
+};
+uniform highp vec3 _WorldSpaceCameraPos;
+uniform lowp vec4 _WorldSpaceLightPos0;
+#line 3
+uniform highp vec4 unity_SHAr;
+uniform highp vec4 unity_SHAg;
+uniform highp vec4 unity_SHAb;
+uniform highp vec4 unity_SHBr;
+#line 7
+uniform highp vec4 unity_SHBg;
+uniform highp vec4 unity_SHBb;
+uniform highp vec4 unity_SHC;
+uniform highp mat4 glstate_matrix_mvp;
+#line 11
+uniform highp mat4 glstate_matrix_modelview0;
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform highp vec4 unity_Scale;
+#line 15
+uniform highp mat4 glstate_matrix_projection;
+uniform highp vec4 glstate_lightmodel_ambient;
+#line 27
+#line 32
+#line 37
+#line 41
+#line 46
+#line 85
+uniform lowp vec4 _LightColor0;
+uniform lowp vec4 _SpecColor;
+#line 115
+uniform highp float _Rolloff;
+#line 120
+#line 124
+uniform highp float _Falloff;
+#line 210
+uniform highp float _Roughness;
+uniform highp float _Roughness2;
+#line 218
+uniform highp float _Reflectivity;
+uniform highp float _Refl0;
+uniform highp float _Refl90;
+uniform highp float _Metalic;
+uniform highp float _SpecOnlyIntensity;
+#line 222
+uniform highp float _ReflOnlyIntensity;
+#line 242
+#line 260
+#line 264
+#line 276
+uniform highp mat4 _WorldToMirrorProjMatrix;
+uniform sampler2D _MirrorTex;
+#line 302
+uniform highp vec4 _PlanarReflection0;
+uniform highp vec4 _PlanarReflectionTangent0;
+uniform highp vec4 _PlanarReflectionBiTangent0;
+#line 342
+uniform sampler2D _PlanarReflectionTex0;
+uniform highp vec4 _PlanarReflection1;
+uniform highp vec4 _PlanarReflectionTangent1;
+uniform highp vec4 _PlanarReflectionBiTangent1;
+uniform sampler2D _PlanarReflectionTex1;
+#line 346
+uniform highp vec4 _PlanarReflection2;
+uniform highp vec4 _PlanarReflectionTangent2;
+uniform highp vec4 _PlanarReflectionBiTangent2;
+uniform sampler2D _PlanarReflectionTex2;
+uniform samplerCube _Cube;
+#line 350
+uniform sampler2D _MainTex;
+uniform sampler2D _BumpMap;
+uniform sampler2D _BumpMap2;
+#line 382
+uniform sampler2D _MainReflectivityTex;
+uniform sampler2D _MainRoughnessTex;
+uniform highp vec4 _BumpMap2_ST;
+uniform lowp vec4 _Color;
+uniform lowp vec4 _ReflColor;
+#line 386
+uniform highp float _BumpMapFactor;
+uniform highp float _BumpMapFactor2;
+uniform highp vec4 _MainReflectivityTex_AddMul;
+uniform highp vec4 _MainRoughnessTex_AddMul;
+#line 420
+uniform highp vec4 unity_LightmapST;
+uniform highp vec4 unity_ShadowFadeCenterAndType;
+uniform highp vec4 _MainTex_ST;
+uniform highp vec4 _BumpMap_ST;
+#line 424
+#line 452
+uniform sampler2D unity_Lightmap;
+uniform sampler2D unity_LightmapInd;
+uniform sampler2D unity_LightmapThird;
+uniform highp vec4 unity_LightmapFade;
+#line 456
+#line 64
+lowp vec3 DecodeLightmap( in lowp vec4 color ) {
+    #line 66
+    return ((8.0 * color.w) * color.xyz);
+}
+#line 120
+highp float BlinnTermWithRolloff( in highp vec3 normal, in highp vec3 halfDir ) {
+    return (max( 0.0, (dot( normal, halfDir) + (_Rolloff * 2.0))) / (1.0 + (_Rolloff * 2.0)));
+}
+#line 130
+highp float CTGeometricTerm( in highp float NdotL, in highp float NdotH, in highp float NdotV, in highp float VdotH ) {
+    #line 132
+    return min( 1.0, min( (((2.0 * NdotH) * NdotV) / VdotH), (((2.0 * NdotH) * NdotL) / VdotH)));
+}
+#line 134
+highp float CTRoughnessTerm( in highp float roughness, in highp float NdotH ) {
+    #line 136
+    highp float mSq = (roughness * roughness);
+    highp float a = (1.0 / ((4.0 * mSq) * pow( NdotH, 4.0)));
+    highp float b = ((NdotH * NdotH) - 1.0);
+    highp float c = ((mSq * NdotH) * NdotH);
+    #line 140
+    return (a * exp((b / c)));
+}
+#line 125
+highp float FresnelTerm( in highp float refl0, in highp float refl90, in highp float cosA ) {
+    highp float t = pow( abs((1.0 - cosA)), _Falloff);
+    #line 128
+    return ((refl0 * (1.0 - t)) + (refl90 * t));
+}
+#line 116
+highp float LambertTermWithRolloff( in highp vec3 normal, in highp vec3 lightDir ) {
+    return (max( 0.0, (dot( normal, lightDir) + _Rolloff)) / (1.0 + (_Rolloff * 2.0)));
+}
+#line 142
+highp float CookTorranceTerm( in highp float roughness, in highp float refl0, in highp float refl90, in highp vec3 normal, in highp vec3 lightDir, in highp vec3 viewDir ) {
+    #line 144
+    highp vec3 halfDir = normalize((lightDir + viewDir));
+    highp float nl = LambertTermWithRolloff( normal, lightDir);
+    highp float nh = BlinnTermWithRolloff( normal, halfDir);
+    highp float nv = max( 0.0, dot( normal, viewDir));
+    #line 148
+    highp float vh = max( 0.0, dot( viewDir, halfDir));
+    highp float F = FresnelTerm( refl0, refl90, vh);
+    highp float G = CTGeometricTerm( nl, nh, nv, vh);
+    highp float R = CTRoughnessTerm( roughness, nh);
+    #line 152
+    R = max( 0.0, R);
+    return max( 0.0, (((F * G) * R) / (nv * nl)));
+}
+#line 155
+highp float OrenNayarTerm( in highp float roughness, in highp vec3 normal, in highp vec3 lightDir, in highp vec3 viewDir ) {
+    #line 157
+    const highp float PI = 3.14159;
+    const highp float INVERSE_PI = 0.3183101;
+    const highp float INVERSE_PI_SQ = 0.1013213;
+    highp float rSq = (roughness * roughness);
+    #line 161
+    highp float NdotL = LambertTermWithRolloff( normal, lightDir);
+    highp float NdotV = dot( normal, viewDir);
+    highp float a = max( acos(NdotV), acos(NdotL));
+    highp float b = min( acos(NdotV), acos(NdotL));
+    #line 165
+    highp float y = dot( (viewDir - (normal * NdotV)), (lightDir - (normal * NdotL)));
+    highp float K1 = (rSq / (rSq + 0.33));
+    highp float K2 = (rSq / (rSq + 0.09));
+    highp float c1 = (1.0 - (0.5 * K1));
+    #line 169
+    highp float c2 = (0.45 * K2);
+    c2 *= (sin(a) - (( (y >= 0.0) ) ? ( 0.0 ) : ( pow( ((2.0 * b) * 0.3183101), 3.0) )));
+    highp float c3 = ((0.125 * K2) * pow( (((4.0 * a) * b) * 0.1013213), 2.0));
+    highp float x = ((y * c2) * tan(b));
+    #line 173
+    highp float e = (((1.0 - abs(y)) * c3) * tan(((a + b) / 2.0)));
+    return ((c1 + x) + e);
+}
+#line 223
+lowp vec4 LightingOrenNayar_CookTorrance( in MySurfaceOutput s, in highp vec3 lightDir, in highp vec3 viewDir, in highp float atten ) {
+    highp vec3 normal = normalize(s.Normal);
+    #line 226
+    lightDir = normalize(lightDir);
+    viewDir = normalize(viewDir);
+    highp float nl = LambertTermWithRolloff( normal, lightDir);
+    highp float diffRoughness = _Roughness2;
+    #line 230
+    highp float specRoughness = max( 0.02, (_Roughness * s.Roughness));
+    highp float refl0 = (_Refl0 * _Reflectivity);
+    highp float refl90 = (_Refl90 * _Reflectivity);
+    highp float spec = (CookTorranceTerm( specRoughness, refl0, refl90, normal, lightDir, viewDir) * _SpecOnlyIntensity);
+    #line 234
+    highp vec3 specColor = ((_LightColor0.xyz * 2.0) * mix( s.Specular, (s.Specular * s.Albedo), vec3( _Metalic)));
+    highp vec3 diffColor = (_LightColor0.xyz * 2.0);
+    highp float diffScatter = OrenNayarTerm( diffRoughness, normal, lightDir, viewDir);
+    lowp vec4 c;
+    #line 238
+    c.xyz = ((mix( ((s.Albedo * diffColor) * diffScatter), (specColor * spec), vec3( s.Reflectivity)) * nl) * atten);
+    c.w = (s.Alpha + ((((length(specColor) * spec) * s.Reflectivity) * nl) * atten));
+    return c;
+}
+#line 242
+lowp vec4 LightingOrenNayar_CookTorrance_DualLightmap( in MySurfaceOutput s, in lowp vec4 indirect, in lowp vec4 total, in mediump float blendFactor, in highp vec3 lightDir, in highp vec3 viewDir, in highp float atten ) {
+    highp vec3 lmInd = (DecodeLightmap( indirect) - (glstate_lightmodel_ambient.xyz * 2.0));
+    highp vec3 lmTotal = (DecodeLightmap( total) - (glstate_lightmodel_ambient.xyz * 2.0));
+    #line 246
+    highp vec3 lmTotalBumped = mix( lmInd, lmTotal, vec3( pow( s.Normal.z, 2.0)));
+    highp vec4 rtLight = LightingOrenNayar_CookTorrance( s, lightDir, viewDir, atten);
+    lowp vec4 c;
+    c.xyz = (((mix( lmInd, lmTotalBumped, vec3( blendFactor)) * s.Albedo) * (1.0 - s.Reflectivity)) + (rtLight.xyz * (1.0 - blendFactor)));
+    #line 250
+    c.w = (rtLight.w * (1.0 - blendFactor));
+    return c;
+}
+#line 210
+highp vec3 CombineNormals( in highp vec3 n1, in highp vec3 n2 ) {
+    highp vec3 n = normalize(n1);
+    highp mat3 nBasis = xll_transpose_mf3x3(mat3( vec3( n.z, n.x, (-n.y)), vec3( n.x, n.z, (-n.y)), vec3( n.x, n.y, n.z)));
+    #line 214
+    return normalize((((n2.x * xll_matrixindex_mf3x3_i (nBasis, 0)) + (n2.y * xll_matrixindex_mf3x3_i (nBasis, 1))) + (n2.z * xll_matrixindex_mf3x3_i (nBasis, 2))));
+}
+#line 192
+highp float EvalMipLevel( in highp vec3 uvw, in highp float texResolution ) {
+    #line 194
+    highp vec3 dxSize = xll_dFdx_vf3(uvw);
+    highp vec3 dySize = xll_dFdy_vf3(uvw);
+    highp float fMipLevel;
+    highp float fMinTexCoordDelta;
+    #line 198
+    highp vec3 dTexCoords;
+    dTexCoords = ((dxSize * dxSize) + (dySize * dySize));
+    fMinTexCoordDelta = (max( dTexCoords.z, max( dTexCoords.x, dTexCoords.y)) * texResolution);
+    fMipLevel = max( (0.5 * log2(fMinTexCoordDelta)), 0.0);
+    #line 202
+    return fMipLevel;
+}
+#line 264
+highp vec4 texCUBEclod( in samplerCube s, in highp vec3 dir, in ContinuousSamplerLOD level ) {
+    return mix( xll_texCUBElod( s, vec4( dir, level.mip0)), xll_texCUBElod( s, vec4( dir, level.mip1)), vec4( level.mipFrac));
+}
+#line 283
+highp vec4 SampleCubeReflection( in samplerCube s, in highp vec3 rayDir, in ContinuousSamplerLOD level ) {
+    #line 285
+    return texCUBEclod( s, rayDir, level);
+}
+#line 260
+highp vec4 tex2Dclod( in sampler2D s, in highp vec2 uv, in ContinuousSamplerLOD level ) {
+    return mix( xll_tex2Dlod( s, vec4( uv, 0.0, level.mip0)), xll_tex2Dlod( s, vec4( uv, 0.0, level.mip1)), vec4( level.mipFrac));
+}
+#line 278
+highp vec4 SampleMirrorReflection( in highp vec3 worldPos, in ContinuousSamplerLOD level ) {
+    #line 280
+    highp vec4 ppos = (_WorldToMirrorProjMatrix * vec4( worldPos, 1.0));
+    return tex2Dclod( _MirrorTex, (ppos.xy / ppos.w), level);
+}
+#line 287
+highp vec4 SamplePlanarReflection( in sampler2D s, in PlanarMapping p, in highp vec3 rayStart, in highp vec3 rayDir, in ContinuousSamplerLOD level ) {
+    #line 289
+    highp float Vd = (-dot( p.plane.xyz, rayDir));
+    if ((Vd < 0.0001)){
+        return vec4( 0.0, 0.0, 0.0, 0.0);
+    }
+    highp float Vo = (dot( p.plane.xyz, rayStart) + p.plane.w);
+    highp float t = (Vo / Vd);
+    #line 293
+    if ((t < 0.0)){
+        return vec4( 0.0, 0.0, 0.0, 0.0);
+    }
+    highp vec3 Pi = (rayStart + (rayDir * t));
+    highp vec3 Po = (p.plane.xyz * p.plane.w);
+    highp vec3 d = (Pi - Po);
+    #line 297
+    highp float u = (((dot( d, p.tangent) * 0.5) + 0.5) - (p.uvOffset.x * 0.5));
+    highp float v = (((dot( d, (-p.bitangent)) * 0.5) + 0.5) + (p.uvOffset.y * 0.5));
+    if (((((u < 0.0) || (u > 1.0)) || (v < 0.0)) || (v > 1.0))){
+        return vec4( 0.0, 0.0, 0.0, 0.0);
+    }
+    return tex2Dclod( s, vec2( u, v), level);
+}
+#line 302
+highp vec4 GlossyReflectionTerm( in Input IN, in samplerCube crefl, in PlanarMapping pm0, in sampler2D prefl0, in PlanarMapping pm1, in sampler2D prefl1, in PlanarMapping pm2, in sampler2D prefl2, in highp vec3 normal, in highp float Q, in highp float lod ) {
+    highp float W = (Q / pow( 2.0, 0.5));
+    highp vec3 worldP = IN.worldPos;
+    #line 306
+    highp vec4 o1 = vec4( 0.0);
+    highp vec4 o2 = vec4( 0.0);
+    highp vec3 worldRefl;
+    worldRefl = reflect( IN.worldRefl, vec3( dot( IN.TtoW0, normal), dot( IN.TtoW1, normal), dot( IN.TtoW2, normal)));
+    #line 310
+    ContinuousSamplerLOD clod;
+    clod.mip0 = floor(lod);
+    clod.mip1 = (clod.mip0 + 1.0);
+    clod.mipFrac = fract(lod);
+    #line 314
+    o1 = SampleMirrorReflection( worldP, clod);
+    o1 = mix( SamplePlanarReflection( prefl0, pm0, worldP, worldRefl, clod), o1, vec4( o1.w));
+    o1 = mix( SamplePlanarReflection( prefl1, pm1, worldP, worldRefl, clod), o1, vec4( o1.w));
+    o1 = mix( SamplePlanarReflection( prefl2, pm2, worldP, worldRefl, clod), o1, vec4( o1.w));
+    #line 318
+    clod.mip0 = floor((lod * 2.0));
+    clod.mip1 = (clod.mip0 + 1.0);
+    clod.mipFrac = fract((lod * 2.0));
+    worldRefl = reflect( IN.worldRefl, vec3( dot( IN.TtoW0, (normal + vec3( Q, 0.0, 0.0))), dot( IN.TtoW1, (normal + vec3( Q, 0.0, 0.0))), dot( IN.TtoW2, (normal + vec3( Q, 0.0, 0.0)))));
+    #line 322
+    o2 += SampleCubeReflection( crefl, worldRefl, clod);
+    worldRefl = reflect( IN.worldRefl, vec3( dot( IN.TtoW0, (normal + vec3( (-Q), 0.0, 0.0))), dot( IN.TtoW1, (normal + vec3( (-Q), 0.0, 0.0))), dot( IN.TtoW2, (normal + vec3( (-Q), 0.0, 0.0)))));
+    o2 += SampleCubeReflection( crefl, worldRefl, clod);
+    worldRefl = reflect( IN.worldRefl, vec3( dot( IN.TtoW0, (normal + vec3( 0.0, (-Q), 0.0))), dot( IN.TtoW1, (normal + vec3( 0.0, (-Q), 0.0))), dot( IN.TtoW2, (normal + vec3( 0.0, (-Q), 0.0)))));
+    #line 326
+    o2 += SampleCubeReflection( crefl, worldRefl, clod);
+    worldRefl = reflect( IN.worldRefl, vec3( dot( IN.TtoW0, (normal + vec3( 0.0, Q, 0.0))), dot( IN.TtoW1, (normal + vec3( 0.0, Q, 0.0))), dot( IN.TtoW2, (normal + vec3( 0.0, Q, 0.0)))));
+    o2 += SampleCubeReflection( crefl, worldRefl, clod);
+    worldRefl = reflect( IN.worldRefl, vec3( dot( IN.TtoW0, (normal + vec3( W, W, 0.0))), dot( IN.TtoW1, (normal + vec3( W, W, 0.0))), dot( IN.TtoW2, (normal + vec3( W, W, 0.0)))));
+    #line 330
+    o2 += SampleCubeReflection( crefl, worldRefl, clod);
+    worldRefl = reflect( IN.worldRefl, vec3( dot( IN.TtoW0, (normal + vec3( (-W), W, 0.0))), dot( IN.TtoW1, (normal + vec3( (-W), W, 0.0))), dot( IN.TtoW2, (normal + vec3( (-W), W, 0.0)))));
+    o2 += SampleCubeReflection( crefl, worldRefl, clod);
+    worldRefl = reflect( IN.worldRefl, vec3( dot( IN.TtoW0, (normal + vec3( W, (-W), 0.0))), dot( IN.TtoW1, (normal + vec3( W, (-W), 0.0))), dot( IN.TtoW2, (normal + vec3( W, (-W), 0.0)))));
+    #line 334
+    o2 += SampleCubeReflection( crefl, worldRefl, clod);
+    worldRefl = reflect( IN.worldRefl, vec3( dot( IN.TtoW0, (normal + vec3( (-W), (-W), 0.0))), dot( IN.TtoW1, (normal + vec3( (-W), (-W), 0.0))), dot( IN.TtoW2, (normal + vec3( (-W), (-W), 0.0)))));
+    o2 += SampleCubeReflection( crefl, worldRefl, clod);
+    o2 /= 8.0;
+    #line 338
+    return mix( o2, o1, vec4( o1.w));
+}
+#line 46
+mediump vec3 ShadeSH9( in mediump vec4 normal ) {
+    mediump vec3 x1;
+    mediump vec3 x2;
+    mediump vec3 x3;
+    x1.x = dot( unity_SHAr, normal);
+    #line 50
+    x1.y = dot( unity_SHAg, normal);
+    x1.z = dot( unity_SHAb, normal);
+    mediump vec4 vB = (normal.xyzz * normal.yzzx);
+    x2.x = dot( unity_SHBr, vB);
+    #line 54
+    x2.y = dot( unity_SHBg, vB);
+    x2.z = dot( unity_SHBb, vB);
+    highp float vC = ((normal.x * normal.x) - (normal.y * normal.y));
+    x3 = (unity_SHC.xyz * vC);
+    #line 58
+    return ((x1 + x2) + x3);
+}
+#line 350
+highp vec3 GlobalIllumination( in Input IN, in MySurfaceOutput s, out highp vec3 spec ) {
+    highp vec3 normal = normalize(s.Normal);
+    highp vec3 worldRefl = normalize(reflect( IN.worldRefl, vec3( dot( IN.TtoW0, normal), dot( IN.TtoW1, normal), dot( IN.TtoW2, normal))));
+    #line 354
+    lowp vec3 worldN = vec3( dot( IN.TtoW0, normal), dot( IN.TtoW1, normal), dot( IN.TtoW2, normal));
+    highp float roughness = (_Roughness * s.Roughness);
+    highp float Q = (0.0825 * (1.0 - pow( (1.0 - max( 0.0, (roughness - 0.033))), 2.0)));
+    highp float LOD = ((1.25 * (1.0 - pow( (1.0 - max( 0.0, roughness)), 2.0))) * 4.0);
+    #line 358
+    PlanarMapping pm0;
+    pm0.plane = _PlanarReflection0;
+    pm0.tangent = _PlanarReflectionTangent0.xyz;
+    pm0.bitangent = _PlanarReflectionBiTangent0.xyz;
+    #line 362
+    pm0.uvOffset = vec2( _PlanarReflectionTangent0.w, _PlanarReflectionBiTangent0.w);
+    PlanarMapping pm1;
+    pm1.plane = _PlanarReflection1;
+    pm1.tangent = _PlanarReflectionTangent1.xyz;
+    #line 366
+    pm1.bitangent = _PlanarReflectionBiTangent1.xyz;
+    pm1.uvOffset = vec2( _PlanarReflectionTangent1.w, _PlanarReflectionBiTangent1.w);
+    PlanarMapping pm2;
+    pm2.plane = _PlanarReflection2;
+    #line 370
+    pm2.tangent = _PlanarReflectionTangent2.xyz;
+    pm2.bitangent = _PlanarReflectionBiTangent2.xyz;
+    pm2.uvOffset = vec2( _PlanarReflectionTangent2.w, _PlanarReflectionBiTangent2.w);
+    LOD = max( EvalMipLevel( worldRefl, 256.0), LOD);
+    #line 374
+    highp vec3 refl = (GlossyReflectionTerm( IN, _Cube, pm0, _PlanarReflectionTex0, pm1, _PlanarReflectionTex1, pm2, _PlanarReflectionTex2, normal, Q, LOD).xyz * _ReflOnlyIntensity);
+    refl *= mix( s.Specular, (s.Specular * s.Albedo), vec3( _Metalic));
+    spec = (refl * xll_saturate_f(s.Reflectivity));
+    highp vec3 ambient = (ShadeSH9( vec4( worldN, 1.0)) * s.Albedo);
+    #line 378
+    return mix( ambient, refl, vec3( xll_saturate_f(s.Reflectivity)));
+}
+#line 204
+highp float RemapToRange( in highp float v, in highp vec4 range ) {
+    #line 206
+    v *= range.y;
+    v += range.x;
+    return v;
+}
+#line 68
+lowp vec3 UnpackNormal( in lowp vec4 packednormal ) {
+    #line 70
+    lowp vec3 normal;
+    normal.xy = ((packednormal.wy * 2.0) - 1.0);
+    normal.z = sqrt(((1.0 - (normal.x * normal.x)) - (normal.y * normal.y)));
+    return normal;
+}
+#line 389
+void surf( in Input IN, inout MySurfaceOutput o ) {
+    #line 391
+    mediump vec4 c = texture2D( _MainTex, IN.uv_MainTex);
+    o.Albedo = (c.xyz * _Color.xyz);
+    o.Alpha = c.w;
+    o.Specular = _ReflColor.xyz;
+    #line 395
+    highp vec2 uv_BumpMap2 = ((IN.uv_MainTex.xy * _BumpMap2_ST.xy) + _BumpMap2_ST.zw);
+    highp vec3 up = vec3( 0.0, 0.0, 1.0);
+    highp vec3 n1 = mix( up, max( vec3( -1.0, -1.0, 0.01), UnpackNormal( texture2D( _BumpMap, IN.uv_BumpMap))), vec3( _BumpMapFactor));
+    highp vec3 n2 = mix( up, max( vec3( -1.0, -1.0, 0.01), UnpackNormal( texture2D( _BumpMap2, uv_BumpMap2))), vec3( _BumpMapFactor2));
+    #line 399
+    o.Normal = CombineNormals( n1, n2);
+    highp float NdotV = max( 0.0, dot( o.Normal, normalize(IN.viewDir)));
+    highp float F = FresnelTerm( (_Refl0 * _Reflectivity), (_Refl90 * _Reflectivity), NdotV);
+    o.Reflectivity = (RemapToRange( texture2D( _MainReflectivityTex, IN.uv_MainTex).x, _MainReflectivityTex_AddMul) * F);
+    #line 403
+    o.Roughness = RemapToRange( texture2D( _MainRoughnessTex, IN.uv_MainTex).x, _MainRoughnessTex_AddMul);
+    highp vec3 globalSpec;
+    o.Emission = GlobalIllumination( IN, o, globalSpec);
+}
+#line 456
+lowp vec4 xlat_main( in v2f_surf IN ) {
+    Input surfIN;
+    surfIN.uv_MainTex = IN.pack0.xy;
+    #line 460
+    surfIN.uv_BumpMap = IN.pack0.zw;
+    surfIN.worldRefl = vec3( IN.TtoW0.w, IN.TtoW1.w, IN.TtoW2.w);
+    surfIN.TtoW0 = IN.TtoW0.xyz;
+    surfIN.TtoW1 = IN.TtoW1.xyz;
+    #line 464
+    surfIN.TtoW2 = IN.TtoW2.xyz;
+    surfIN.worldNormal = vec3( 0.0);
+    surfIN.TtoW0 = IN.TtoW0.xyz;
+    surfIN.TtoW1 = IN.TtoW1.xyz;
+    #line 468
+    surfIN.TtoW2 = IN.TtoW2.xyz;
+    surfIN.worldPos = IN.worldPos;
+    surfIN.viewDir = IN.viewDir;
+    MySurfaceOutput o;
+    #line 472
+    o.Albedo = vec3( 0.0);
+    o.Emission = vec3( 0.0);
+    o.Specular = vec3( 0.0);
+    o.Alpha = 0.0;
+    #line 476
+    lowp vec4 lmtex2 = texture2D( unity_LightmapThird, IN.lmap.xy);
+    surf( surfIN, o);
+    lowp float atten = 1.0;
+    lowp vec4 c = vec4( 0.0);
+    #line 480
+    lowp vec4 lmtex0 = texture2D( unity_LightmapInd, IN.lmap.xy);
+    lowp vec4 lmtex1 = texture2D( unity_Lightmap, IN.lmap.xy);
+    lowp float lmFade = xll_saturate_f(((IN.lmap.z * unity_LightmapFade.z) + unity_LightmapFade.w));
+    mediump float lmShadow = lmtex2.x;
+    #line 484
+    mediump vec4 lm = LightingOrenNayar_CookTorrance_DualLightmap( o, lmtex0, lmtex1, lmFade, IN.lightDir, normalize(IN.viewDir), (atten * lmShadow));
+    c += lm;
+    c.xyz += o.Emission;
+    c.w = 1.0;
+    #line 488
+    return c;
+}
+varying highp vec4 xlv_TEXCOORD0;
+varying highp vec3 xlv_TEXCOORD1;
+varying highp vec3 xlv_TEXCOORD2;
+varying lowp vec4 xlv_TEXCOORD3;
+varying lowp vec4 xlv_TEXCOORD4;
+varying lowp vec4 xlv_TEXCOORD5;
+varying highp vec4 xlv_TEXCOORD6;
+varying lowp vec3 xlv_TEXCOORD7;
+void main() {
+    lowp vec4 xl_retval;
+    v2f_surf xlt_IN;
+    xlt_IN.pos = vec4(0.0);
+    xlt_IN.pack0 = vec4(xlv_TEXCOORD0);
+    xlt_IN.worldPos = vec3(xlv_TEXCOORD1);
+    xlt_IN.viewDir = vec3(xlv_TEXCOORD2);
+    xlt_IN.TtoW0 = vec4(xlv_TEXCOORD3);
+    xlt_IN.TtoW1 = vec4(xlv_TEXCOORD4);
+    xlt_IN.TtoW2 = vec4(xlv_TEXCOORD5);
+    xlt_IN.lmap = vec4(xlv_TEXCOORD6);
+    xlt_IN.lightDir = vec3(xlv_TEXCOORD7);
+    xl_retval = xlat_main( xlt_IN);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _BumpMap:<none> type 25 arrsize 0
+// _BumpMap2:<none> type 25 arrsize 0
+// _BumpMap2_ST:<none> type 12 arrsize 0
+// _BumpMapFactor:<none> type 9 arrsize 0
+// _BumpMapFactor2:<none> type 9 arrsize 0
+// _Color:<none> type 12 arrsize 0
+// _Cube:<none> type 28 arrsize 0
+// _Falloff:<none> type 9 arrsize 0
+// _LightColor0:<none> type 12 arrsize 0
+// _MainReflectivityTex:<none> type 25 arrsize 0
+// _MainReflectivityTex_AddMul:<none> type 12 arrsize 0
+// _MainRoughnessTex:<none> type 25 arrsize 0
+// _MainRoughnessTex_AddMul:<none> type 12 arrsize 0
+// _MainTex:<none> type 25 arrsize 0
+// _Metalic:<none> type 9 arrsize 0
+// _MirrorTex:<none> type 25 arrsize 0
+// _PlanarReflection0:<none> type 12 arrsize 0
+// _PlanarReflection1:<none> type 12 arrsize 0
+// _PlanarReflection2:<none> type 12 arrsize 0
+// _PlanarReflectionBiTangent0:<none> type 12 arrsize 0
+// _PlanarReflectionBiTangent1:<none> type 12 arrsize 0
+// _PlanarReflectionBiTangent2:<none> type 12 arrsize 0
+// _PlanarReflectionTangent0:<none> type 12 arrsize 0
+// _PlanarReflectionTangent1:<none> type 12 arrsize 0
+// _PlanarReflectionTangent2:<none> type 12 arrsize 0
+// _PlanarReflectionTex0:<none> type 25 arrsize 0
+// _PlanarReflectionTex1:<none> type 25 arrsize 0
+// _PlanarReflectionTex2:<none> type 25 arrsize 0
+// _Refl0:<none> type 9 arrsize 0
+// _Refl90:<none> type 9 arrsize 0
+// _ReflColor:<none> type 12 arrsize 0
+// _ReflOnlyIntensity:<none> type 9 arrsize 0
+// _Reflectivity:<none> type 9 arrsize 0
+// _Rolloff:<none> type 9 arrsize 0
+// _Roughness:<none> type 9 arrsize 0
+// _Roughness2:<none> type 9 arrsize 0
+// _SpecOnlyIntensity:<none> type 9 arrsize 0
+// _WorldToMirrorProjMatrix:<none> type 21 arrsize 0
+// glstate_lightmodel_ambient:<none> type 12 arrsize 0
+// unity_Lightmap:<none> type 25 arrsize 0
+// unity_LightmapFade:<none> type 12 arrsize 0
+// unity_LightmapInd:<none> type 25 arrsize 0
+// unity_LightmapThird:<none> type 25 arrsize 0
+// unity_SHAb:<none> type 12 arrsize 0
+// unity_SHAg:<none> type 12 arrsize 0
+// unity_SHAr:<none> type 12 arrsize 0
+// unity_SHBb:<none> type 12 arrsize 0
+// unity_SHBg:<none> type 12 arrsize 0
+// unity_SHBr:<none> type 12 arrsize 0
+// unity_SHC:<none> type 12 arrsize 0

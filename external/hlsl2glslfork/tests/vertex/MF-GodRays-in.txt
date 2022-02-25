@@ -1,0 +1,100 @@
+#line 1 "MF-GodRays-in.txt" 
+float4x4 glstate_matrix_mvp;
+uniform float4 _Time;
+uniform float3 _WorldSpaceCameraPos;
+uniform float4x4 _World2Object;
+struct appdata_full
+{
+    float4 vertex : POSITION;
+    float4 tangent : TANGENT;
+    float3 normal : NORMAL;
+    float4 texcoord : TEXCOORD0;
+    float4 texcoord1 : TEXCOORD1;
+    float4 color : COLOR;
+};
+float _FadeOutDistNear;
+float _FadeOutDistFar;
+float _Multiplier;
+float	_Bias;
+float _TimeOnDuration;
+float	_TimeOffDuration;
+float _BlinkingTimeOffsScale;
+float _SizeGrowStartDist;
+float _SizeGrowEndDist;
+float _MaxGrowSize;
+float _NoiseAmount;
+float _VerticalBillboarding;
+float4 _Color;
+
+
+struct v2f {
+	float4	pos	: SV_POSITION;
+	float2	uv : TEXCOORD0;
+	fixed4	color : TEXCOORD1;
+};
+
+void CalcOrthonormalBasis(float3 dir,out float3 right,out float3 up)
+{
+	up 	= abs(dir.y) > 0.999f ? float3(0,0,1) : float3(0,1,0);		
+	right = normalize(cross(up,dir));		
+	up	= cross(dir,right);	
+}
+
+float CalcFadeOutFactor(float dist)
+{
+	float		nfadeout	= saturate(dist / _FadeOutDistNear);
+	float		ffadeout	= 1 - saturate(max(dist - _FadeOutDistFar,0) * 0.2);
+
+	ffadeout *= ffadeout;
+	
+	nfadeout *= nfadeout;
+	nfadeout *= nfadeout;
+	
+	nfadeout *= ffadeout;
+
+	return nfadeout;
+}
+
+float CalcDistScale(float dist)
+{
+	float		distScale	= min(max(dist - _SizeGrowStartDist,0) / _SizeGrowEndDist,1);
+	return distScale * distScale * _MaxGrowSize;
+}
+
+
+v2f main (appdata_full v)
+{
+	v2f 		o;
+	float3	centerOffs		= float3(float(0.5).xx - v.color.rg,0) * v.texcoord1.xyy;
+	float3	centerLocal	= v.vertex.xyz + centerOffs.xyz;
+	float3	viewerLocal	= mul(_World2Object,float4(_WorldSpaceCameraPos,1));			
+	float3	localDir			= viewerLocal - centerLocal;
+			
+	localDir[1] = lerp(0,localDir[1],_VerticalBillboarding);
+	
+	float		localDirLength=length(localDir);
+	float3	rightLocal;
+	float3	upLocal;
+	
+	CalcOrthonormalBasis(localDir / localDirLength,rightLocal,upLocal);
+
+	float		distScale		= CalcDistScale(localDirLength) * v.color.a;		
+	float3	BBNormal		= rightLocal * v.normal.x + upLocal * v.normal.y;
+	float3	BBLocalPos	= centerLocal - (rightLocal * centerOffs.x + upLocal * centerOffs.y) + BBNormal * distScale;
+	
+	float		time 			= _Time.y + _BlinkingTimeOffsScale * v.color.b;				
+	float		fracTime	= fmod(time,_TimeOnDuration + _TimeOffDuration);
+	float		wave			= smoothstep(0,_TimeOnDuration * 0.25,fracTime)  * (1 - smoothstep(_TimeOnDuration * 0.75,_TimeOnDuration,fracTime));
+	float		noiseTime	= time *  (6.2831853f / _TimeOnDuration);
+	float		noise			= sin(noiseTime) * (0.5f * cos(noiseTime * 0.6366f + 56.7272f) + 0.5f);
+	float		noiseWave	= _NoiseAmount * noise + (1 - _NoiseAmount);
+
+	wave = _NoiseAmount < 0.01f ? wave : noiseWave;
+	wave += _Bias;
+	
+	o.uv		= v.texcoord.xy;
+	o.pos	= mul(glstate_matrix_mvp, float4(BBLocalPos,1));
+	o.color	= CalcFadeOutFactor(localDirLength) * _Color * _Multiplier * wave;
+					
+	return o;
+}

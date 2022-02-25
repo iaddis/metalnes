@@ -1,0 +1,14 @@
+
+#line 1
+void xlat_main( in vec4 vertex, out vec4 overtex ) {
+    #line 3
+    if ((vertex.x == 0.0)){
+    }
+    #line 7
+    overtex.xyzw = vec4( 0.0);
+}
+void main() {
+    vec4 xlt_overtex;
+    xlat_main( vec4(gl_Vertex), xlt_overtex);
+    gl_Position = vec4(xlt_overtex);
+}

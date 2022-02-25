@@ -1,0 +1,8 @@
+void main (float4 vertex : POSITION, out float4 overtex : POSITION)
+{
+    if (vertex.x == 0.)
+    {
+        // empty!
+    }
+    overtex.xyzw = float4(0.);
+}

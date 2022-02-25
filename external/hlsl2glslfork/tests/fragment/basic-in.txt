@@ -1,0 +1,4 @@
+#line 1 "basic-in.txt" 
+half4 main() : COLOR0 {
+	return 1.0;
+}

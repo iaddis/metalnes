@@ -1,0 +1,1 @@
+non-matching-type-init-in.txt(5): ERROR: 'const' :  non-matching types for const initializer 

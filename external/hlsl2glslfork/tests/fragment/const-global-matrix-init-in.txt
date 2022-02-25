@@ -1,0 +1,21 @@
+
+const static float3x3 unity_DirBasis = float3x3(
+  float3( 0.81649658,  0.0,        0.57735028),
+  float3(-0.40824830,  0.70710679, 0.57735027),
+  float3(-0.40824829, -0.70710678, 0.57735026)
+);
+
+inline half4 DirLM (fixed3 scale, fixed3 normal)
+{
+	half3 normalInDirBasis = saturate (mul (unity_DirBasis, normal));
+	float f = dot (normalInDirBasis, scale);
+	return f;
+}
+
+sampler2D mytex;
+
+fixed4 main (half2 uv : TEXCOORD0, fixed3 normal : TEXCOORD1) : COLOR
+{
+	fixed3 scale = tex2D(mytex, uv).rgb;
+	return DirLM (scale, normal);
+}

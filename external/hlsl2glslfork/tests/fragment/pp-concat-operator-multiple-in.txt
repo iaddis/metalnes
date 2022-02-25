@@ -1,0 +1,5 @@
+/* This should produce "RIGHT" instead of "RI ## G ## HT" */
+#define x(a,b) a##G##b
+float x(RI, HT);
+
+float4 main() : COLOR { return RIGHT; }

@@ -1,0 +1,178 @@
+float xll_mod_f_f( float x, float y ) {
+  float d = x / y;
+  float f = fract (abs(d)) * y;
+  return d >= 0.0 ? f : -f;
+}
+vec2 xll_mod_vf2_vf2( vec2 x, vec2 y ) {
+  vec2 d = x / y;
+  vec2 f = fract (abs(d)) * y;
+  return vec2 (d.x >= 0.0 ? f.x : -f.x, d.y >= 0.0 ? f.y : -f.y);
+}
+vec3 xll_mod_vf3_vf3( vec3 x, vec3 y ) {
+  vec3 d = x / y;
+  vec3 f = fract (abs(d)) * y;
+  return vec3 (d.x >= 0.0 ? f.x : -f.x, d.y >= 0.0 ? f.y : -f.y, d.z >= 0.0 ? f.z : -f.z);
+}
+vec4 xll_mod_vf4_vf4( vec4 x, vec4 y ) {
+  vec4 d = x / y;
+  vec4 f = fract (abs(d)) * y;
+  return vec4 (d.x >= 0.0 ? f.x : -f.x, d.y >= 0.0 ? f.y : -f.y, d.z >= 0.0 ? f.z : -f.z, d.w >= 0.0 ? f.w : -f.w);
+}
+float xll_saturate_f( float x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec2 xll_saturate_vf2( vec2 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec3 xll_saturate_vf3( vec3 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec4 xll_saturate_vf4( vec4 x) {
+  return clamp( x, 0.0, 1.0);
+}
+mat2 xll_saturate_mf2x2(mat2 m) {
+  return mat2( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0));
+}
+mat3 xll_saturate_mf3x3(mat3 m) {
+  return mat3( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0));
+}
+mat4 xll_saturate_mf4x4(mat4 m) {
+  return mat4( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0), clamp(m[3], 0.0, 1.0));
+}
+#line 29
+struct v2f {
+    vec4 pos;
+    vec2 uv;
+    vec4 color;
+};
+#line 5
+struct appdata_full {
+    vec4 vertex;
+    vec4 tangent;
+    vec3 normal;
+    vec4 texcoord;
+    vec4 texcoord1;
+    vec4 color;
+};
+#line 1
+uniform mat4 glstate_matrix_mvp;
+uniform vec4 _Time;
+uniform vec3 _WorldSpaceCameraPos;
+uniform mat4 _World2Object;
+#line 14
+uniform float _FadeOutDistNear;
+uniform float _FadeOutDistFar;
+uniform float _Multiplier;
+uniform float _Bias;
+#line 18
+uniform float _TimeOnDuration;
+uniform float _TimeOffDuration;
+uniform float _BlinkingTimeOffsScale;
+uniform float _SizeGrowStartDist;
+#line 22
+uniform float _SizeGrowEndDist;
+uniform float _MaxGrowSize;
+uniform float _NoiseAmount;
+uniform float _VerticalBillboarding;
+#line 26
+uniform vec4 _Color;
+#line 35
+#line 64
+#line 57
+float CalcDistScale( in float dist ) {
+    #line 59
+    float distScale = min( (max( (dist - _SizeGrowStartDist), 0.0) / _SizeGrowEndDist), 1.0);
+    return ((distScale * distScale) * _MaxGrowSize);
+}
+#line 42
+float CalcFadeOutFactor( in float dist ) {
+    #line 44
+    float nfadeout = xll_saturate_f((dist / _FadeOutDistNear));
+    float ffadeout = (1.0 - xll_saturate_f((max( (dist - _FadeOutDistFar), 0.0) * 0.2)));
+    ffadeout *= ffadeout;
+    #line 49
+    nfadeout *= nfadeout;
+    nfadeout *= nfadeout;
+    nfadeout *= ffadeout;
+    #line 54
+    return nfadeout;
+}
+#line 35
+void CalcOrthonormalBasis( in vec3 dir, out vec3 right, out vec3 up ) {
+    up = (( (abs(dir.y) > 0.999) ) ? ( vec3( 0.0, 0.0, 1.0) ) : ( vec3( 0.0, 1.0, 0.0) ));
+    right = normalize(cross( up, dir));
+    #line 39
+    up = cross( dir, right);
+}
+#line 64
+v2f xlat_main( in appdata_full v ) {
+    v2f o;
+    vec3 centerOffs = (vec3( (vec2( 0.5) - v.color.xy), 0.0) * v.texcoord1.xyy);
+    #line 68
+    vec3 centerLocal = (v.vertex.xyz + centerOffs.xyz);
+    vec3 viewerLocal = vec3( (_World2Object * vec4( _WorldSpaceCameraPos, 1.0)));
+    vec3 localDir = (viewerLocal - centerLocal);
+    #line 72
+    localDir.y = mix( 0.0, localDir.y, _VerticalBillboarding);
+    float localDirLength = length(localDir);
+    vec3 rightLocal;
+    #line 76
+    vec3 upLocal;
+    CalcOrthonormalBasis( (localDir / localDirLength), rightLocal, upLocal);
+    #line 80
+    float distScale = (CalcDistScale( localDirLength) * v.color.w);
+    vec3 BBNormal = ((rightLocal * v.normal.x) + (upLocal * v.normal.y));
+    vec3 BBLocalPos = ((centerLocal - ((rightLocal * centerOffs.x) + (upLocal * centerOffs.y))) + (BBNormal * distScale));
+    #line 84
+    float time = (_Time.y + (_BlinkingTimeOffsScale * v.color.z));
+    float fracTime = xll_mod_f_f( time, (_TimeOnDuration + _TimeOffDuration));
+    float wave = (smoothstep( 0.0, (_TimeOnDuration * 0.25), fracTime) * (1.0 - smoothstep( (_TimeOnDuration * 0.75), _TimeOnDuration, fracTime)));
+    float noiseTime = (time * (6.283185 / _TimeOnDuration));
+    #line 88
+    float noise = (sin(noiseTime) * ((0.5 * cos(((noiseTime * 0.6366) + 56.7272))) + 0.5));
+    float noiseWave = ((_NoiseAmount * noise) + (1.0 - _NoiseAmount));
+    wave = (( (_NoiseAmount < 0.01) ) ? ( wave ) : ( noiseWave ));
+    #line 92
+    wave += _Bias;
+    o.uv = v.texcoord.xy;
+    o.pos = (glstate_matrix_mvp * vec4( BBLocalPos, 1.0));
+    #line 96
+    o.color = (((CalcFadeOutFactor( localDirLength) * _Color) * _Multiplier) * wave);
+    return o;
+}
+attribute vec4 TANGENT;
+varying vec2 xlv_TEXCOORD0;
+varying vec4 xlv_TEXCOORD1;
+void main() {
+    v2f xl_retval;
+    appdata_full xlt_v;
+    xlt_v.vertex = vec4(gl_Vertex);
+    xlt_v.tangent = vec4(TANGENT);
+    xlt_v.normal = vec3(gl_Normal);
+    xlt_v.texcoord = vec4(gl_MultiTexCoord0);
+    xlt_v.texcoord1 = vec4(gl_MultiTexCoord1);
+    xlt_v.color = vec4(gl_Color);
+    xl_retval = xlat_main( xlt_v);
+    gl_Position = vec4(xl_retval.pos);
+    xlv_TEXCOORD0 = vec2(xl_retval.uv);
+    xlv_TEXCOORD1 = vec4(xl_retval.color);
+}
+
+// uniforms:
+// _Bias:<none> type 9 arrsize 0
+// _BlinkingTimeOffsScale:<none> type 9 arrsize 0
+// _Color:<none> type 12 arrsize 0
+// _FadeOutDistFar:<none> type 9 arrsize 0
+// _FadeOutDistNear:<none> type 9 arrsize 0
+// _MaxGrowSize:<none> type 9 arrsize 0
+// _Multiplier:<none> type 9 arrsize 0
+// _NoiseAmount:<none> type 9 arrsize 0
+// _SizeGrowEndDist:<none> type 9 arrsize 0
+// _SizeGrowStartDist:<none> type 9 arrsize 0
+// _Time:<none> type 12 arrsize 0
+// _TimeOffDuration:<none> type 9 arrsize 0
+// _TimeOnDuration:<none> type 9 arrsize 0
+// _VerticalBillboarding:<none> type 9 arrsize 0
+// _World2Object:<none> type 21 arrsize 0
+// _WorldSpaceCameraPos:<none> type 11 arrsize 0
+// glstate_matrix_mvp:<none> type 21 arrsize 0

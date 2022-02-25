@@ -1,0 +1,2 @@
+pp-redefinition-in.txt(3): ERROR: '' : 'x' already defined 
+pp-redefinition-in.txt(3): ERROR: '' : syntax error syntax error

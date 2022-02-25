@@ -1,0 +1,6 @@
+#line 1 "const-float-from-int-in.txt" 
+half4 main() : COLOR0
+{
+    const half f = 1;
+    return half4(f, f, f, f);
+}

@@ -1,0 +1,29 @@
+struct v2f {
+	float4 pos : POSITION;
+	fixed4 color : COLOR0;
+};
+
+struct appdata {
+	float4 vertex : POSITION;
+	float3 normal : NORMAL;	
+};
+
+float4x4 UNITY_MATRIX_IT_MV;
+
+v2f main (appdata v)
+{
+	v2f o;
+	o.pos = v.vertex;
+	
+	float3 lightDir;
+	float4 lightColor = 0.1;
+	for( int i = 0; i < 4; i++ )
+	{
+		// glstate is not declared!
+		lightDir = mul( glstate.light[i].position.xyz, (float3x3)UNITY_MATRIX_IT_MV );
+		float diff = saturate(dot(v.normal, lightDir));
+		lightColor.xyz += glstate.light[i].diffuse.xyz * diff;
+	}
+	o.color = lightColor;
+	return o;
+}

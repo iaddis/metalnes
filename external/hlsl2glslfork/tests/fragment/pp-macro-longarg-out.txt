@@ -1,0 +1,22 @@
+
+#line 3
+struct v2f {
+    float avariable;
+};
+#line 5
+#line 5
+vec4 xlat_main( in v2f i ) {
+    float res;
+    res = i.avariable;
+    res += i.avariable;
+    #line 9
+    return vec4( res);
+}
+varying float xlv_;
+void main() {
+    vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.avariable = float(xlv_);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}

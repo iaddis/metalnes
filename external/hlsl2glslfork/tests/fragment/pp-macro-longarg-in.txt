@@ -1,0 +1,10 @@
+#define SELECT(a) a
+#define CONCAT(a,b) a##b
+struct v2f { float avariable; };
+
+float4 main(v2f i) : COLOR {
+	float res;
+	res = SELECT(i.avariable);
+	res += CONCAT(i.a, variable);
+	return res;
+}

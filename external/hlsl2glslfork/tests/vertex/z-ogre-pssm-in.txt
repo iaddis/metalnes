@@ -1,0 +1,44 @@
+#line 1 "complex-ogre-pssm-in.txt" 
+void main(
+	float4 position				: POSITION,
+	float3 normal				: NORMAL,
+	float2 uv					: TEXCOORD0,
+
+	out float4 oPosition		: POSITION,
+	out float3 oUv				: TEXCOORD0,
+	out float3 oLightDir		: TEXCOORD1,
+	out float3 oHalfAngle		: TEXCOORD2,
+	out float4 oLightPosition0	: TEXCOORD3,
+	out float4 oLightPosition1	: TEXCOORD4,
+	out float4 oLightPosition2	: TEXCOORD5,
+	out float3 oNormal			: TEXCOORD6,
+
+	uniform float4 lightPosition,				// object space
+	uniform float3 eyePosition,					// object space
+	uniform float4x4 worldViewProjMatrix,
+	uniform float4x4 texWorldViewProjMatrix0,
+	uniform float4x4 texWorldViewProjMatrix1,
+	uniform float4x4 texWorldViewProjMatrix2)
+{
+	// calculate output position
+	oPosition = mul(worldViewProjMatrix, position);
+
+	// pass the main uvs straight through unchanged
+	oUv.xy = uv;
+	oUv.z = oPosition.z;
+
+	// calculate tangent space light vector
+	// Get object space light direction
+	oLightDir = normalize(lightPosition.xyz - (position * lightPosition.w).xyz);
+
+	// Calculate half-angle in tangent space
+	float3 eyeDir = normalize(eyePosition - position.xyz);
+	oHalfAngle = normalize(eyeDir + oLightDir);	
+
+	// Calculate the position of vertex in light space
+	oLightPosition0 = mul(texWorldViewProjMatrix0, position);
+	oLightPosition1 = mul(texWorldViewProjMatrix1, position);
+	oLightPosition2 = mul(texWorldViewProjMatrix2, position);
+
+	oNormal = normal;
+}

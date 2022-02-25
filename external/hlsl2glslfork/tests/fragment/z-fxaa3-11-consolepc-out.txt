@@ -1,0 +1,96 @@
+#extension GL_ARB_shader_texture_lod : require
+vec4 xll_tex2Dlod(sampler2D s, vec4 coord) {
+   return texture2DLod( s, coord.xy, coord.w);
+}
+#line 968
+struct v2f {
+    vec4 pos;
+    vec2 uv;
+    vec4 uvPosPos;
+};
+#line 344
+#line 904
+#line 974
+uniform vec4 _MainTex_TexelSize;
+uniform sampler2D _MainTex;
+#line 978
+#line 344
+float FxaaLuma( in vec4 rgba ) {
+    return rgba.y;
+}
+#line 904
+vec4 FxaaPixelShader( in vec2 pos, in vec4 fxaaConsolePosPos, in sampler2D tex, in sampler2D fxaaConsole360TexExpBiasNegOne, in sampler2D fxaaConsole360TexExpBiasNegTwo, in vec2 fxaaQualityRcpFrame, in vec4 fxaaConsoleRcpFrameOpt, in vec4 fxaaConsoleRcpFrameOpt2, in vec4 fxaaConsole360RcpFrameOpt2, in float fxaaQualitySubpix, in float fxaaQualityEdgeThreshold, in float fxaaQualityEdgeThresholdMin, in float fxaaConsoleEdgeSharpness, in float fxaaConsoleEdgeThreshold, in float fxaaConsoleEdgeThresholdMin, in vec4 fxaaConsole360ConstDir ) {
+    float lumaNw = FxaaLuma( xll_tex2Dlod( tex, vec4( fxaaConsolePosPos.xy, 0.0, 0.0)));
+    float lumaSw = FxaaLuma( xll_tex2Dlod( tex, vec4( fxaaConsolePosPos.xw, 0.0, 0.0)));
+    #line 908
+    float lumaNe = FxaaLuma( xll_tex2Dlod( tex, vec4( fxaaConsolePosPos.zy, 0.0, 0.0)));
+    float lumaSe = FxaaLuma( xll_tex2Dlod( tex, vec4( fxaaConsolePosPos.zw, 0.0, 0.0)));
+    vec4 rgbyM = xll_tex2Dlod( tex, vec4( pos.xy, 0.0, 0.0));
+    #line 915
+    float lumaM = rgbyM.y;
+    float lumaMaxNwSw = max( lumaNw, lumaSw);
+    #line 919
+    lumaNe += 0.002604167;
+    float lumaMinNwSw = min( lumaNw, lumaSw);
+    float lumaMaxNeSe = max( lumaNe, lumaSe);
+    #line 923
+    float lumaMinNeSe = min( lumaNe, lumaSe);
+    float lumaMax = max( lumaMaxNeSe, lumaMaxNwSw);
+    float lumaMin = min( lumaMinNeSe, lumaMinNwSw);
+    #line 928
+    float lumaMaxScaled = (lumaMax * fxaaConsoleEdgeThreshold);
+    float lumaMinM = min( lumaMin, lumaM);
+    float lumaMaxScaledClamped = max( fxaaConsoleEdgeThresholdMin, lumaMaxScaled);
+    #line 932
+    float lumaMaxM = max( lumaMax, lumaM);
+    float dirSwMinusNe = (lumaSw - lumaNe);
+    float lumaMaxSubMinM = (lumaMaxM - lumaMinM);
+    float dirSeMinusNw = (lumaSe - lumaNw);
+    #line 936
+    if ((lumaMaxSubMinM < lumaMaxScaledClamped)){
+        return rgbyM;
+    }
+    vec2 dir;
+    dir.x = (dirSwMinusNe + dirSeMinusNw);
+    #line 940
+    dir.y = (dirSwMinusNe - dirSeMinusNw);
+    vec2 dir1 = normalize(dir.xy);
+    vec4 rgbyN1 = xll_tex2Dlod( tex, vec4( (pos.xy - (dir1 * fxaaConsoleRcpFrameOpt.zw)), 0.0, 0.0));
+    #line 944
+    vec4 rgbyP1 = xll_tex2Dlod( tex, vec4( (pos.xy + (dir1 * fxaaConsoleRcpFrameOpt.zw)), 0.0, 0.0));
+    float dirAbsMinTimesC = (min( abs(dir1.x), abs(dir1.y)) * fxaaConsoleEdgeSharpness);
+    vec2 dir2 = clamp( (dir1.xy / dirAbsMinTimesC), vec2( -2.0), vec2( 2.0));
+    #line 949
+    vec4 rgbyN2 = xll_tex2Dlod( tex, vec4( (pos.xy - (dir2 * fxaaConsoleRcpFrameOpt2.zw)), 0.0, 0.0));
+    vec4 rgbyP2 = xll_tex2Dlod( tex, vec4( (pos.xy + (dir2 * fxaaConsoleRcpFrameOpt2.zw)), 0.0, 0.0));
+    vec4 rgbyA = (rgbyN1 + rgbyP1);
+    #line 953
+    vec4 rgbyB = (((rgbyN2 + rgbyP2) * 0.25) + (rgbyA * 0.25));
+    #line 958
+    bool twoTap = ((rgbyB.y < lumaMin) || (rgbyB.y > lumaMax));
+    if (twoTap){
+        rgbyB.xyz = (rgbyA.xyz * 0.5);
+    }
+    return rgbyB;
+}
+#line 978
+vec4 xlat_main( in v2f i ) {
+    float fxaaN = 0.5;
+    #line 982
+    return FxaaPixelShader( i.uv, i.uvPosPos, _MainTex, _MainTex, _MainTex, _MainTex_TexelSize.xy, (_MainTex_TexelSize.xyxy * vec4( (-fxaaN), (-fxaaN), fxaaN, fxaaN)), (_MainTex_TexelSize.xyxy * vec4( -2.0, -2.0, 2.0, 2.0)), (_MainTex_TexelSize.xyxy * vec4( 8.0, 8.0, -4.0, -4.0)), 0.75, 0.166, 0.0833, 8.0, 0.125, 0.05, vec4( 1.0, -1.0, 0.25, -0.25));
+}
+varying vec2 xlv_TEXCOORD0;
+varying vec4 xlv_TEXCOORD1;
+void main() {
+    vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.uv = vec2(xlv_TEXCOORD0);
+    xlt_i.uvPosPos = vec4(xlv_TEXCOORD1);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _MainTex:<none> type 25 arrsize 0
+// _MainTex_TexelSize:<none> type 12 arrsize 0

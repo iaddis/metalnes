@@ -1,0 +1,25 @@
+#line 1 "systemvals-in.txt" 
+
+float4x4 matrices[64];
+float4x4 matrix_vp;
+
+half4 colors[64];
+
+struct v2f {
+	float4 pos : SV_Position;
+	float4 color : COLOR;
+};
+
+struct appdata {
+	float4 pos : POSITION;
+	uint vertexID : SV_VertexID;	
+};
+
+v2f main (appdata v, uint instanceID : SV_InstanceID)
+{
+	v2f o;
+	float4 wpos = mul(matrices[instanceID], v.pos);
+	o.pos = mul(matrix_vp, wpos);
+	o.color = colors[v.vertexID % 64];
+	return o;
+}

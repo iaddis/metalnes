@@ -1,0 +1,61 @@
+
+#line 22
+void xlat_main( in highp vec4 position, in highp vec4 normal, in highp vec2 uv, out highp vec4 oPosition, out highp vec4 oShadowUV, out highp vec3 oUv, out highp vec4 oColour, highp mat4 world, highp mat4 worldViewProj, highp mat4 texViewProj, highp vec4 camObjPos, highp vec4 objSpaceLight, highp vec4 lightColour, highp vec4 offset ) {
+    #line 24
+    highp vec4 mypos = position;
+    highp vec4 factor = (vec4( 1.0, 1.0, 1.0, 1.0) - uv.yyyy);
+    mypos = (mypos + (offset * factor));
+    oPosition = (worldViewProj * mypos);
+    #line 28
+    oUv.xy = uv.xy;
+    highp vec4 worldPos = (world * mypos);
+    #line 32
+    oShadowUV = (texViewProj * worldPos);
+    highp vec4 EyeVec = (camObjPos - mypos);
+    #line 38
+    highp float alignedEye = dot( normal, EyeVec);
+    if ((alignedEye < 0.0)){
+        normal = (-normal);
+    }
+    #line 45
+    highp vec3 lightVec = normalize((objSpaceLight.xyz - (mypos.xyz * objSpaceLight.w)));
+    highp float alignedLight = dot( normal.xyz, lightVec);
+    #line 50
+    oUv.z = float((( (alignedLight < 0.0) ) ? ( 0 ) : ( 1 )));
+    highp float diffuseFactor = max( alignedLight, 0.0);
+    #line 54
+    oColour = lightColour;
+}
+uniform highp mat4 xlu_world;
+uniform highp mat4 xlu_worldViewProj;
+uniform highp mat4 xlu_texViewProj;
+uniform highp vec4 xlu_camObjPos;
+uniform highp vec4 xlu_objSpaceLight;
+uniform highp vec4 xlu_lightColour;
+uniform highp vec4 xlu_offset;
+attribute highp vec4 xlat_attrib_POSITION;
+attribute highp vec4 xlat_attrib_NORMAL;
+attribute highp vec2 xlat_attrib_TEXCOORD0;
+varying highp vec4 xlv_TEXCOORD0;
+varying highp vec3 xlv_TEXCOORD1;
+varying highp vec4 xlv_COLOR;
+void main() {
+    highp vec4 xlt_oPosition;
+    highp vec4 xlt_oShadowUV;
+    highp vec3 xlt_oUv;
+    highp vec4 xlt_oColour;
+    xlat_main( vec4(xlat_attrib_POSITION), vec4(xlat_attrib_NORMAL), vec2(xlat_attrib_TEXCOORD0), xlt_oPosition, xlt_oShadowUV, xlt_oUv, xlt_oColour, xlu_world, xlu_worldViewProj, xlu_texViewProj, xlu_camObjPos, xlu_objSpaceLight, xlu_lightColour, xlu_offset);
+    gl_Position = vec4(xlt_oPosition);
+    xlv_TEXCOORD0 = vec4(xlt_oShadowUV);
+    xlv_TEXCOORD1 = vec3(xlt_oUv);
+    xlv_COLOR = vec4(xlt_oColour);
+}
+
+// uniforms:
+// camObjPos:<none> type 12 arrsize 0
+// lightColour:<none> type 12 arrsize 0
+// objSpaceLight:<none> type 12 arrsize 0
+// offset:<none> type 12 arrsize 0
+// texViewProj:<none> type 21 arrsize 0
+// world:<none> type 21 arrsize 0
+// worldViewProj:<none> type 21 arrsize 0

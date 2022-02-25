@@ -1,0 +1,92 @@
+#line 1 "complex-prepasslight-in.txt" 
+uniform float4 _ProjectionParams ;
+uniform float3 _WorldSpaceCameraPos ;
+uniform float4 _LightPositionRange ;
+inline half Luminance ( half3 c )
+{
+    return dot ( c , half3 ( 0.22 , 0.707 , 0.071 ) ) ;
+}
+inline float DecodeFloatRGBA ( float4 enc )
+{
+    float4 kDecodeDot = float4 ( 1.0 , 1 / 255.0 , 1 / 65025.0 , 1 / 160581375.0 ) ;
+    return dot ( enc , kDecodeDot ) ;
+}
+uniform float4 _ZBufferParams ;
+inline float Linear01Depth ( float z )
+{
+    return 1.0 / ( _ZBufferParams . x * z + _ZBufferParams . y ) ;
+}
+float4 unity_LightShadowBias ;
+struct v2f
+{
+    float4 pos : POSITION ;
+    float4 uv : TEXCOORD0 ;
+    float3 ray : TEXCOORD1 ;
+}
+;
+sampler2D _CameraNormalsTexture ;
+sampler2D _CameraDepthTexture ;
+float4 _LightDir ;
+float4 _LightPos ;
+float4 _LightColor ;
+float4 _LightShadowData ;
+float4 unity_LightmapFade ;
+float4x4 _CameraToWorld ;
+float4x4 _LightMatrix0 ;
+sampler2D _LightTextureB0 ;
+samplerCUBE _LightTexture0 ;
+samplerCUBE _ShadowMapTexture ;
+float4x4 unity_World2Shadow ;
+inline float SampleCubeDistance ( float3 vec )
+{
+    float4 packDist = texCUBE ( _ShadowMapTexture , vec ) ;
+    return DecodeFloatRGBA ( packDist ) ;
+}
+inline half unitySampleShadow ( float3 vec , float mydist )
+{
+    float z = 1.0 / 128.0 ;
+    float4 shadowVals ;
+    shadowVals . x = SampleCubeDistance ( vec + float3 ( z , z , z ) ) ;
+    shadowVals . y = SampleCubeDistance ( vec + float3 ( - z , - z , z ) ) ;
+    shadowVals . z = SampleCubeDistance ( vec + float3 ( - z , z , - z ) ) ;
+    shadowVals . w = SampleCubeDistance ( vec + float3 ( z , - z , - z ) ) ;
+    half4 shadows = ( shadowVals < mydist . xxxx ) ? _LightShadowData . rrrr : 1.0f ;
+    return dot ( shadows , 0.25 ) ;
+}
+half ComputeShadow ( float3 vec , float z , float2 uv )
+{
+    float fade = z * _LightShadowData . z + _LightShadowData . w ;
+    fade = saturate ( fade ) ;
+    float mydist = length ( vec ) * _LightPositionRange . w ;
+    mydist *= 0.97 ;
+    return unitySampleShadow ( vec , mydist ) ;
+    return 1.0 ;
+}
+half4 main ( v2f i ) : COLOR
+{
+    i . ray = i . ray * ( _ProjectionParams . z / i . ray . z ) ;
+    float2 uv = i . uv . xy / i . uv . w ;
+    half4 nspec = tex2D ( _CameraNormalsTexture , uv ) ;
+    half3 normal = nspec . rgb * 2 - 1 ;
+    normal = normalize ( normal ) ;
+    float depth = tex2D ( _CameraDepthTexture , uv ) . r ;
+    depth = Linear01Depth ( depth ) ;
+    float4 vpos = float4 ( i . ray * depth , 1 ) ;
+    float3 wpos = mul ( _CameraToWorld , vpos ) . xyz ;
+    float3 tolight = wpos - _LightPos . xyz ;
+    half3 lightDir = - normalize ( tolight ) ;
+    float att = dot ( tolight , tolight ) * _LightPos . w ;
+    float atten = tex2D ( _LightTextureB0 , att . rr ) . a ;
+    atten *= ComputeShadow ( tolight , vpos . z , uv ) ;
+    atten *= texCUBE ( _LightTexture0 , mul ( _LightMatrix0 , half4 ( wpos , 1 ) ) . xyz ) . w ;
+    half diff = max ( 0 , dot ( lightDir , normal ) ) ;
+    half3 h = normalize ( lightDir - normalize ( wpos - _WorldSpaceCameraPos ) ) ;
+    float spec = pow ( max ( 0 , dot ( h , normal ) ) , nspec . a * 128.0 ) ;
+    spec *= saturate ( atten ) ;
+    half4 res ;
+    res . xyz = _LightColor . rgb * ( diff * atten ) ;
+    res . w = spec * Luminance ( _LightColor . rgb ) ;
+    float fade = vpos . z * unity_LightmapFade . z + unity_LightmapFade . w ;
+    res *= saturate ( 1.0 - fade ) ;
+    return exp2 ( - res ) ;
+}

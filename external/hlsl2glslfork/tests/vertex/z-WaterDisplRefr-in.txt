@@ -1,0 +1,158 @@
+uniform float4 _Time ;
+uniform float4 _SinTime ;
+uniform float4 _CosTime ;
+uniform float3 _WorldSpaceCameraPos ;
+uniform float4 _ProjectionParams ;
+uniform float4 _ScreenParams ;
+uniform float4 _ZBufferParams ;
+float4x4 glstate_matrix_mvp ;
+float4x4 glstate_matrix_modelview0 ;
+float4x4 glstate_matrix_invtrans_modelview0 ;
+uniform float4x4 _Object2World ;
+uniform float4x4 _World2Object ;
+uniform float4 unity_Scale ;
+float4x4 glstate_matrix_transpose_modelview0 ;
+float4x4 glstate_matrix_projection ;
+struct appdata_full
+{
+    float4 vertex : POSITION ;
+    float4 tangent : TANGENT ;
+    float3 normal : NORMAL ;
+    float4 texcoord : TEXCOORD0 ;
+}
+;
+inline fixed3 UnpackNormal ( fixed4 packednormal )
+{
+    fixed3 normal ;
+    normal . xy = packednormal . wy * 2 - 1 ;
+    normal . z = sqrt ( 1 - normal . x * normal . x - normal . y * normal . y ) ;
+    return normal ;
+}
+inline float LinearEyeDepth ( float z )
+{
+    return 1.0 / ( _ZBufferParams . z * z + _ZBufferParams . w ) ;
+}
+inline float4 ComputeScreenPos ( float4 pos )
+{
+    float4 o = pos * 0.5f ;
+    o . xy = float2 ( o . x , o . y * _ProjectionParams . x ) + o . w ;
+    o . zw = pos . zw ;
+    return o ;
+}
+inline float2 TransformViewToProjection ( float2 v )
+{
+    return float2 ( v . x * glstate_matrix_projection [ 0 ] [ 0 ] , v . y * glstate_matrix_projection [ 1 ] [ 1 ] ) ;
+}
+inline float3 TransformViewToProjection ( float3 v )
+{
+    return float3 ( v . x * glstate_matrix_projection [ 0 ] [ 0 ] , v . y * glstate_matrix_projection [ 1 ] [ 1 ] , v . z * glstate_matrix_projection [ 2 ] [ 2 ] ) ;
+}
+half _GerstnerIntensity ;
+
+inline half3 GetNormal ( half4 tf )
+{
+    return half3 ( 2 , 1 , 2 ) * tf . rbg - half3 ( 1 , 0 , 1 ) ;
+}
+
+inline void ComputeScreenAndGrabPassPos ( float4 pos , out float4 screenPos , out float4 grabPassPos )
+{
+    float scale = 1.0f ;
+    screenPos = ComputeScreenPos ( pos ) ;
+    grabPassPos . xy = ( float2 ( pos . x , pos . y * scale ) + pos . w ) * 0.5 ;
+    grabPassPos . zw = pos . zw ;
+}
+
+inline half2 GetTileableUv ( half4 vertex )
+{
+    half2 ws = half2 ( _Object2World [ 0 ] [ 3 ] , _Object2World [ 2 ] [ 3 ] ) ;
+    half2 tileableUv = ( ws + vertex . xz / unity_Scale . w ) ;
+    return tileableUv ;
+}
+half3 GerstnerOffsets ( half2 xzVtx , half steepness , half amp , half freq , half speed , half2 dir )
+{
+    half3 offsets ;
+    offsets . x = steepness * amp * dir . x * cos ( freq * dot ( dir , xzVtx ) + speed * _Time . x ) ;
+    offsets . z = steepness * amp * dir . y * cos ( freq * dot ( dir , xzVtx ) + speed * _Time . x ) ;
+    offsets . y = amp * sin ( freq * dot ( dir , xzVtx ) + speed * _Time . x ) ;
+    return offsets ;
+}
+half3 GerstnerOffset4 ( half2 xzVtx , half4 steepness , half4 amp , half4 freq , half4 speed , half4 dirAB , half4 dirCD )
+{
+    half3 offsets ;
+    half4 AB = steepness . xxyy * amp . xxyy * dirAB . xyzw ;
+    half4 CD = steepness . zzww * amp . zzww * dirCD . xyzw ;
+    half4 dotABCD = freq . xyzw * half4 ( dot ( dirAB . xy , xzVtx ) , dot ( dirAB . zw , xzVtx ) , dot ( dirCD . xy , xzVtx ) , dot ( dirCD . zw , xzVtx ) ) ;
+    half4 TIME = _Time . yyyy * speed ;
+    half4 COS = cos ( dotABCD + TIME ) ;
+    half4 SIN = sin ( dotABCD + TIME ) ;
+    offsets . x = dot ( COS , half4 ( AB . xz , CD . xz ) ) ;
+    offsets . z = dot ( COS , half4 ( AB . yw , CD . yw ) ) ;
+    offsets . y = dot ( SIN , amp ) ;
+    return offsets ;
+}
+half3 GerstnerNormal ( half2 xzVtx , half steepness , half amp , half freq , half speed , half2 dir )
+{
+    half3 nrml = half3 ( 0 , 0 , 0 ) ;
+    nrml . x -= dir . x * ( amp * freq ) * cos ( freq * dot ( dir , xzVtx ) + speed * _Time . x ) ;
+    nrml . z -= dir . y * ( amp * freq ) * cos ( freq * dot ( dir , xzVtx ) + speed * _Time . x ) ;
+    return nrml ;
+}
+half3 GerstnerNormal4 ( half2 xzVtx , half4 amp , half4 freq , half4 speed , half4 dirAB , half4 dirCD )
+{
+    half3 nrml = half3 ( 0 , 2.0 , 0 ) ;
+    half4 AB = freq . xxyy * amp . xxyy * dirAB . xyzw ;
+    half4 CD = freq . zzww * amp . zzww * dirCD . xyzw ;
+    half4 dotABCD = freq . xyzw * half4 ( dot ( dirAB . xy , xzVtx ) , dot ( dirAB . zw , xzVtx ) , dot ( dirCD . xy , xzVtx ) , dot ( dirCD . zw , xzVtx ) ) ;
+    half4 TIME = _Time . yyyy * speed ;
+    half4 COS = cos ( dotABCD + TIME ) ;
+    nrml . x -= dot ( COS , half4 ( AB . xz , CD . xz ) ) ;
+    nrml . z -= dot ( COS , half4 ( AB . yw , CD . yw ) ) ;
+    nrml . xz *= _GerstnerIntensity ;
+    nrml = normalize ( nrml ) ;
+    return nrml ;
+}
+void Gerstner ( out half3 offs , out half3 nrml , half3 vtx , half3 tileableVtx , half4 amplitude , half4 frequency , half4 steepness , half4 speed , half4 directionAB , half4 directionCD )
+{
+    offs = GerstnerOffset4 ( tileableVtx . xz , steepness , amplitude , frequency , speed , directionAB , directionCD ) ;
+    nrml = GerstnerNormal4 ( tileableVtx . xz + offs . xz , amplitude , frequency , speed , directionAB , directionCD ) ;
+}
+struct v2f
+{
+    float4 pos : POSITION ;
+    float4 normalInterpolator : TEXCOORD0 ;
+    float4 viewInterpolator : TEXCOORD1 ;
+    float4 bumpCoords : TEXCOORD2 ;
+    float4 screenPos : TEXCOORD3 ;
+    float4 grabPassPos : TEXCOORD4 ;
+}
+;
+
+uniform float4 _DistortParams ;
+uniform float4 _BumpTiling ;
+uniform float4 _BumpDirection ;
+uniform float4 _GAmplitude ;
+uniform float4 _GFrequency ;
+uniform float4 _GSteepness ;
+uniform float4 _GSpeed ;
+uniform float4 _GDirectionAB ;
+uniform float4 _GDirectionCD ;
+
+v2f main (appdata_full v)
+{
+    v2f o ;
+    half3 worldSpaceVertex = mul ( _Object2World , ( v . vertex ) ) . xyz ;
+    half3 vtxForAni = ( worldSpaceVertex ) . xzz * unity_Scale . w ;
+    half3 nrml ;
+    half3 offsets ;
+    Gerstner ( offsets , nrml , v . vertex . xyz , vtxForAni , _GAmplitude , _GFrequency , _GSteepness , _GSpeed , _GDirectionAB , _GDirectionCD ) ;
+    v . vertex . xyz += offsets ;
+    half2 tileableUv = mul ( _Object2World , ( v . vertex ) ) . xz ;
+    o . bumpCoords . xyzw = ( tileableUv . xyxy + _Time . xxxx * _BumpDirection . xyzw ) * _BumpTiling . xyzw ;
+    o . viewInterpolator . xyz = worldSpaceVertex - _WorldSpaceCameraPos ;
+    o . pos = mul ( glstate_matrix_mvp , v . vertex ) ;
+    ComputeScreenAndGrabPassPos ( o . pos , o . screenPos , o . grabPassPos ) ;
+    o . normalInterpolator . xyz = nrml ;
+    o . viewInterpolator . w = saturate ( offsets . y ) ;
+    o . normalInterpolator . w = 1 ;
+    return o ;
+}

@@ -1,0 +1,11 @@
+// A file with a very non-ascii name here
+
+#ifndef INCLUDED_FILE_NONASCII_INCLUDED
+#define INCLUDED_FILE_NONASCII_INCLUDED
+
+float MyFunc2()
+{
+	return 7;
+}
+
+#endif

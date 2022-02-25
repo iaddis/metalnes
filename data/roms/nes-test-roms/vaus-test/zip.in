@@ -1,0 +1,15 @@
+vaus-test.nes
+makefile
+nes.ini
+README.txt
+obj/nes/index.txt
+src/main.s
+src/nes.h
+src/vauspads.s
+src/ppuclear.s
+src/ram.h
+tilesets/bggfx.png
+tilesets/spritegfx.png
+tools/pilbmp2nes.py
+zip.in
+

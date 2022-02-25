@@ -1,0 +1,42 @@
+// part of skin diffusion shader; pixel shader
+// that does weighted blur
+
+#define SV_POSITION POSITION
+
+sampler2D _MainTex;
+sampler2D _SssStretch;
+
+uniform float4 _SssStretch_AddMul;
+
+struct v2f_withBlurCoords {
+	half4 pos : SV_POSITION;
+	half4 uv : TEXCOORD0;
+	half2 offs : TEXCOORD1;
+};	
+
+float4 main (v2f_withBlurCoords i) : COLOR
+{				
+	float2 uv = i.uv.xy; 
+
+	const float curve[7] = {0.006, 0.061, 0.242, 0.383, 0.242, 0.061, 0.006};  
+	float2 stretch = tex2D(_SssStretch, uv).rg * (_SssStretch_AddMul.yy) + _SssStretch_AddMul.xx;	
+	float2 netFilterWidth = stretch * i.offs;  
+	float2 coords = uv - netFilterWidth * 3.0;  
+	float4 sum = 0;  
+	float weightSum = 0;
+	
+	for( int l = 0; l < 7; l++ )  
+	{   
+		float4 tap = tex2D(_MainTex, coords);  
+		float weight = 2*saturate(tap.a-0.5) * curve[l];
+		sum += tap * weight;
+		weightSum += weight;
+		coords += netFilterWidth;  
+	}
+	
+	sum = clamp(sum / (weightSum + 0.0001), 0.0, 10.0);
+	half4 center = tex2D(_MainTex, i.uv.xy);
+	sum.a = center.a;
+
+	return lerp(center , sum , center.a);
+}

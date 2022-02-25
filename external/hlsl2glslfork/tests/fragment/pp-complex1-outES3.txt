@@ -1,0 +1,205 @@
+
+#line 378
+struct v2f_vertex_lit {
+    highp vec2 uv;
+    lowp vec4 diff;
+    lowp vec4 spec;
+};
+#line 432
+struct v2f_img {
+    highp vec4 pos;
+    mediump vec2 uv;
+};
+#line 428
+struct appdata_img {
+    highp vec4 vertex;
+    mediump vec2 texcoord;
+};
+#line 704
+struct SurfaceOutput {
+    lowp vec3 Albedo;
+    lowp vec3 Normal;
+    lowp vec3 Emission;
+    mediump float Specular;
+    lowp float Gloss;
+    lowp float Alpha;
+};
+#line 18
+struct Input {
+    highp vec2 uv_MainTex;
+};
+#line 28
+struct v2f_surf {
+    highp vec4 pos;
+    highp vec2 pack0;
+    lowp vec3 normal;
+    lowp vec3 vlight;
+};
+#line 216
+struct appdata_full {
+    highp vec4 vertex;
+    highp vec4 tangent;
+    highp vec3 normal;
+    highp vec4 texcoord;
+    highp vec4 texcoord1;
+    lowp vec4 color;
+};
+#line 59
+uniform highp mat4 glstate_matrix_mvp;
+uniform highp mat4 glstate_matrix_modelview0;
+uniform highp mat4 glstate_matrix_projection;
+uniform highp mat4 glstate_matrix_transpose_modelview0;
+#line 63
+uniform highp mat4 glstate_matrix_invtrans_modelview0;
+#line 67
+uniform highp mat4 glstate_matrix_texture0;
+uniform highp mat4 glstate_matrix_texture1;
+uniform highp mat4 glstate_matrix_texture2;
+uniform highp mat4 glstate_matrix_texture3;
+#line 71
+uniform highp vec4 glstate_lightmodel_ambient;
+#line 154
+uniform highp vec4 _Time;
+uniform highp vec4 _SinTime;
+uniform highp vec4 _CosTime;
+#line 162
+uniform highp vec4 _ProjectionParams;
+#line 168
+uniform highp vec4 _ScreenParams;
+uniform highp vec4 unity_Scale;
+#line 173
+uniform highp vec3 _WorldSpaceCameraPos;
+uniform lowp vec4 _WorldSpaceLightPos0;
+#line 180
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform highp vec4 _LightPositionRange;
+#line 191
+uniform lowp vec4 unity_ColorSpaceGrey;
+#line 226
+#line 241
+#line 256
+#line 262
+#line 274
+uniform highp vec4 unity_4LightPosX0;
+uniform highp vec4 unity_4LightPosY0;
+uniform highp vec4 unity_4LightPosZ0;
+uniform highp vec4 unity_4LightAtten0;
+#line 279
+uniform highp vec4 unity_LightColor[4];
+uniform highp vec4 unity_LightPosition[4];
+uniform highp vec4 unity_LightAtten[4];
+#line 283
+uniform highp vec3 unity_LightColor0;
+uniform highp vec3 unity_LightColor1;
+uniform highp vec3 unity_LightColor2;
+uniform highp vec3 unity_LightColor3;
+#line 290
+#line 322
+#line 340
+uniform highp vec4 unity_SHAr;
+uniform highp vec4 unity_SHAg;
+uniform highp vec4 unity_SHAb;
+uniform highp vec4 unity_SHBr;
+#line 344
+uniform highp vec4 unity_SHBg;
+uniform highp vec4 unity_SHBb;
+uniform highp vec4 unity_SHC;
+#line 349
+#line 384
+#line 395
+#line 405
+#line 413
+#line 437
+#line 443
+#line 453
+#line 462
+#line 469
+#line 478
+#line 486
+#line 495
+#line 514
+#line 520
+#line 528
+#line 540
+uniform highp vec4 _ZBufferParams;
+#line 570
+#line 581
+#line 594
+#line 598
+#line 607
+uniform highp vec4 unity_LightShadowBias;
+#line 727
+#line 746
+uniform lowp vec4 _LightColor0;
+uniform lowp vec4 _SpecColor;
+#line 760
+#line 768
+#line 781
+#line 796
+#line 806
+#line 15
+uniform sampler2D _MainTex;
+uniform lowp vec4 _Color;
+#line 22
+#line 48
+uniform highp vec4 _MainTex_ST;
+#line 80
+#line 749
+lowp vec4 LightingLambert( in SurfaceOutput s, in lowp vec3 lightDir, in lowp float atten ) {
+    #line 751
+    lowp float diff = max( 0.0, dot( s.Normal, lightDir));
+    lowp vec4 c;
+    c.xyz = ((s.Albedo * _LightColor0.xyz) * ((diff * atten) * 2.0));
+    #line 755
+    c.w = s.Alpha;
+    return c;
+}
+#line 22
+void surf( in Input IN, inout SurfaceOutput o ) {
+    lowp vec4 c = (texture( _MainTex, IN.uv_MainTex) * _Color);
+    o.Albedo = c.xyz;
+    o.Alpha = c.w;
+}
+#line 80
+lowp vec4 xlat_main( in v2f_surf IN ) {
+    Input surfIN;
+    surfIN.uv_MainTex = IN.pack0.xy;
+    SurfaceOutput o;
+    #line 84
+    o.Albedo = vec3( 0.0);
+    o.Emission = vec3( 0.0);
+    o.Specular = 0.0;
+    o.Alpha = 0.0;
+    #line 88
+    o.Gloss = 0.0;
+    o.Normal = IN.normal;
+    #line 92
+    surf( surfIN, o);
+    lowp float atten = 1.0;
+    lowp vec4 c = vec4( 0.0);
+    #line 96
+    c = LightingLambert( o, _WorldSpaceLightPos0.xyz, atten);
+    c.xyz += (o.Albedo * IN.vlight);
+    #line 121
+    return c;
+}
+in highp vec2 xlv_TEXCOORD0;
+in lowp vec3 xlv_TEXCOORD1;
+in lowp vec3 xlv_TEXCOORD2;
+void main() {
+    lowp vec4 xl_retval;
+    v2f_surf xlt_IN;
+    xlt_IN.pos = vec4(0.0);
+    xlt_IN.pack0 = vec2(xlv_TEXCOORD0);
+    xlt_IN.normal = vec3(xlv_TEXCOORD1);
+    xlt_IN.vlight = vec3(xlv_TEXCOORD2);
+    xl_retval = xlat_main( xlt_IN);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _Color:<none> type 12 arrsize 0
+// _LightColor0:<none> type 12 arrsize 0
+// _MainTex:<none> type 25 arrsize 0
+// _WorldSpaceLightPos0:<none> type 12 arrsize 0

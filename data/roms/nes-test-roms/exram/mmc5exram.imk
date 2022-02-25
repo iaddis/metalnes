@@ -1,0 +1,6 @@
+MAKEINES
+mmc5exram.nes
+MAPR 5
+VMIR 1
+PROG mmc5exram.obj
+CHAR mmc5exram.chr

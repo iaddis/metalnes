@@ -1,0 +1,5 @@
+void main (out fixed4 ocol : COLOR0, out half oz : DEPTH)
+{
+	ocol = 0.5;
+	oz = 0.9;
+}

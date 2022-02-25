@@ -1,0 +1,20 @@
+// does sampler2DShadow, when occuring in a vertex shader, gets translated correctly?
+
+sampler2DShadow shadowmap;
+
+
+float4 main (float4 pos : POSITION) : POSITION
+{
+	return pos;
+}
+
+fixed4 main_frag (float4 uv : TEXCOORD0) : COLOR0
+{
+	float s1 = shadow2D (shadowmap, uv.xyz);
+	float s2 = shadow2Dproj (shadowmap, uv);
+
+	s1 = tex2D (shadowmap, uv.xyz);
+	s2 = tex2Dproj (shadowmap, uv);
+
+	return s1 + s2;
+}

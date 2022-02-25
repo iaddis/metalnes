@@ -1,0 +1,11 @@
+#line 1 "loops-empty-in.txt" 
+half4 main() : COLOR0 {
+	for (int i = 0; i < 10; ++i) {
+	}
+	int j = 0;
+	while (j++ < 10) {
+	}
+	do {
+	} while (j-- > 0);
+	return 1.0;
+}

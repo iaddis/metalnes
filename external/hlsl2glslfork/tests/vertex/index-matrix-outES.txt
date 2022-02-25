@@ -1,0 +1,79 @@
+mat2 xll_transpose_mf2x2(mat2 m) {
+  return mat2( m[0][0], m[1][0], m[0][1], m[1][1]);
+}
+mat3 xll_transpose_mf3x3(mat3 m) {
+  return mat3( m[0][0], m[1][0], m[2][0],
+               m[0][1], m[1][1], m[2][1],
+               m[0][2], m[1][2], m[2][2]);
+}
+mat4 xll_transpose_mf4x4(mat4 m) {
+  return mat4( m[0][0], m[1][0], m[2][0], m[3][0],
+               m[0][1], m[1][1], m[2][1], m[3][1],
+               m[0][2], m[1][2], m[2][2], m[3][2],
+               m[0][3], m[1][3], m[2][3], m[3][3]);
+}
+vec2 xll_matrixindex_mf2x2_i (mat2 m, int i) { vec2 v; v.x=m[0][i]; v.y=m[1][i]; return v; }
+vec3 xll_matrixindex_mf3x3_i (mat3 m, int i) { vec3 v; v.x=m[0][i]; v.y=m[1][i]; v.z=m[2][i]; return v; }
+vec4 xll_matrixindex_mf4x4_i (mat4 m, int i) { vec4 v; v.x=m[0][i]; v.y=m[1][i]; v.z=m[2][i]; v.w=m[3][i]; return v; }
+#if defined(SHADER_API_GLES) && defined(SHADER_API_DESKTOP)
+vec2 xll_matrixindexdynamic_mf2x2_i (mat2 m, int i) {
+	mat2 m2 = xll_transpose_mf2x2(m);
+	return i==0?m2[0]:m2[1];
+}
+vec3 xll_matrixindexdynamic_mf3x3_i (mat3 m, int i) {
+	mat3 m2 = xll_transpose_mf3x3(m);
+	return i < 2?(i==0?m2[0]:m2[1]):(m2[2]);
+}
+vec4 xll_matrixindexdynamic_mf4x4_i (mat4 m, int i) {
+	mat4 m2 = xll_transpose_mf4x4(m);
+	return i < 2?(i==0?m2[0]:m2[1]):(i==3?m2[3]:m2[2]);
+}
+#else
+vec2 xll_matrixindexdynamic_mf2x2_i (mat2 m, int i) { return xll_matrixindex_mf2x2_i (m, i); }
+vec3 xll_matrixindexdynamic_mf3x3_i (mat3 m, int i) { return xll_matrixindex_mf3x3_i (m, i); }
+vec4 xll_matrixindexdynamic_mf4x4_i (mat4 m, int i) { return xll_matrixindex_mf4x4_i (m, i); }
+#endif
+#line 1
+highp vec4 xlat_main( in highp vec4 pos ) {
+    #line 3
+    highp vec4 v = vec4( 0.0);
+    highp mat2 m2 = mat2( 1.0, 3.0, 2.0, 4.0);
+    #line 8
+    highp mat2 m2b = xll_transpose_mf2x2(mat2( vec2( 1.0, 2.0), vec2( 3.0, 4.0)));
+    #line 12
+    v.xy += xll_matrixindex_mf2x2_i (m2, 0);
+    v.xy += xll_matrixindex_mf2x2_i (m2b, 1);
+    highp mat3 m3 = mat3( 1.0, 4.0, 7.0, 2.0, 5.0, 8.0, 3.0, 6.0, 9.0);
+    #line 19
+    highp mat3 m3b = xll_transpose_mf3x3(mat3( vec3( 1.0, 2.0, 3.0), vec3( 4.0, 5.0, 6.0), vec3( 7.0, 8.0, 9.0)));
+    #line 24
+    highp mat3 m3c = xll_transpose_mf3x3(mat3( vec3( 1.0, 2.0, 3.0), vec3( 4.0, 5.0, 6.0), pos.xyz));
+    #line 29
+    v.xyz += xll_matrixindex_mf3x3_i (m3, 0);
+    v.xyz += xll_matrixindex_mf3x3_i (m3b, 1);
+    v.xyz += xll_matrixindex_mf3x3_i (m3c, 2);
+    v.xyz += xll_matrixindex_mf3x3_i (mat3( 1.0, 4.0, 7.0, 2.0, 5.0, 8.0, 3.0, 6.0, 9.0), 2);
+    #line 36
+    highp int i = 0;
+    for ( ; (i < 3); (++i)) {
+        v.xyz += xll_matrixindexdynamic_mf3x3_i (m3c, i);
+        v.x += m3b[2][i];
+        v.x += m3c[i][2];
+    }
+    #line 41
+    v.x += m3b[2][1];
+    v.x += m3c[2][1];
+    highp mat4 m4 = mat4( 1.0, 5.0, 9.0, 13.0, 2.0, 6.0, 10.0, 14.0, 3.0, 7.0, 11.0, 15.0, 4.0, 8.0, 12.0, 16.0);
+    #line 49
+    highp mat4 m4b = xll_transpose_mf4x4(mat4( vec4( 1.0, 2.0, 3.0, 4.0), vec4( 5.0, 6.0, 7.0, 8.0), vec4( 9.0, 10.0, 11.0, 12.0), vec4( 13.0, 14.0, 15.0, 16.0)));
+    #line 55
+    v.xyzw += xll_matrixindex_mf4x4_i (m4, 0);
+    v.xyzw += xll_matrixindex_mf4x4_i (m4b, 1);
+    return v;
+}
+attribute highp vec4 xlat_attrib_POSITION;
+void main() {
+    highp vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlat_attrib_POSITION));
+    gl_Position = vec4(xl_retval);
+}

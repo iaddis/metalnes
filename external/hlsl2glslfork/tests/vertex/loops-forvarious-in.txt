@@ -1,0 +1,81 @@
+float4 unity_LightColor[4];
+float4 unity_LightPosition[4];
+float4 unity_LightAtten[4];
+
+float4x4 UNITY_MATRIX_MVP;
+float4x4 UNITY_MATRIX_MV;
+float4x4 UNITY_MATRIX_IT_MV;
+
+struct appdata {
+	float4 vertex : POSITION;
+	float3 normal : NORMAL;
+};
+
+struct v2f {
+	half4 pos : POSITION;
+	half4 color : TEXCOORD0;
+};
+
+float3 ShadeMyVertexLights (float4 vertex, float3 normal)
+{
+	float3 viewpos = mul(UNITY_MATRIX_MV, vertex).xyz;
+	float3 viewN = mul((float3x3) UNITY_MATRIX_IT_MV, normal);
+	float3 lightColor = float3(0.0,0.0,0.0);
+	
+	for (int i = 0; i < 2; i++) {
+		float3 toLight = unity_LightPosition[i].xyz - viewpos.xyz;
+		float lengthSq = dot(toLight, toLight);
+		float atten = 1.0 / (1.0 + lengthSq * unity_LightAtten[i].z);
+		float diff = max (0, dot (viewN, normalize(toLight)));
+		lightColor += unity_LightColor[i].rgb * (diff * atten);
+	}
+	return (lightColor * 2.0);
+}
+
+v2f main (appdata v)
+{
+	v2f o;
+	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	o.color = 0;
+
+	for (int i = 0; i < 2; ++i)
+		o.color += unity_LightColor[i];
+
+	// same variable
+	for (int i = 0; i < 4; ++i)
+		o.color += unity_LightColor[i];
+
+	// different start/end conditions
+	for (int j = 3; j >= 0; j = j-1)
+		o.color += unity_LightColor[j];
+
+	// scope variables
+	for (int i = 0; i < 2; ++i) {
+		float4 l = unity_LightColor[i] * unity_LightAtten[i].x;
+		o.color += l;
+	}
+
+	// scope variables again
+	for (int i = 0; i < 2; ++i) {
+		float4 l = unity_LightColor[i] * unity_LightAtten[i].z;
+		o.color += l;
+	}
+
+	// weird loop construct
+	int k = 1;
+	for (; k < 3; )
+	{
+		o.color += unity_LightColor[k].x;
+		int z = k + 1;
+		k = z;
+	}
+
+	// nested loops
+	for (int x = 0; x < 3; ++x)
+	{
+		for (int y = 0; y < 3; ++y)
+			o.color.xy += float2(x,y);
+	}
+
+	return o; 
+}

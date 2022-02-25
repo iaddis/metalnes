@@ -1,0 +1,46 @@
+
+#line 1
+struct fake4 {
+    float fx;
+    float fy;
+    float fz;
+    float fw;
+};
+#line 9
+#line 31
+#line 36
+#line 9
+fake4 fake_splat( const float f ) {
+    fake4 fake;
+    fake.fx = f;
+    #line 13
+    fake.fy = f;
+    fake.fz = f;
+    fake.fw = f;
+    #line 17
+    return fake;
+}
+#line 20
+vec4 fake_to_float( const fake4 fake ) {
+    #line 22
+    vec4 real;
+    real.x = fake.fx;
+    real.y = fake.fy;
+    real.z = fake.fz;
+    #line 26
+    real.w = fake.fw;
+    return real;
+}
+#line 31
+vec4 splat( const float f ) {
+    return fake_to_float( fake_splat( f));
+}
+#line 36
+vec4 xlat_main(  ) {
+    return splat( 1.0);
+}
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_Position = vec4(xl_retval);
+}

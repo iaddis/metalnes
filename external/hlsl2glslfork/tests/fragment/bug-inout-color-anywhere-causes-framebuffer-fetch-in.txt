@@ -1,0 +1,19 @@
+// Used to have a bug where unused inout something with COLOR
+// semantic would kick in framebuffer fetch in the translated GLES
+// shader.
+
+struct v2f
+{
+    float4 pos : SV_POSITION;
+    fixed4 color : COLOR;
+	float2 uv : TEXCOORD1;
+};
+
+void unusedFunctionWithInOutCOLORSemantic (inout v2f o)
+{
+}
+
+half4 main (v2f i) : SV_Target
+{
+	return i.uv.x;
+}

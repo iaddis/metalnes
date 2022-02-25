@@ -1,0 +1,4 @@
+#line 1 "pp-redefinition-in.txt"
+#define x 1
+#define x 2
+float4 main() : COLOR { return 0; }

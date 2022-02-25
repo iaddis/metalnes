@@ -1,0 +1,24 @@
+sampler2D _MainTex;
+struct u2v {
+	float4 vertex : POSITION;
+	half2 texcoord : TEXCOORD0;
+};
+struct v2f {
+	half4 pos : SV_POSITION;
+	half2 uv  : TEXCOORD0;
+};
+v2f vert (u2v v) {
+	v2f o;
+	o.pos = v.vertex;
+	o.uv = v.texcoord;
+	return o;
+}
+half4 main (v2f i) : SV_Target {
+	half2 a = half2(i.uv);
+	bool2 b = step(0.5, a);
+	half2 c = half2(0,0);
+	if (b.x) c.x = a.x;
+	if (b.y) c.y = a.y;
+	half4 col = tex2Dgrad(_MainTex, i.uv, i.uv.x*0.05, i.uv.y*0.05);
+	return half4(c, col.z, 1);
+};

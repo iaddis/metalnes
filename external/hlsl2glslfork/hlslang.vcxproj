@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3B146CC5-B2B8-4573-9D46-6139E2EDFEA3}</ProjectGuid>
+    <RootNamespace>hlslang</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">lib/win32/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)/build/$(Platform)/$(Configuration)/$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">lib/win64/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)/build/$(Platform)/$(Configuration)/$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">lib/win32/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)/build/$(Platform)/$(Configuration)/$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">lib/win64/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)/build/$(Platform)/$(Configuration)/$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>hlslang;hlslang\MachineIndependent;hlslang\OSDependent\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_CONSOLE;_LIB;GENERIC_COMPILER;_HAS_ITERATOR_DEBUGGING=0;_CRT_SECURE_NO_DEPRECATE;_HAS_EXCEPTIONS=0;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <ProgramDataBaseFileName>$(OutDir)hlsl2glsl.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>FastCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)hlsl2glsl.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>hlslang;hlslang\MachineIndependent;hlslang\OSDependent\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_CONSOLE;_LIB;GENERIC_COMPILER;_HAS_ITERATOR_DEBUGGING=0;_CRT_SECURE_NO_DEPRECATE;_HAS_EXCEPTIONS=0;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <ProgramDataBaseFileName>$(OutDir)hlsl2glsl.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>FastCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)hlsl2glsl.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>hlslang;hlslang\MachineIndependent;hlslang\OSDependent\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_CONSOLE;_LIB;GENERIC_COMPILER;_COMPILER;_HAS_ITERATOR_DEBUGGING=0;_CRT_SECURE_NO_DEPRECATE;_HAS_EXCEPTIONS=0;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <ProgramDataBaseFileName>$(OutDir)hlsl2glsl.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>FastCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)hlsl2glsl.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>hlslang;hlslang\MachineIndependent;hlslang\OSDependent\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_CONSOLE;_LIB;GENERIC_COMPILER;_COMPILER;_HAS_ITERATOR_DEBUGGING=0;_CRT_SECURE_NO_DEPRECATE;_HAS_EXCEPTIONS=0;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <ProgramDataBaseFileName>$(OutDir)hlsl2glsl.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>FastCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)hlsl2glsl.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="hlslang\MachineIndependent\ConstantFolding.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\HLSL2GLSL.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\InfoSink.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\Initialize.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\Intermediate.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\intermOut.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\IntermTraverse.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\ParseHelper.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\PoolAlloc.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\preprocessor\mojoshader.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\preprocessor\mojoshader_common.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\preprocessor\mojoshader_lexer.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\preprocessor\mojoshader_preprocessor.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\preprocessor\sourceloc.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\RemoveTree.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\SymbolTable.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\Gen_hlslang.cpp" />
+    <ClCompile Include="hlslang\MachineIndependent\Gen_hlslang_tab.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\glslCommon.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\glslFunction.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\glslOutput.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\glslStruct.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\glslSymbol.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\hlslCrossCompiler.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\hlslLinker.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\hlslSupportLib.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\propagateMutable.cpp" />
+    <ClCompile Include="hlslang\GLSLCodeGen\typeSamplers.cpp" />
+    <ClCompile Include="hlslang\OSDependent\Windows\ossource.cpp" />
+    <ClCompile Include="hlslang\OSDependent\Linux\ossource.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="hlslang\MachineIndependent\hlslang.l">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Executing flex on %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)..\..\tools\flex.exe %(FullPath)
+if EXIST %(RootDir)%(Directory)gen_hlslang.cpp del %(RootDir)%(Directory)gen_hlslang.cpp
+move gen_hlslang.cpp %(RootDir)%(Directory)gen_hlslang.cpp
+cd %(RootDir)%(Directory)
+rename gen_hlslang.cpp Gen_hlslang.cpp
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">hlslang_tab.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)Gen_hlslang.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Executing flex on %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)..\..\tools\flex.exe %(FullPath)
+if EXIST %(RootDir)%(Directory)gen_hlslang.cpp del %(RootDir)%(Directory)gen_hlslang.cpp
+move gen_hlslang.cpp %(RootDir)%(Directory)gen_hlslang.cpp
+cd %(RootDir)%(Directory)
+rename gen_hlslang.cpp Gen_hlslang.cpp
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">hlslang_tab.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)Gen_hlslang.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Executing flex on %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)..\..\tools\flex.exe %(FullPath)
+if EXIST %(RootDir)%(Directory)gen_hlslang.cpp del %(RootDir)%(Directory)gen_hlslang.cpp
+move gen_hlslang.cpp %(RootDir)%(Directory)gen_hlslang.cpp
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">hlslang_tab.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)Gen_hlslang.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Executing flex on %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)..\..\tools\flex.exe %(FullPath)
+if EXIST %(RootDir)%(Directory)gen_hlslang.cpp del %(RootDir)%(Directory)gen_hlslang.cpp
+move gen_hlslang.cpp %(RootDir)%(Directory)gen_hlslang.cpp
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">hlslang_tab.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)Gen_hlslang.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="hlslang\MachineIndependent\hlslang.y">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Executing Bison on %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd %(RootDir)%(Directory)
+set PATH=%PATH%;"%(RootDir)%(Directory)..\..\tools\bin\"
+%(RootDir)%(Directory)..\..\tools\bin\bison.exe -d -t -v %(Filename).y
+del /s /q %(RootDir)%(Directory)Gen_%(Filename)_tab.cpp
+del /s /q %(RootDir)%(Directory)%(Filename)_tab.h
+rename %(RootDir)%(Directory)%(Filename).tab.c Gen_%(Filename)_tab.cpp
+rename %(RootDir)%(Directory)%(Filename).tab.h %(Filename)_tab.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)Gen_%(Filename)_tab.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Executing Bison on %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SET BISON_SIMPLE=%(RootDir)%(Directory)..\..\tools\bison.simple
+SET BISON_HAIRY=%(RootDir)%(Directory)..\..\tools\bison.simple
+cd %(RootDir)%(Directory)
+%(RootDir)%(Directory)..\..\tools\bison.exe -d -t -v %(Filename).y
+if EXIST %(RootDir)%(Directory)Gen_%(Filename)_tab.cpp del %(RootDir)%(Directory)Gen_%(Filename)_tab.cpp
+rename %(RootDir)%(Directory)%(Filename)_tab.c Gen_%(Filename)_tab.cpp
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)Gen_%(Filename)_tab.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Executing Bison on %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd %(RootDir)%(Directory)
+set PATH=%PATH%;"%(RootDir)%(Directory)..\..\tools\bin\"
+%(RootDir)%(Directory)..\..\tools\bin\bison.exe -d -t -v %(Filename).y
+del /s /q %(RootDir)%(Directory)Gen_%(Filename)_tab.cpp
+del /s /q %(RootDir)%(Directory)%(Filename)_tab.h
+rename %(RootDir)%(Directory)%(Filename).tab.c Gen_%(Filename)_tab.cpp
+rename %(RootDir)%(Directory)%(Filename).tab.h %(Filename)_tab.h
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)Gen_%(Filename)_tab.cpp;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Executing Bison on %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SET BISON_SIMPLE=%(RootDir)%(Directory)..\..\tools\bison.simple
+SET BISON_HAIRY=%(RootDir)%(Directory)..\..\tools\bison.simple
+cd %(RootDir)%(Directory)
+%(RootDir)%(Directory)..\..\tools\bison.exe -d -t -v %(Filename).y
+if EXIST %(RootDir)%(Directory)Gen_%(Filename)_tab.cpp del %(RootDir)%(Directory)Gen_%(Filename)_tab.cpp
+rename %(RootDir)%(Directory)%(Filename)_tab.c Gen_%(Filename)_tab.cpp
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)Gen_%(Filename)_tab.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hlslang\MachineIndependent\Initialize.h" />
+    <ClInclude Include="hlslang\MachineIndependent\localintermediate.h" />
+    <ClInclude Include="hlslang\MachineIndependent\ParseHelper.h" />
+    <ClInclude Include="hlslang\MachineIndependent\preprocessor\mojoshader.h" />
+    <ClInclude Include="hlslang\MachineIndependent\preprocessor\mojoshader_internal.h" />
+    <ClInclude Include="hlslang\MachineIndependent\RemoveTree.h" />
+    <ClInclude Include="hlslang\MachineIndependent\hlslang_tab.h" />
+    <ClInclude Include="hlslang\MachineIndependent\preprocessor\sourceloc.h" />
+    <ClInclude Include="hlslang\Include\BaseTypes.h" />
+    <ClInclude Include="hlslang\Include\Common.h" />
+    <ClInclude Include="hlslang\Include\ConstantUnion.h" />
+    <ClInclude Include="hlslang\Include\InfoSink.h" />
+    <ClInclude Include="hlslang\Include\InitializeGlobals.h" />
+    <ClInclude Include="hlslang\Include\InitializeParseContext.h" />
+    <ClInclude Include="hlslang\Include\intermediate.h" />
+    <ClInclude Include="hlslang\Include\PoolAlloc.h" />
+    <ClInclude Include="hlslang\MachineIndependent\SymbolTable.h" />
+    <ClInclude Include="hlslang\Include\Types.h" />
+    <ClInclude Include="include\hlsl2glsl.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\glslCommon.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\glslFunction.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\glslOutput.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\glslStruct.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\glslSymbol.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\hlslCrossCompiler.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\hlslLinker.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\hlslSupportLib.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\propagateMutable.h" />
+    <ClInclude Include="hlslang\GLSLCodeGen\typeSamplers.h" />
+    <ClInclude Include="hlslang\OSDependent\Windows\osinclude.h" />
+    <ClInclude Include="hlslang\OSDependent\Linux\osinclude.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="hlslang\MachineIndependent\preprocessor\mojoshader_lexer.re" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,19 @@
+
+#line 1
+vec4 xlat_main( in vec4 uv ) {
+    #line 2
+    vec4 c = vec4( 0.0);
+    c += (( (uv.x > 0.5) ) ? ( 0.9 ) : ( 0.1 ));
+    c += (( (uv.x > 0.5) ) ? ( vec4( 0.9) ) : ( vec4( 0.1) ));
+    c.xyz += (( (uv.x > 0.5) ) ? ( vec3( 0.9) ) : ( vec3( 0.1) ));
+    #line 6
+    c.xy += (( (uv.x > 0.5) ) ? ( vec2( 0.9) ) : ( vec2( 0.1) ));
+    c.x += (( bool(fract(uv.x)) ) ? ( 0.9 ) : ( 0.1 ));
+    return c;
+}
+varying vec4 xlv_TEXCOORD0;
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_TEXCOORD0));
+    gl_FragData[0] = vec4(xl_retval);
+}

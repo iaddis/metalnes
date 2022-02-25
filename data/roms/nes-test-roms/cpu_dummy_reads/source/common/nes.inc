@@ -1,0 +1,34 @@
+; NES I/O locations and masks
+
+; Clocks per second (NTSC)
+CLOCK_RATE = 1789773
+
+.ifndef BUILD_NSF
+
+; PPU
+PPUCTRL   = $2000
+PPUMASK   = $2001
+PPUSTATUS = $2002
+SPRADDR   = $2003
+SPRDATA   = $2004
+PPUSCROLL = $2005
+PPUADDR   = $2006
+PPUDATA   = $2007
+SPRDMA    = $4014
+
+PPUCTRL_NMI     = $80
+PPUMASK_BG0     = $0A
+PPUCTRL_8X8     = $00
+PPUCTRL_8X16    = $20
+PPUMASK_SPR     = $14
+PPUMASK_BG0CLIP = $08
+
+.endif
+
+; APU
+SNDCHN  = $4015
+JOY1    = $4016
+JOY2    = $4017
+SNDMODE = $4017
+
+SNDMODE_NOIRQ   = $40

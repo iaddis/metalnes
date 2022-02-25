@@ -1,0 +1,7 @@
+// pixel shader output with unknown semantics;
+// should report an error (used to generate invalid GLSL
+// code at some point)
+half4 main (float4 uv : TEXCOORD0) : SV_MYTARGET
+{
+	return uv;
+}

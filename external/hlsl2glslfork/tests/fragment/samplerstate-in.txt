@@ -1,0 +1,24 @@
+
+texture sDiffuseMap
+<
+	string ResourceName = "";
+	string ResourceType = "2D";
+	string UIName = "Diffuse Map";
+>;
+
+sampler2D Sampler_sDiffuseMap = sampler_state
+{
+	Texture = <sDiffuseMap>;
+};
+ 
+struct PS_IN
+{
+	float2 texCoord0 : TEXCOORD0;
+};
+ 
+ 
+float4 main(PS_IN inStruct) : COLOR
+{
+	float4 tex = tex2D(Sampler_sDiffuseMap, inStruct.texCoord0);
+	return tex;
+}

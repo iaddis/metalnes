@@ -1,0 +1,3 @@
+(5): ERROR: 'line_5_must_be_inited' : variables with qualifier 'const' must be initialized 
+(103): ERROR: 'line_103_must_be_inited' : variables with qualifier 'const' must be initialized 
+somefile.txt(202): ERROR: 'line_202_must_be_inited' : variables with qualifier 'const' must be initialized 

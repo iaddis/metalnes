@@ -1,0 +1,30 @@
+#line 1 "in-struct-dupe-sem-ret-struct-in.txt" 
+float4x4 mvp;
+
+struct a2v1 {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+	float3 normal : NORMAL;
+	float4 color : COLOR;
+};
+
+struct a2v2 {
+	float4 uvFloat4 : TEXCOORD0;
+};
+
+struct v2f {
+	float4 pos : POSITION;
+	float fog : FOG;
+	float2 uv : TEXCOORD0;
+	float4 color : COLOR;
+};
+
+v2f main (a2v1 v, a2v2 v2)
+{
+	v2f o;
+	o.pos = mul (mvp, v.pos);
+	o.color = v.color;
+	o.color.rgb += v.normal;
+	o.uv = v.uv;
+	return o;
+}

@@ -1,0 +1,35 @@
+uniform sampler2D texlow;
+uniform sampler2D texmed;
+#line 3
+uniform sampler2D texhigh;
+uniform samplerCube cubelow;
+uniform samplerCube cubemed;
+#line 7
+uniform samplerCube cubehigh;
+#line 9
+vec4 xlat_main( in vec4 uv ) {
+    #line 11
+    vec4 c;
+    c = texture2D( texlow, uv.xy);
+    c += texture2D( texmed, uv.xy);
+    c += texture2D( texhigh, uv.xy);
+    #line 15
+    c += textureCube( cubelow, uv.xyz);
+    c += textureCube( cubemed, uv.xyz);
+    c += textureCube( cubehigh, uv.xyz);
+    return c;
+}
+varying vec4 xlv_TEXCOORD0;
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_TEXCOORD0));
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// cubehigh:<none> type 28 arrsize 0
+// cubelow:<none> type 28 arrsize 0
+// cubemed:<none> type 28 arrsize 0
+// texhigh:<none> type 25 arrsize 0
+// texlow:<none> type 25 arrsize 0
+// texmed:<none> type 25 arrsize 0

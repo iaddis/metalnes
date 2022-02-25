@@ -1,0 +1,9 @@
+float4 attribute; // valid in HLSL
+float4 varying; // valid in HLSL
+float4 mix; // valid in HLSL
+float4 atan; // valid in HLSL
+
+float4 main () : POSITION
+{
+	return attribute + varying + mix + atan;
+}

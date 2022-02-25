@@ -1,0 +1,274 @@
+#line 1 "complex-flare-in.txt" 
+float4x4 glstate_matrix_mvp ;
+float4x4 glstate_matrix_modelview0 ;
+float4x4 glstate_matrix_projection ;
+float4x4 glstate_matrix_transpose_modelview0 ;
+float4x4 glstate_matrix_invtrans_modelview0 ;
+float4x4 glstate_matrix_texture0 ;
+float4x4 glstate_matrix_texture1 ;
+float4x4 glstate_matrix_texture2 ;
+float4x4 glstate_matrix_texture3 ;
+float4 glstate_lightmodel_ambient ;
+uniform float4 _Time ;
+uniform float4 _SinTime ;
+uniform float4 _CosTime ;
+uniform float4 _ProjectionParams ;
+uniform float4 _ScreenParams ;
+uniform float4 unity_Scale ;
+uniform float3 _WorldSpaceCameraPos ;
+uniform float4 _WorldSpaceLightPos0 ;
+uniform float4x4 _Object2World , _World2Object ;
+uniform float4 _LightPositionRange ;
+struct appdata_base
+{
+    float4 vertex : POSITION ;
+    float3 normal : NORMAL ;
+    float4 texcoord : TEXCOORD0 ;
+}
+;
+struct appdata_tan
+{
+    float4 vertex : POSITION ;
+    float4 tangent : TANGENT ;
+    float3 normal : NORMAL ;
+    float4 texcoord : TEXCOORD0 ;
+}
+;
+struct appdata_full
+{
+    float4 vertex : POSITION ;
+    float4 tangent : TANGENT ;
+    float3 normal : NORMAL ;
+    float4 texcoord : TEXCOORD0 ;
+    float4 texcoord1 : TEXCOORD1 ;
+    float4 color : COLOR ;
+}
+;
+inline void PositionFog ( in float4 v , out float4 pos , out float fog )
+{
+    pos = mul ( glstate_matrix_mvp , v ) ;
+    fog = pos . z ;
+}
+inline float3 WorldSpaceLightDir ( in float4 v )
+{
+    float3 worldPos = mul ( _Object2World , v ) . xyz ;
+    return _WorldSpaceLightPos0 . xyz - worldPos * _WorldSpaceLightPos0 . w ;
+}
+inline float3 ObjSpaceLightDir ( in float4 v )
+{
+    float3 objSpaceLightPos = mul ( _World2Object , _WorldSpaceLightPos0 ) . xyz ;
+    return objSpaceLightPos . xyz - v . xyz * _WorldSpaceLightPos0 . w ;
+}
+inline float3 WorldSpaceViewDir ( in float4 v )
+{
+    return _WorldSpaceCameraPos . xyz - mul ( _Object2World , v ) . xyz ;
+}
+inline float3 ObjSpaceViewDir ( in float4 v )
+{
+    float3 objSpaceCameraPos = mul ( _World2Object , float4 ( _WorldSpaceCameraPos . xyz , 1 ) ) . xyz * unity_Scale . w ;
+    return objSpaceCameraPos - v . xyz ;
+}
+float4 unity_4LightPosX0 ;
+float4 unity_4LightPosY0 ;
+float4 unity_4LightPosZ0 ;
+float4 unity_4LightAtten0 ;
+float3 unity_LightColor0 ;
+float3 unity_LightColor1 ;
+float3 unity_LightColor2 ;
+float3 unity_LightColor3 ;
+float3 Shade4PointLights ( float4 lightPosX , float4 lightPosY , float4 lightPosZ , float3 lightColor0 , float3 lightColor1 , float3 lightColor2 , float3 lightColor3 , float4 lightAttenSq , float3 pos , float3 normal )
+{
+    float4 toLightX = lightPosX - pos . x ;
+    float4 toLightY = lightPosY - pos . y ;
+    float4 toLightZ = lightPosZ - pos . z ;
+    float4 lengthSq = 0 ;
+    lengthSq += toLightX * toLightX ;
+    lengthSq += toLightY * toLightY ;
+    lengthSq += toLightZ * toLightZ ;
+    float4 ndotl = 0 ;
+    ndotl += toLightX * normal . x ;
+    ndotl += toLightY * normal . y ;
+    ndotl += toLightZ * normal . z ;
+    float4 corr = rsqrt ( lengthSq ) ;
+    ndotl = max ( float4 ( 0 , 0 , 0 , 0 ) , ndotl * corr ) ;
+    float4 atten = 1.0 / ( 1.0 + lengthSq * lightAttenSq ) ;
+    float4 diff = ndotl * atten ;
+    float3 col = 0 ;
+    col += lightColor0 * diff . x ;
+    col += lightColor1 * diff . y ;
+    col += lightColor2 * diff . z ;
+    col += lightColor3 * diff . w ;
+    return col ;
+}
+float4 unity_SHAr ;
+float4 unity_SHAg ;
+float4 unity_SHAb ;
+float4 unity_SHBr ;
+float4 unity_SHBg ;
+float4 unity_SHBb ;
+float4 unity_SHC ;
+half3 ShadeSH9 ( half4 normal )
+{
+    half3 x1 , x2 , x3 ;
+    x1 . r = dot ( unity_SHAr , normal ) ;
+    x1 . g = dot ( unity_SHAg , normal ) ;
+    x1 . b = dot ( unity_SHAb , normal ) ;
+    half4 vB = normal . xyzz * normal . yzzx ;
+    x2 . r = dot ( unity_SHBr , vB ) ;
+    x2 . g = dot ( unity_SHBg , vB ) ;
+    x2 . b = dot ( unity_SHBb , vB ) ;
+    float vC = normal . x * normal . x - normal . y * normal . y ;
+    x3 = unity_SHC . rgb * vC ;
+    return x1 + x2 + x3 ;
+}
+struct v2f_vertex_lit
+{
+    float2 uv : TEXCOORD0 ;
+    float4 diff : COLOR0 ;
+    float4 spec : COLOR1 ;
+}
+;
+inline half4 VertexLight ( v2f_vertex_lit i , sampler2D mainTex )
+{
+    half4 texcol = tex2D ( mainTex , i . uv ) ;
+    half4 c ;
+    c . xyz = ( texcol . xyz * i . diff . xyz + i . spec . xyz * texcol . a ) * 2 ;
+    c . w = texcol . w * i . diff . w ;
+    return c ;
+}
+inline float2 ParallaxOffset ( half h , half height , half3 viewDir )
+{
+    h = h * height - height / 2.0 ;
+    float3 v = normalize ( viewDir ) ;
+    v . z += 0.42 ;
+    return h * ( v . xy / v . z ) ;
+}
+inline half Luminance ( half3 c )
+{
+    return dot ( c , half3 ( 0.22 , 0.707 , 0.071 ) ) ;
+}
+inline half3 DecodeLightmap ( half4 color )
+{
+    return 2.0 * color . rgb ;
+}
+struct appdata_img
+{
+    float4 vertex : POSITION ;
+    float2 texcoord : TEXCOORD0 ;
+}
+;
+struct v2f_img
+{
+    float4 pos : POSITION ;
+    float2 uv : TEXCOORD0 ;
+}
+;
+float2 MultiplyUV ( float4x4 mat , float2 inUV )
+{
+    float4 temp = float4 ( inUV . x , inUV . y , 0 , 0 ) ;
+    temp = mul ( mat , temp ) ;
+    return temp . xy ;
+}
+v2f_img vert_img ( appdata_img v )
+{
+    v2f_img o ;
+    o . pos = mul ( glstate_matrix_mvp , v . vertex ) ;
+    o . uv = MultiplyUV ( glstate_matrix_texture0 , v . texcoord ) ;
+    return o ;
+}
+inline float4 EncodeFloatRGBA ( float v )
+{
+    float4 kEncodeMul = float4 ( 1.0 , 255.0 , 65025.0 , 160581375.0 ) ;
+    float kEncodeBit = 1.0 / 255.0 ;
+    float4 enc = kEncodeMul * v ;
+    enc = frac ( enc ) ;
+    enc -= enc . yzww * kEncodeBit ;
+    return enc ;
+}
+inline float DecodeFloatRGBA ( float4 enc )
+{
+    float4 kDecodeDot = float4 ( 1.0 , 1 / 255.0 , 1 / 65025.0 , 1 / 160581375.0 ) ;
+    return dot ( enc , kDecodeDot ) ;
+}
+inline float2 EncodeFloatRG ( float v )
+{
+    float2 kEncodeMul = float2 ( 1.0 , 255.0 ) ;
+    float kEncodeBit = 1.0 / 255.0 ;
+    float2 enc = kEncodeMul * v ;
+    enc = frac ( enc ) ;
+    enc . x -= enc . y * kEncodeBit ;
+    return enc ;
+}
+inline float DecodeFloatRG ( float2 enc )
+{
+    float2 kDecodeDot = float2 ( 1.0 , 1 / 255.0 ) ;
+    return dot ( enc , kDecodeDot ) ;
+}
+inline float2 EncodeViewNormalStereo ( float3 n )
+{
+    float kScale = 1.7777 ;
+    float2 enc ;
+    enc = n . xy / ( n . z + 1 ) ;
+    enc /= kScale ;
+    enc = enc * 0.5 + 0.5 ;
+    return enc ;
+}
+inline float3 DecodeViewNormalStereo ( float4 enc4 )
+{
+    float kScale = 1.7777 ;
+    float3 nn = enc4 . xyz * float3 ( 2 * kScale , 2 * kScale , 0 ) + float3 ( - kScale , - kScale , 1 ) ;
+    float g = 2.0 / dot ( nn . xyz , nn . xyz ) ;
+    float3 n ;
+    n . xy = g * nn . xy ;
+    n . z = g - 1 ;
+    return n ;
+}
+inline float4 EncodeDepthNormal ( float depth , float3 normal )
+{
+    float4 enc ;
+    enc . xy = EncodeViewNormalStereo ( normal ) ;
+    enc . zw = EncodeFloatRG ( depth ) ;
+    return enc ;
+}
+inline void DecodeDepthNormal ( float4 enc , out float depth , out float3 normal )
+{
+    depth = DecodeFloatRG ( enc . zw ) ;
+    normal = DecodeViewNormalStereo ( enc ) ;
+}
+inline half4 UnpackNormal ( half4 packednormal )
+{
+    half4 normal ;
+    normal . xy = packednormal . wy * 2 - 1 ;
+    normal . z = sqrt ( 1 - normal . x * normal . x - normal . y * normal . y ) ;
+    return normal ;
+}
+uniform float4 _ZBufferParams ;
+inline float Linear01Depth ( float z )
+{
+    return 1.0 / ( _ZBufferParams . x * z + _ZBufferParams . y ) ;
+}
+inline float LinearEyeDepth ( float z )
+{
+    return 1.0 / ( _ZBufferParams . z * z + _ZBufferParams . w ) ;
+}
+inline float4 ComputeScreenPos ( float4 pos )
+{
+    float4 o = pos * 0.5f ;
+    o . xy = float2 ( o . x , o . y * _ProjectionParams . x ) + o . w ;
+    o . zw = pos . zw ;
+    return o ;
+}
+float4 unity_LightShadowBias ;
+sampler2D _FlareTexture ;
+struct appdata_t
+{
+    float4 vertex : POSITION ;
+    float4 color : COLOR ;
+    float2 texcoord : TEXCOORD0 ;
+}
+;
+float4 _FlareTexture_ST ;
+half4 main ( float4 color : COLOR , float2 texcoord : TEXCOORD0 ) : COLOR
+{
+    return tex2D ( _FlareTexture , texcoord ) * color ;
+}

@@ -1,0 +1,17 @@
+
+// This given an error right now, since
+// no constant folding is performed on int4
+// constructors. Ideally this should be fixed!
+float params1[int4(1,2,3,4).z * 10];
+
+// This given an error right now, since
+// no constant folding is performed on variable
+// references. Ideally this should be fixed!
+static const int4 kFoo4 = int4(1,2,3,4);
+float params2[kFoo4.y * 10];
+
+
+float4 main() : POSITION
+{
+    return 0.0;
+}

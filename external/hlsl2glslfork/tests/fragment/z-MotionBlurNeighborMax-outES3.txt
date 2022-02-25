@@ -1,0 +1,45 @@
+
+#line 13
+struct v2f {
+    highp vec4 pos;
+    highp vec2 uv;
+};
+#line 18
+uniform sampler2D _MainTex;
+uniform highp vec4 _MainTex_TexelSize;
+#line 29
+#line 21
+highp vec2 maxMag( in highp vec2 a, in highp vec2 b ) {
+    #line 23
+    highp float ma = dot( a, a);
+    highp float mb = dot( b, b);
+    return mix( a, b, vec2( step( ma, mb)));
+}
+#line 29
+highp vec4 xlat_main( in v2f i ) {
+    highp vec2 mx = texture( _MainTex, i.uv).xy;
+    highp int j = -1;
+    for ( ; (j < 2); (j++)) {
+        #line 33
+        highp int l = -1;
+        for ( ; (l < 2); (l++)) {
+            highp vec2 v = texture( _MainTex, (i.uv + (vec2( float(l), float(j)) * _MainTex_TexelSize.xy))).xy;
+            mx = maxMag( mx, v);
+        }
+    }
+    #line 38
+    return vec4( mx, 0.0, 0.0);
+}
+in highp vec2 xlv_TEXCOORD0;
+void main() {
+    highp vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.uv = vec2(xlv_TEXCOORD0);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _MainTex:<none> type 25 arrsize 0
+// _MainTex_TexelSize:<none> type 12 arrsize 0

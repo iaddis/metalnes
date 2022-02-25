@@ -1,0 +1,7 @@
+MAKEUNIF
+smwstomp.unif
+MAPR NES-TLROM
+NAME Super Mario World 'Stomper' demo
+TVCI 0
+PRG0 smwstomp.obj
+CHR0 smwstomp.chr

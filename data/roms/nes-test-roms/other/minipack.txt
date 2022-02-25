@@ -1,0 +1,376 @@
+-------------------------------------------------------------
+
+2003 MiniGame Compo - http://www.ffd2.com/minigame/
+
+NES Compilation v1.01
+
+
+
+Credits:
+
+
+BoXBoY by Neil Tew
+Escape from Pong by Halley's Comet Software
+Munchie Attack by Joe Parsell
+Bomber 4K by RoboNES
+Galaxy Patrol by Michael Martin
+
+
+Packed by Memblers
+FilePack compression by Mickael Pointier
+Original tune by Mike Alsop
+Music Engine by Bananmos
+
+
+History: v1    - released
+         v1.01 - fixed bug with Escape from Pong
+
+
+Docs attached.
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+############
+#  BoXBoY  #
+############
+
+A 4kb NES game for the 2003 MiniGames Compo (www.ffd2.com/minigame/)
+Created by Neal Tew (loopy at mm dot st)
+
+
+How to play:
+-----------
+
+Arrange the colored boxes in the correct order!
+Complete ten color sets to advance to the next level!
+Finish all 6 levels to win the game!
+
+Controls:
+--------
+
+D-pad:       Move up, down, left, right (duh)
+B button:    Drop box to lower platform
+A button:    Toss box to higher platform
+Start:       Pause the game
+Select:      Faster!
+
+Emulators:
+---------
+
+This should run in most "Good" emulators (i.e. NOT Nesticle).
+It's been tested on:
+
+- Nintendulator
+- FCE Ultra
+- Nesten
+- Nestopia
+- Nester
+- Jnes
+- LoopyNES
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+Escape From Pong rev 2
+
+A 1K NES entry into the MiniGame 2003 Compo (http://www.ffd2.com/minigame/)
+by Halley's Comet Software (http://here.is/halleyscomet)
+
+Assembled with DASM by Matthew Dillon.
+Written in edit.com
+
+1,021 bytes of code and data.
+
+Object:
+Your goal, as a Ping Pong ball, is to avoid the paddles and other obstacles
+to escape from the screen in 12 variously difficult levels.
+
+Gameplay:
+Levels consist of one paddle which always tries to stay in front of the ball.
+There are also white walls which the ball will bounce off of and red walls
+which will restart the level.  If you get in the way of a paddle the level
+will also restart, this is to prevent you from having the paddle push you
+through a wall.  In order to advance to the next level you must get the ball
+to leave the screen.
+The early levels do not have gravity, but later levels do.
+The difficulty level generally gets higher as the game progesses.
+When you have completed all 12 levels the game will restart from level 1,
+but the paddles will move faster. There is no way to actually "win" the game,
+but then again there is no way to "lose".
+I have personally played every level the first time through, but I don't
+know if it is even physically possible to beat it again.
+
+Controls:
+The directional pad controls thrust.  Remember that the ball will accelerate
+in the opposite direction of the button you press.
+Your thrust is slightly more powerful than gravity (when gravity is active).
+
+Recommended Emulators:
+loopyNES (runs well on older computers, the best alternative to Nesticle),
+FCEU, nnnesterj
+
+NonRecommended Emulators:
+Nesticle (scroll issues), Nester (colors are wrong)
+
+Bugs:
+Due to an optimization of the controller code the start, select, a, and b
+buttons also activate the thrust. This actually makes control quite a bit
+easier, but it is an unintended feature.
+B = Up
+A = Down
+Select = Left
+Start = Right
+
+I have not tested the program on an actual NES, so it very well may not
+work with the real hardware, but it works on every decent emulator I've
+tried it with.
+
+History:
+first release: er, it was the... first release?
+revision 1: Nintendulator helped me find a bug, I had not set the
+            interrupt flag. Only unusually accurate emulators (and the
+            NES itself, I suppose) would have a problem with it.
+revision 2: Fixed a glitch of the screen when loading a level by not
+            enabling the screen in the middle of a frame, only required
+            a slight reordering of commands.
+
+Based on concepts from:
+* Pong
+* Lunar Lander
+* Some QBasic game (I remember finding it on AOL, it involved a bouncing ball)
+* Several other games I've written (Rise of the Triangle, Cheese Reactor,
+  Mushrong)
+
+Things I had fully coded but took out due to space restraints:
+* Little flames showing the ball's thrust
+* Multiple paddles
+* More levels
+* Breakout style walls that disappear when you hit them
+
+Things I wanted to do but didn't (due to space restraints):
+* Imperfectly elastic walls, which slow the ball down when hit
+* Music
+* Pause
+* Multiplayer (actually would be easy to implement)
+
+Why the file is so big:
+The 1,021 bytes of the game are distributed as follows: 1,017 bytes at the
+beginning, which make up the program and header, and 4 bytes at the end (the
+reset and NMI vectors). The last two bytes, for the BRK/IRQ vector, are not
+used. No iNES format ROM can be less than 16,400 bytes in size, all of the
+other bytes are filler.
+
+Level data:
+The levels are read from scripts as specified by comments in the source.
+Level data begins at the label "level". Levels of up to 256 bytes and games of
+unlimited size (within the restraints of 16KB of PRGROM) can be created and
+should be fully supported by the physics engine.
+
+Copyrights:
+The source code and binary are (c) 2003 Halley's Comet Software.
+They may be distributed or resued in any way without express permission so
+long as credit is given to the author.
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+Munchie Attack
+
+A 4KB NES game for the 2003 MiniGame Compo
+
+
+The story so far:
+
+Ninja have taken leaders of first-world nations hostage,
+and are threatening to increase subsidies for domestic
+food producers to even more insane levels than usual!
+
+As the hungriest person in the world, it is your job to
+eat everything in sight to put an end to their nefarious
+plans.
+
+Only you can prevent world-wide poverty and hunger!
+You must act now!
+
+
+Directions:
+
+
+Once the intro has completed, press any key to begin the game.
+
+Use the directional pad to move your Munching Mouth (TM)
+around the screen.  Score points for eating food, but you
+must beware of the knives and shuriken the ninja are throwing
+at you.  They will do anything they can to stop you!
+
+You start the game with 4 lives, and are awarded an extra life
+for every 100,000 points accumulated.
+
+
+
+Point Values:
+
+McFries                 - 100  points
+Cow Flesh Sandwich      - 200  points
+Fishy                   - 400  points
+Apples & Oranges        - 600  points
+Mystery Food            - 1,000 points
+Squeedo del Tepton (TM) - ???? points
+
+
+
+Notes:
+
+_________________________________________
+
+_________________________________________
+
+_________________________________________
+
+_________________________________________
+
+
+
+FCC Regulations:
+(omitted)
+
+
+This game is for use only on the planet Gaia orbiting
+the star Sol, unless written or telepathic permission
+is obtained from the author.  (Except on Fridays.)
+
+
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+Bomber 4K
+
+
+objective:
+perilessly fly over 3 cities and destroy each one to win
+
+keys:
+A button - drop bomb
+Start button - start game
+select button - return to startup page from game over/win
+
+Emu's tested with:
+slow emu / high accuracy:
+fce ultra - yes
+nestopia - yes
+nintendulator - yes
+fast / inaccurate
+nestcl95 - yes
+vortendo - sprites flicker
+
+rom statistics:
+bomber.pal 		28
+finishtext.dat 		9
+lev_attribs.dat 	64
+title_attribs.dat	64
+metatiledata.dat 	176
+title.dat 		256
+lev1.dat 		256
+lev2.dat 		256
+lev3.dat 		256
+gameover.dat 		256
+bomber.chr 		1168
+ines header 		16
+non-code total 		= 2805
+code 			1283
+interrupt vectors 	6
+code total 		= 1288
+
+total rom size without 0 filling = 4094 bytes
+
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+GALAXY PATROL
+
+(c) 2003 Michael Martin
+Platform: NES
+Size: 3,691 bytes (16 byte iNES header, 2,103 bytes code, 1,572 bytes 
+      data)
+Tested on emulators: FCE Ultra, Nintendulator, NESten.
+
+Verification note
+-----------------
+
+Note to the people verifying this entry: The iNES format operates in 
+16kB chunks and requires data at the beginning and at the end.  I have 
+provided two versions of Galaxy Patrol, depending on how you elect to 
+handle this.  If you want the bulk of the program up front, then 
+4k-galaxy-start.nes has the code organized in this way.  It ends at file 
+location 0x0e70, and then is all zeroes through the final six bytes 
+which store the start locations, etc. for the machine.  Likewise, 
+4k-galaxy-end.nes has the 16-byte header, then 12kB+16 bytes of zeroes, 
+and then the uninterrupted program code.  The output of hexdump -C on 
+both of these .nes files has also been included for your convenience.
+
+Game Concept
+------------
+
+Welcome to Galaxy Patrol!  You must fly through the starfield, avoiding 
+stars and collecting fuel so as to continue your journey.  Your score is
+based on the amount of fuel you have spent.
+
+Game Controls
+-------------
+
+The Select and Start keys will let you navigate the main menu.  Once in 
+game, the directional pad will control your direction of motion.  You 
+will *always* be drifting to the left or right, and will "bounce" off 
+the sides of the screen if you collide with them.  Colliding with a star 
+or running out of fuel will end the game.  Colliding with a fuel dump 
+will give you 25 units of fuel (max 99).
+
+Special Thanks
+--------------
+
+Galaxy Patrol was inspired by Tim Hartnell's 1983 game of the same name 
+for the Timex Sinclair 1000.  The game mechanics have been modified a 
+bit (you can't lurk on the edges anymore) and the fact that your ship 
+moves with a pixel-level of granularity instead of a character-level one 
+changes the tactics considerably.
+
+Special thanks also go out to Quietust for playtesting the earlier 
+versions of this game and helping to nail some of the graphical glitches 
+therein.
+
+
+
+
+-------------------------------------------------------------
+
+
+_EOF_

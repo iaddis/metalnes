@@ -1,0 +1,23 @@
+// uses non square matrices, should result in errors on GLSL 1.10 / ES 1.00
+
+uniform float2x3 u23;
+uniform float4x3 u43;
+uniform float3x2 u32;
+
+float2 mat_downcast(float2x2 m)
+{
+    return m[0].xx;
+}
+
+uniform float val;
+
+float4 main() : COLOR0
+{
+    float4x4 m = val;
+    float2x4 m2 = m;
+    float2x2 m3 = m;
+    float3x2 m4 = m;
+    float3x3 m5 = m;
+    
+    return float4(m[3] * mat_downcast(m2), 0, 0);
+}

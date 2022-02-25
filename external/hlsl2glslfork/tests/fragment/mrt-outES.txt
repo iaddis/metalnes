@@ -1,0 +1,21 @@
+#extension GL_EXT_draw_buffers : require
+
+#line 1
+mediump vec4 xlat_main( out mediump vec4 c1, out highp vec4 c2, out mediump vec4 c3 ) {
+    #line 3
+    c1 = vec4( 1.0);
+    c2 = vec4( 0.5);
+    c3 = vec4( 1.0, 2.0, 3.0, 4.0);
+    return vec4( 2.0);
+}
+void main() {
+    mediump vec4 xl_retval;
+    mediump vec4 xlt_c1;
+    highp vec4 xlt_c2;
+    mediump vec4 xlt_c3;
+    xl_retval = xlat_main( xlt_c1, xlt_c2, xlt_c3);
+    gl_FragData[1] = vec4(xlt_c1);
+    gl_FragData[2] = vec4(xlt_c2);
+    gl_FragData[3] = vec4(xlt_c3);
+    gl_FragData[0] = vec4(xl_retval);
+}

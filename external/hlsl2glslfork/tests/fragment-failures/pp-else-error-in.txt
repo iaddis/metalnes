@@ -1,0 +1,4 @@
+#if 1
+#else 1
+#endif
+float4 main() : COLOR { return 0; }

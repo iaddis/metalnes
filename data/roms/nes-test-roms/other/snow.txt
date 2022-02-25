@@ -1,0 +1,72 @@
+SNOW intro, by Repulse (Tennessee Carmel-Veilleux)
+==================================================
+
+Introduction
+------------
+During the past year, I've worked very hard to learn 6502 assembly and
+ultimately, NES programming. What this archive contains is my first
+release. It is an Intro called "SNOW". It is the first "real" NES intro in
+the Demoparty sense of the word. Let's not forget that other devoted
+people have also given time to NES programming:
+
+ -Memblers
+ -Yoshi
+ -Matt Conte
+ -Kevin Horton
+ -The A/NES crew
+ -Chris Covell
+
+and have succeded by bringing technical demonstrations.
+
+The people
+----------
+ -Repulse : Code, design
+ -_Bnu    : GFX
+ -Memblers: Music
+ -Bananmos: Music Engine/Tracker
+ -Random  : Original music in MOD format
+
+Distribution License
+--------------------
+You can distribute this intro far and wide in both ROM and Cartridge form.
+HOWEVER, you cannot sell the data itself, you can only sell the medium.
+If you see this rule broken by someone, don't forget to e-mail me :) The
+sources will ONLY be available at Yoshi's NES developement site, which is,
+BTW, PRIVATE and restricted to the few who can actually make use of it.
+Any outside distribution of the source will result in a suit for breach of
+contract (to which you are agreeing by downloading this package). In other
+words, if you have the source, don't give it to someone else without
+asking me first. This is to insure that the NES developement community
+doesn't suffer the same lame-fest that the NES emulation scene is
+suffering right now. As usual, I cannot be held responsible for physical
+or moral harm caused to you or your equipment.
+
+Technical data about this intro
+-------------------------------
+Run this intro in the LATEST LoopyNES for the greatest experience :)
+
+This intro was coded using the following software:
+
+CA65/LD65: Assembler and Linker from Ulrich von Bassewitz
+   -> Available at http://www.von-bassewitz.de/uz/cc65/
+
+TLayer, NES Screen Arranger from Kent Hansen (Snowbro)
+   -> Available at (His page is down :( Zophar's Domain
+
+NT2 from Michael Iwaniec (Bananmos)
+   -> Available on request
+
+The demo took approx 30-40 hours to code spanned across 6 months (60% of
+the coding was done the week before Coma '99). It contains > 2500 lines of
+code. It was coded 100% under Linux.
+
+Contact
+-------
+Author: veilleux@atari.org, Repulse on EFnet
+
+Memblers: 5010.0951@tcon.net
+
+_Bnu: klass9.v@jokkmokk.se
+ 
+Bananmos: bananmos_uv@hotmail.com
+

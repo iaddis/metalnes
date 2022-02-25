@@ -1,0 +1,27 @@
+vec2 xll_vecTSel_vb2_vf2_vf2 (bvec2 a, vec2 b, vec2 c) {
+  return vec2 (a.x ? b.x : c.x, a.y ? b.y : c.y);
+}
+vec3 xll_vecTSel_vb3_vf3_vf3 (bvec3 a, vec3 b, vec3 c) {
+  return vec3 (a.x ? b.x : c.x, a.y ? b.y : c.y, a.z ? b.z : c.z);
+}
+vec4 xll_vecTSel_vb4_vf4_vf4 (bvec4 a, vec4 b, vec4 c) {
+  return vec4 (a.x ? b.x : c.x, a.y ? b.y : c.y, a.z ? b.z : c.z, a.w ? b.w : c.w);
+}
+#line 1
+vec4 xlat_main( in vec4 uv ) {
+    #line 2
+    vec4 a = vec4( 0.0);
+    a += xll_vecTSel_vb4_vf4_vf4 (greaterThan( uv, vec4( 0.5 )), vec4( 1.0, 2.0, 3.0, 4.0), vec4( 5.0, 6.0, 7.0, 8.0));
+    a += xll_vecTSel_vb4_vf4_vf4 (greaterThan( uv, vec4( 0.5)), vec4( 1.0, 2.0, 3.0, 4.0), vec4( 5.0, 6.0, 7.0, 8.0));
+    a += xll_vecTSel_vb4_vf4_vf4 (greaterThan( uv, vec4( 0.5 )), vec4( 1.0), vec4( 2.0));
+    #line 6
+    a += xll_vecTSel_vb4_vf4_vf4 (greaterThan( uv, vec4( 0.5 )), vec4( 1), vec4( 2));
+    a += xll_vecTSel_vb4_vf4_vf4 (bvec4(fract(uv)), vec4( 1.0), vec4( 2.0));
+    return a;
+}
+varying vec4 xlv_TEXCOORD0;
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_TEXCOORD0));
+    gl_FragData[0] = vec4(xl_retval);
+}

@@ -1,0 +1,94 @@
+
+#line 2
+struct v2f {
+    vec4 pos;
+    vec2 uv;
+    vec3 ray;
+};
+#line 8
+uniform sampler2D _CameraDepthTexture;
+uniform vec4 unity_LightmapFade;
+uniform mat4 _View2Shadow;
+#line 12
+uniform mat4 _View2Shadow1;
+uniform mat4 _View2Shadow2;
+uniform mat4 _View2Shadow3;
+uniform vec4 _LightSplitsNear;
+#line 16
+uniform vec4 _LightSplitsFar;
+uniform vec4 _LightShadowData;
+uniform sampler2D _ShadowMapTexture;
+#line 20
+uniform vec4 _ZBufferParams;
+#line 37
+#line 54
+#line 27
+vec2 EncodeFloatRG( in float v ) {
+    #line 29
+    vec2 kEncodeMul = vec2( 1.0, 255.0);
+    float kEncodeBit = 0.003921569;
+    vec2 enc = (kEncodeMul * v);
+    enc = fract(enc);
+    #line 33
+    enc.x -= (enc.y * kEncodeBit);
+    return enc;
+}
+#line 22
+float Linear01Depth( in float z ) {
+    #line 24
+    return (1.0 / ((_ZBufferParams.x * z) + _ZBufferParams.y));
+}
+#line 37
+float unitySampleShadow( in vec4 eyePos ) {
+    vec3 sc0 = (_View2Shadow * eyePos).xyz;
+    vec3 sc1 = (_View2Shadow1 * eyePos).xyz;
+    #line 41
+    vec3 sc2 = (_View2Shadow2 * eyePos).xyz;
+    vec3 sc3 = (_View2Shadow3 * eyePos).xyz;
+    float z = eyePos.z;
+    #line 46
+    vec4 near = vec4(greaterThanEqual( vec4( z ), _LightSplitsNear));
+    vec4 far = vec4(lessThan( vec4( z ), _LightSplitsFar));
+    vec4 weights = (near * far);
+    vec4 coord = vec4( ((((sc0 * weights.x) + (sc1 * weights.y)) + (sc2 * weights.z)) + (sc3 * weights.w)), 1.0);
+    #line 50
+    float shadow = (( (texture2D( _ShadowMapTexture, coord.xy).x < coord.z) ) ? ( _LightShadowData.x ) : ( 1.0 ));
+    return shadow;
+}
+#line 54
+vec4 xlat_main( in v2f i ) {
+    float depth = texture2D( _CameraDepthTexture, i.uv).x;
+    depth = Linear01Depth( depth);
+    #line 58
+    vec4 vpos = vec4( (i.ray * depth), 1.0);
+    float shadow = unitySampleShadow( vpos);
+    vec4 res;
+    res.x = shadow;
+    #line 62
+    res.y = 1.0;
+    res.zw = EncodeFloatRG( (1.0 - depth));
+    return res;
+}
+varying vec2 xlv_TEXCOORD0;
+varying vec3 xlv_TEXCOORD1;
+void main() {
+    vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.uv = vec2(xlv_TEXCOORD0);
+    xlt_i.ray = vec3(xlv_TEXCOORD1);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _CameraDepthTexture:<none> type 25 arrsize 0
+// _LightShadowData:<none> type 12 arrsize 0
+// _LightSplitsFar:<none> type 12 arrsize 0
+// _LightSplitsNear:<none> type 12 arrsize 0
+// _ShadowMapTexture:<none> type 25 arrsize 0
+// _View2Shadow:<none> type 21 arrsize 0
+// _View2Shadow1:<none> type 21 arrsize 0
+// _View2Shadow2:<none> type 21 arrsize 0
+// _View2Shadow3:<none> type 21 arrsize 0
+// _ZBufferParams:<none> type 12 arrsize 0

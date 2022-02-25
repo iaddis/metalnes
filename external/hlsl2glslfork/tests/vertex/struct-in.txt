@@ -1,0 +1,49 @@
+#line 1 "struct-in.txt" 
+struct Inner
+{
+    float member1;
+    int3  member2;
+};
+
+struct Inner2
+{
+    float3 member1;
+    float member2;
+};
+
+struct Outer
+{
+    Inner inner;
+    Inner inner2;
+    float member3;
+};
+
+struct OuterWithFirstSimpleMember
+{
+    float member0;
+    Inner inner1;
+    Inner inner2;
+};
+
+float4 StructTakingFunc(Outer outer, Inner inner)
+{
+    return float4(outer.inner.member2 + inner.member2, outer.inner.member1);
+}
+
+float4 main() : POSITION
+{
+    Outer test;
+    test.inner.member1 = 1;
+    test.inner.member2 = 0;
+
+    // zero-initialization of non-nested structs
+    Inner test2 = (Inner)0;
+    Inner2 test3 = (Inner2)0;
+
+    OuterWithFirstSimpleMember test4 = (OuterWithFirstSimpleMember)0;
+
+    Outer test5 = (Outer)0;
+    test5 = (Outer)0;
+
+    return (float4)StructTakingFunc(test, test2);
+}

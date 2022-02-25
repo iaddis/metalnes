@@ -1,0 +1,14 @@
+
+#line 1
+highp vec4 xlat_main(  ) {
+    #line 3
+    const highp float pos = 1.0;
+    highp vec4 pos4 = vec4( 1.0);
+    pos4 = vec4( 2.0);
+    return pos4;
+}
+void main() {
+    highp vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_Position = vec4(xl_retval);
+}

@@ -1,0 +1,24 @@
+
+#line 14
+struct PS_IN {
+    vec2 texCoord0;
+};
+#line 9
+uniform sampler2D Sampler_sDiffuseMap;
+#line 20
+#line 20
+vec4 xlat_main( in PS_IN inStruct ) {
+    vec4 tex = texture2D( Sampler_sDiffuseMap, inStruct.texCoord0);
+    return tex;
+}
+varying vec2 xlv_TEXCOORD0;
+void main() {
+    vec4 xl_retval;
+    PS_IN xlt_inStruct;
+    xlt_inStruct.texCoord0 = vec2(xlv_TEXCOORD0);
+    xl_retval = xlat_main( xlt_inStruct);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// Sampler_sDiffuseMap:<none> type 25 arrsize 0

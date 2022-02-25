@@ -1,0 +1,97 @@
+#line 1 "z-ssao-in.txt"
+
+#define SAMPLE_COUNT 8
+
+struct v2f_ao {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+	float2 uvr : TEXCOORD1;
+};
+
+sampler2D _CameraDepthNormalsTexture;
+sampler2D _RandomTexture;
+float4 _Params; // x=radius, y=minz, z=attenuation power, w=SSAO power
+float4 _ProjectionParams;
+
+inline float3 DecodeViewNormalStereo( float4 enc4 )
+{
+	float kScale = 1.7777;
+	float3 nn = enc4.xyz*float3(2*kScale,2*kScale,0) + float3(-kScale,-kScale,1);
+	float g = 2.0 / dot(nn.xyz,nn.xyz);
+	float3 n;
+	n.xy = g*nn.xy;
+	n.z = g-1;
+	return n;
+}
+inline float DecodeFloatRG( float2 enc )
+{
+	float2 kDecodeDot = float2(1.0, 1/255.0);
+	return dot( enc, kDecodeDot );
+}
+inline void DecodeDepthNormal( float4 enc, out float depth, out float3 normal )
+{
+	depth = DecodeFloatRG (enc.zw);
+	normal = DecodeViewNormalStereo (enc);
+}
+
+half frag_ao (v2f_ao i, int sampleCount, float3 samples[SAMPLE_COUNT])
+{
+	// read random normal from noise texture
+    half3 randN = tex2D (_RandomTexture, i.uvr).xyz * 2.0 - 1.0;    
+    
+    // read scene depth/normal
+    float4 depthnormal = tex2D (_CameraDepthNormalsTexture, i.uv);
+    float3 viewNorm;
+    float depth;
+    DecodeDepthNormal (depthnormal, depth, viewNorm);
+    depth *= _ProjectionParams.z;
+    float scale = _Params.x / depth;
+    
+    // accumulated occlusion factor
+    float occ = 0.0;
+    for (int s = 0; s < sampleCount; ++s)
+    {
+    	// Reflect sample direction around a random vector
+        half3 randomDir = reflect(samples[s], randN);
+        
+        // Make it point to the upper hemisphere
+        half flip = (dot(viewNorm,randomDir)<0) ? 1.0 : -1.0;
+        randomDir *= -flip;
+        // Add a bit of normal to reduce self shadowing
+        randomDir += viewNorm * 0.3;
+        
+        float2 offset = randomDir.xy * scale;
+        float sD = depth - (randomDir.z * _Params.x);
+
+		// Sample depth at offset location
+        float4 sampleND = tex2D (_CameraDepthNormalsTexture, i.uv + offset);
+        float sampleD;
+        float3 sampleN;
+        DecodeDepthNormal (sampleND, sampleD, sampleN);
+        sampleD *= _ProjectionParams.z;
+        float zd = saturate(sD-sampleD);
+        if (zd > _Params.y) {
+        	// This sample occludes, contribute to occlusion
+	        occ += pow(1-zd,_Params.z); // sc2
+	        //occ += 1.0-saturate(pow(1.0 - zd, 11.0) + zd); // nullsq
+        	//occ += 1.0/(1.0+zd*zd*10); // iq
+        }        
+    }
+    occ /= sampleCount;
+    return 1-occ;
+}
+
+half4 main (v2f_ao i) : COLOR
+{
+	const float3 RAND_SAMPLES[SAMPLE_COUNT] = {
+		float3(0.01305719,0.5872321,-0.119337),
+		float3(0.3230782,0.02207272,-0.4188725),
+		float3(-0.310725,-0.191367,0.05613686),
+		float3(-0.4796457,0.09398766,-0.5802653),
+		float3(0.1399992,-0.3357702,0.5596789),
+		float3(-0.2484578,0.2555322,0.3489439),
+		float3(0.1871898,-0.702764,-0.2317479),
+		float3(0.8849149,0.2842076,0.368524),
+	};
+    return frag_ao (i, SAMPLE_COUNT, RAND_SAMPLES);
+}

@@ -1,0 +1,14 @@
+#line 1 "in-struct-ret-vals-in.txt" 
+struct v2f {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+	float4 color : COLOR;
+};
+
+half4 main (v2f i) : COLOR
+{
+	half4 c;
+	c = i.color;
+	c.rg += i.uv;
+	return c;
+}

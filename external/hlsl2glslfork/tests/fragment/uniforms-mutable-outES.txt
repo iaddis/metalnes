@@ -1,0 +1,37 @@
+uniform highp float uni1;
+uniform mediump vec4 uni4;
+#line 4
+uniform sampler2D tex1;
+#line 12
+highp float xlat_mutableuni1;
+mediump vec4 xlat_mutableuni4;
+#line 6
+highp vec3 SampleDiffuse( in highp vec2 uv ) {
+    #line 8
+    xlat_mutableuni4.xy = uv;
+    return vec3( texture2D( tex1, xlat_mutableuni4.xy));
+}
+#line 12
+lowp vec4 xlat_main( in highp vec4 uv ) {
+    lowp vec4 c = vec4( 0.0);
+    c.x += xlat_mutableuni4.x;
+    c.xyz += SampleDiffuse( uv.xy);
+    #line 16
+    c.z += xlat_mutableuni1;
+    xlat_mutableuni1 += 2.0;
+    c.w += xlat_mutableuni1;
+    return c;
+}
+varying highp vec4 xlv_TEXCOORD0;
+void main() {
+    xlat_mutableuni1 = uni1;
+    xlat_mutableuni4 = uni4;
+    lowp vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_TEXCOORD0));
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// tex1:<none> type 25 arrsize 0
+// uni1:<none> type 9 arrsize 0
+// uni4:<none> type 12 arrsize 0

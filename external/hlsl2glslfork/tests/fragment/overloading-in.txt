@@ -1,0 +1,10 @@
+uniform float3 uniColor1;
+uniform float3 uniColor2;
+uniform float  uniFactor;
+
+float4 main() : COLOR0
+{
+    float3 col = lerp(0.5, uniColor2, uniFactor); // should upcast 0.5 and uniFactor to float3
+    float4 outcol = float4(col, 1);
+    return lerp(0.5, float3(1), outcol); // should upcast to float4
+}

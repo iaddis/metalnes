@@ -1,0 +1,24 @@
+
+#line 6
+struct VertexOutput {
+    vec4 pos;
+};
+#line 1
+struct VertexInput {
+    vec4 pos;
+};
+#line 11
+#line 11
+VertexOutput xlat_main( const VertexInput xlat_varinput ) {
+    VertexOutput xlat_varoutput;
+    xlat_varoutput.pos = xlat_varinput.pos;
+    #line 15
+    return xlat_varoutput;
+}
+void main() {
+    VertexOutput xl_retval;
+    VertexInput xlt_xlat_varinput;
+    xlt_xlat_varinput.pos = vec4(gl_Vertex);
+    xl_retval = xlat_main( xlt_xlat_varinput);
+    gl_Position = vec4(xl_retval.pos);
+}

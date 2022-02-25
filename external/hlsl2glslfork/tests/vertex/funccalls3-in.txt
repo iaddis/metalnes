@@ -1,0 +1,27 @@
+#line 1 "funccalls3-in.txt" 
+float4x4 mvp;
+
+struct a2v {
+	float4 pos : POSITION;
+};
+
+struct v2f {
+	float4 pos : POSITION;
+	float4 color : COLOR;
+};
+
+float4 ComputeColor (float4 pos)
+{
+	pos *= float4(1,-1,-1,1);
+	pos.xyz *= 0.3;
+	return pos;
+}
+
+v2f main (a2v v)
+{
+	v2f o;
+	float4 pos = mul (mvp, v.pos);
+	o.color = ComputeColor (pos);
+	o.pos = pos;
+	return o;
+}

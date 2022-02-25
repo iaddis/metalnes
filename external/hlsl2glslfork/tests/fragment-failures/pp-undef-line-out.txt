@@ -1,0 +1,2 @@
+(2): ERROR: '' : undefining "__LINE__" 
+(2): ERROR: '' : syntax error syntax error

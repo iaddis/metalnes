@@ -1,0 +1,11 @@
+// This triggered an error before, when the "== D0" would not pop source.
+#define D0 0
+#if DA == D0
+float a;
+#elif D5 >= D4
+WRONG
+#else
+ALSOWRONG
+#endif
+
+float4 main() : COLOR { return a; }

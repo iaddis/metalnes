@@ -1,0 +1,5 @@
+#line 1 "varyings-in.txt" 
+half4 main (float4 uv:TEXCOORD0, float4 foobar_xlv_foo : TEXCOORD1) : COLOR0 {
+	half4 c = 0;
+	return c;
+}

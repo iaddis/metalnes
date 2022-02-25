@@ -1,0 +1,7 @@
+float4 main() : POSITION
+{
+    const float pos = 1;
+    float4 pos4 = pos.xxxx;
+    pos4 = 2..xxxx;
+    return pos4;
+}

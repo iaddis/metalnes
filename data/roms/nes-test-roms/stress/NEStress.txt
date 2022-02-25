@@ -1,0 +1,196 @@
+	NEStress - A NES stress/testing program.
+
+
+PPU Test1:
+
+	*PPU Normal Write/Read.
+		Just Writes a couple of bytes to a specific address
+		and reads them back by specifying the same address.
+		Then reads one "garbage" byte before comparing values.
+		If this doesn't work, then all other test will fail also.
+
+	*PPU Write Read Write.
+		This tests if the PPU address is increased when doing a
+		read between writes (used by some "RARE" games).
+
+	*PPU First Read Then Write.
+		This tests if the PPU address is increased after a first read.
+
+	*PPU First Read Corret.
+		This tests the PPU read "pipe" to see if the first read is
+		just random or the actual value in the "pipe".
+
+	*PPU Mixed Address / Data Write.
+		This test so that the PPU address isn't changed before both
+		bytes are written to the address register.
+
+	*PPU $3000 Mirroring.
+		Tests the mirroring between $3000 and $2000.
+		Writes to $3xxx and reads from $2xxx plus the other way.
+		(Used by one version of Trojan at least)
+
+	*PPU $3FFF-$0000 Wrap Around.
+		To test if the address is correctly reset to $0000 after
+		access to $3FFF. One emulator actually crashed during this test.
+
+	*PPU Palette Write / Read.
+		This is actually very strange.
+		At least the Dr. PC Jr has this memory before the "pipe",
+		the NES doesn't, Famicoms behaviour is unknown.
+		This means there is no "garbage" read before the real data
+		(on Dr. PC Jr at least).
+
+
+PPU Test2:
+
+	*Sprite Collision.
+		Tests for accurate pixel detection collision.
+		Also test that there are no collisions if BGR or Sprites are turned off.
+
+	*Sprite Limmiter.
+		Checks if the sprite max bit is set when 8 sprites or more are on the
+		same raster scanline.
+
+	*Sprite data CPU write / read.
+		NOT CORRECT.
+
+	*Sprite data DMA write / CPU read.
+		NOT CORRECT.
+
+	*Sprite data diff DMA write / CPU read.
+		NOT CORRECT.
+
+
+PPU Test3:
+
+	*VBl test, bit 7 of $2002.
+		Checks if the bit is reset after a read.
+
+
+CPU Tests:
+	These tests checks that all flags are set correctly and the results.
+	The only instructions that should set the overflow flag (V) is ADC,
+	SBC and BIT (Test2...).
+
+CPU Test1:
+	"Aritmethic" operations.
+
+	*ADC/SBC Should set: V, C, N and Z.
+
+	*CMP... Shold set: C, N and Z.
+
+	*INC/DEC... Should set: N and Z.
+
+	*ASL,ROL... Should set: C, N and Z.
+
+
+CPU Test2:
+	Logical operations.
+
+	*LDA, LDX and LDY should set: N and Z.
+
+	*TAX, TAY, TSX, TXA and TYA should set: N and Z.
+
+	*TXS shouldn't set any flags as nothing is moved to a data register.
+
+	*PLA should set: N and Z.
+
+	*AND, EOR and ORA should set: N and Z.
+
+	*BIT should set: V, N and Z.
+
+
+CPU Test3:
+	Address modes.
+
+	*Imidiate:
+		A little hard to test actually =).
+		It just writes and reads an address.
+
+	*Zero Page:
+		Same as Imidiate...
+
+	*Zero Page,X:
+		This writes and reads with Zero Page and Zero Page,X.
+		Remember that Zero Page,X always writes to the zero page,
+		(wrap around).
+
+	*Absolute:
+		Same as Imidiate...
+
+	*Absolute,X:
+		This writes and reads with Absolute and Absolute,X.
+
+
+	*Absolute,Y:
+		This writes and reads with Absolute and Absolute,Y.
+
+	*(Indirect,X):
+		This Writes and reads with Absolute and (Indirect,X).
+		First gets the address from (Zero Page+x), then gets the value
+		from that address. Remeber ZP wrap.
+
+	*(Indirect),Y:
+		This Writes and reads with Absolute and (Indirect),Y.
+		First gets the address from (Zero Page) and adds Y to the fetched
+		address then gets the value from that address.
+
+	*JMP:
+		Not much to say here, if you have come this far in the test it works.
+
+	*JMP():
+		First tests that the JMP() works correct then tests that the
+		address isn't read from the same page.
+		should read from $2FF and $300, not $2FF and $200.
+
+	*JSR:
+		Tests that the jump is performed and that the return address
+		is correct
+
+	*RTS:
+		This pushes an address on the stack and does the RTS, then
+		checks that it returned to the right address (pushed address
+		plus 1).
+
+	*RTI:
+		Like the RTS, but pushes the Acumulator also.
+		Return address is the pushed address.
+
+
+CPU Test4:
+	Misc.
+
+	*Write / Read SR:
+		This tries to set all bits in the Status Register then
+		reads them back, this should return $FF.
+		The second test clears all bits in SR and reads them back,
+		This returns $30 now. The B (BRK) bit is only NULL when an
+		interrupt is taken.
+
+	*BRK Flags:
+		Reads the SR flags inside the irq and after it.
+
+	*BRK return address:
+		The BRK pushes PC+1 on the stack because the CPU always
+		reads at least 2 bytes for each instruction.
+
+	*Stack Address:
+		This plays around with the stack and checks that it
+		wraps correctly.
+
+	*CPU RAM:
+		This just writes to all the RAM locations and reads it back.
+
+	*CPU RAM Mirroring:
+		This checks that $800, $1000 and $1800 is mirrored to $0.
+
+
+IOTest:
+	First strobes $4016 then reads the port ($4016) 24 times and writes
+	it on the screen.
+
+	go to next screen by first pressing Select & Start then start again.
+
+
+
+

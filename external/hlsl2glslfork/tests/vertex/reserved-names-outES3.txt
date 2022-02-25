@@ -1,0 +1,21 @@
+uniform highp vec4 xlat_varattribute;
+uniform highp vec4 xlat_varvarying;
+#line 3
+uniform highp vec4 xlat_varmix;
+uniform highp vec4 xlat_varatan;
+#line 6
+highp vec4 xlat_main(  ) {
+    #line 8
+    return (((xlat_varattribute + xlat_varvarying) + xlat_varmix) + xlat_varatan);
+}
+void main() {
+    highp vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_Position = vec4(xl_retval);
+}
+
+// uniforms:
+// xlat_varatan:<none> type 12 arrsize 0
+// xlat_varattribute:<none> type 12 arrsize 0
+// xlat_varmix:<none> type 12 arrsize 0
+// xlat_varvarying:<none> type 12 arrsize 0

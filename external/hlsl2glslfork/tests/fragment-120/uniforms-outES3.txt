@@ -1,0 +1,29 @@
+
+#line 1
+uniform highp float uni1;
+uniform highp float uni2;
+uniform highp float uniInit1;
+#line 5
+uniform highp float uniInit2;
+#line 6
+lowp vec4 xlat_main( in highp vec4 uv, highp vec4 unicolor, highp vec4 reg, highp vec4 lights[2] ) {
+    return ((((((uv + unicolor) + vec4( (uni1 + uni2))) + reg) + lights[1]) + vec4( uniInit1)) + vec4( uniInit2));
+}
+uniform highp vec4 xlu_unicolor;
+uniform highp vec4 xlu_reg;
+uniform highp vec4 xlu_lights[2];
+in highp vec4 xlv_TEXCOORD0;
+void main() {
+    lowp vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_TEXCOORD0), xlu_unicolor, xlu_reg, xlu_lights);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// lights:<none> type 12 arrsize 2
+// reg:<none> type 12 arrsize 0 register c2
+// uni1:<none> type 9 arrsize 0 register c0
+// uni2:<none> type 9 arrsize 0 register c1
+// uniInit1:<none> type 9 arrsize 0
+// uniInit2:<none> type 9 arrsize 0
+// unicolor:<none> type 12 arrsize 0

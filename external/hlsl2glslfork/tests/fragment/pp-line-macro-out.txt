@@ -1,0 +1,14 @@
+
+#line 1
+vec4 xlat_main(  ) {
+    #line 3
+    float line3 = 3.0;
+    float line5 = 5.0;
+    #line 7
+    return vec4( (line3 + line5));
+}
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_FragData[0] = vec4(xl_retval);
+}

@@ -1,0 +1,15 @@
+uniform half4 _Color;
+
+half4 main() : COLOR0
+{
+    const half c1 = max(_Color.r, _Color.g);
+    const half c2 = _Color.b * _Color.a;
+
+	// This is GLSL 1.20
+    // ...which means this one can stay const
+    // since it only calls built-in function
+    const float c3 = log2(4 * 4);
+
+    const float c4 = -_Color.r;
+    return half4(c1, c2, c3, c4);
+}

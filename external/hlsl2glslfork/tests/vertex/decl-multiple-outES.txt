@@ -1,0 +1,39 @@
+
+#line 1
+void xlat_main( in highp vec4 vertex, out highp vec4 overtex ) {
+    #line 7
+    highp float fltArrInit[4];
+    fltArrInit[0] = float(1);
+    fltArrInit[1] = float(2);
+    fltArrInit[2] = float(3);
+    fltArrInit[3] = float(4);
+    highp float fltArrInit2[4];
+    fltArrInit2[0] = float(1);
+    fltArrInit2[1] = float(2);
+    fltArrInit2[2] = float(3);
+    fltArrInit2[3] = float(4);
+    highp float fltInit2 = 1.3;
+    highp float fltArrInit2a[5];
+    highp float fltArrInit2b[6];
+    fltArrInit2b[0] = float(1);
+    fltArrInit2b[1] = float(2);
+    fltArrInit2b[2] = float(3);
+    fltArrInit2b[3] = float(4);
+    fltArrInit2b[4] = float(5);
+    fltArrInit2b[5] = float(6);
+    highp float fltInit3 = 1.3;
+    highp float fltArrInit3[4];
+    fltArrInit3[0] = float(1);
+    fltArrInit3[1] = float(2);
+    fltArrInit3[2] = float(3);
+    fltArrInit3[3] = float(4);
+    highp float fltArrInit3a[5];
+    #line 11
+    overtex = vertex;
+}
+attribute highp vec4 xlat_attrib_POSITION;
+void main() {
+    highp vec4 xlt_overtex;
+    xlat_main( vec4(xlat_attrib_POSITION), xlt_overtex);
+    gl_Position = vec4(xlt_overtex);
+}

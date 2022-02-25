@@ -1,0 +1,8 @@
+#include "pp-includedfile-ascii.txt"
+// include twice to check if include guards work
+#include "pp-includedfile-ascii.txt"
+
+half4 main() : COLOR0
+{
+	return MyFunc();
+}

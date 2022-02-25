@@ -1,0 +1,58 @@
+
+#line 7
+struct v2f {
+    highp vec4 pos;
+    highp vec4 color;
+};
+#line 3
+struct a2v {
+    highp vec4 pos;
+};
+#line 1
+uniform highp mat4 mvp;
+#line 12
+uniform highp vec4 _LightColor;
+uniform highp vec3 _LightPos;
+#line 33
+#line 15
+highp float ComputeShadow( in highp vec3 pos ) {
+    #line 17
+    return pow( pos.x, 4.0);
+}
+#line 20
+highp float ComputeAtten( in highp vec3 pos, in highp vec3 lightPos ) {
+    #line 22
+    return (distance( pos, lightPos) * ComputeShadow( pos));
+}
+#line 25
+highp vec4 ComputeSomeLighting( in highp vec3 pos ) {
+    #line 27
+    highp vec4 res;
+    res = _LightColor;
+    res *= ComputeAtten( pos, _LightPos);
+    return res;
+}
+#line 33
+v2f xlat_main( in a2v v ) {
+    v2f o;
+    highp vec4 pos = (mvp * v.pos);
+    #line 37
+    o.pos = pos;
+    o.color = ComputeSomeLighting( v.pos.xyz);
+    return o;
+}
+attribute highp vec4 xlat_attrib_POSITION;
+varying highp vec4 xlv_COLOR;
+void main() {
+    v2f xl_retval;
+    a2v xlt_v;
+    xlt_v.pos = vec4(xlat_attrib_POSITION);
+    xl_retval = xlat_main( xlt_v);
+    gl_Position = vec4(xl_retval.pos);
+    xlv_COLOR = vec4(xl_retval.color);
+}
+
+// uniforms:
+// _LightColor:<none> type 12 arrsize 0
+// _LightPos:<none> type 11 arrsize 0
+// mvp:<none> type 21 arrsize 0

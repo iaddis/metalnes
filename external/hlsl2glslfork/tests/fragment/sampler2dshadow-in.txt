@@ -1,0 +1,14 @@
+#line 1 "tex2dshadow-in.txt" 
+
+sampler2DShadow shadowmap;
+
+fixed4 main (float4 uv : TEXCOORD0) : COLOR0
+{
+	float s1 = shadow2D (shadowmap, uv.xyz);
+	float s2 = shadow2Dproj (shadowmap, uv);
+
+	s1 = tex2D (shadowmap, uv.xyz);
+	s2 = tex2Dproj (shadowmap, uv);
+
+	return s1 + s2;
+}

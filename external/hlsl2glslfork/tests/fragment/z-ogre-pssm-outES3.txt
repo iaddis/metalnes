@@ -1,0 +1,97 @@
+vec4 xll_lit_f_f_f( float n_dot_l, float n_dot_h, float m ) {
+   return vec4(1, max(0.0, n_dot_l), pow(max(0.0, n_dot_h) * step(0.0, n_dot_l), m), 1.0);
+}
+#line 1
+#line 44
+#line 1
+highp float shadowPCF( in sampler2D shadowMap, in highp vec4 shadowMapPos, in highp vec2 offset ) {
+    shadowMapPos = (shadowMapPos / shadowMapPos.w);
+    highp vec2 uv = shadowMapPos.xy;
+    #line 5
+    highp vec3 o = (vec3( offset, (-offset.x)) * 0.3);
+    highp float c = float((( (shadowMapPos.z <= texture( shadowMap, (uv.xy - o.xy)).x) ) ? ( 1 ) : ( 0 )));
+    #line 9
+    c += float((( (shadowMapPos.z <= texture( shadowMap, (uv.xy + o.xy)).x) ) ? ( 1 ) : ( 0 )));
+    c += float((( (shadowMapPos.z <= texture( shadowMap, (uv.xy + o.zy)).x) ) ? ( 1 ) : ( 0 )));
+    c += float((( (shadowMapPos.z <= texture( shadowMap, (uv.xy - o.zy)).x) ) ? ( 1 ) : ( 0 )));
+    #line 16
+    return (c / 4.0);
+}
+#line 44
+void xlat_main( in highp vec3 uv, in highp vec3 OSlightDir, in highp vec3 OShalfAngle, in highp vec4 LightPosition0, in highp vec4 LightPosition1, in highp vec4 LightPosition2, in highp vec3 normal, out highp vec4 oColour, highp vec4 invShadowMapSize0, highp vec4 invShadowMapSize1, highp vec4 invShadowMapSize2, highp vec4 pssmSplitPoints, sampler2D diffuse, sampler2D specular, sampler2D normalMap, sampler2D shadowMap0, sampler2D shadowMap1, sampler2D shadowMap2, highp vec4 lightDiffuse, highp vec4 lightSpecular, highp vec4 ambient ) {
+    highp float shadowing = 1.0;
+    #line 48
+    highp vec4 splitColour;
+    if ((uv.z <= pssmSplitPoints.y)){
+        splitColour = vec4( 0.1, 0.0, 0.0, 1.0);
+        #line 52
+        shadowing = shadowPCF( shadowMap0, LightPosition0, invShadowMapSize0.xy);
+    }
+    else{
+        if ((uv.z <= pssmSplitPoints.z)){
+            #line 56
+            splitColour = vec4( 0.0, 0.1, 0.0, 1.0);
+            shadowing = shadowPCF( shadowMap1, LightPosition1, invShadowMapSize1.xy);
+        }
+        else{
+            #line 61
+            splitColour = vec4( 0.1, 0.1, 0.0, 1.0);
+            shadowing = shadowPCF( shadowMap2, LightPosition2, invShadowMapSize2.xy);
+        }
+    }
+    #line 66
+    highp vec3 lightVec = normalize(OSlightDir);
+    highp vec3 halfAngle = normalize(OShalfAngle);
+    #line 72
+    highp vec4 diffuseColour = texture( diffuse, uv.xy);
+    highp vec4 specularColour = texture( specular, uv.xy);
+    #line 76
+    highp float shininess = specularColour.w;
+    specularColour.w = 1.0;
+    #line 80
+    highp vec4 lighting = (xll_lit_f_f_f( dot( normal, lightVec), dot( normal, halfAngle), (shininess * 128.0)) * shadowing);
+    oColour = ((diffuseColour * clamp( (ambient + (lightDiffuse * lighting.y)), vec4( 0.0), vec4( 1.0))) + ((lightSpecular * specularColour) * lighting.z));
+    #line 84
+    oColour.w = diffuseColour.w;
+}
+uniform highp vec4 xlu_invShadowMapSize0;
+uniform highp vec4 xlu_invShadowMapSize1;
+uniform highp vec4 xlu_invShadowMapSize2;
+uniform highp vec4 xlu_pssmSplitPoints;
+uniform sampler2D xlu_diffuse;
+uniform sampler2D xlu_specular;
+uniform sampler2D xlu_normalMap;
+uniform sampler2D xlu_shadowMap0;
+uniform sampler2D xlu_shadowMap1;
+uniform sampler2D xlu_shadowMap2;
+uniform highp vec4 xlu_lightDiffuse;
+uniform highp vec4 xlu_lightSpecular;
+uniform highp vec4 xlu_ambient;
+in highp vec3 xlv_TEXCOORD0;
+in highp vec3 xlv_TEXCOORD1;
+in highp vec3 xlv_TEXCOORD2;
+in highp vec4 xlv_TEXCOORD3;
+in highp vec4 xlv_TEXCOORD4;
+in highp vec4 xlv_TEXCOORD5;
+in highp vec3 xlv_TEXCOORD6;
+void main() {
+    highp vec4 xlt_oColour;
+    xlat_main( vec3(xlv_TEXCOORD0), vec3(xlv_TEXCOORD1), vec3(xlv_TEXCOORD2), vec4(xlv_TEXCOORD3), vec4(xlv_TEXCOORD4), vec4(xlv_TEXCOORD5), vec3(xlv_TEXCOORD6), xlt_oColour, xlu_invShadowMapSize0, xlu_invShadowMapSize1, xlu_invShadowMapSize2, xlu_pssmSplitPoints, xlu_diffuse, xlu_specular, xlu_normalMap, xlu_shadowMap0, xlu_shadowMap1, xlu_shadowMap2, xlu_lightDiffuse, xlu_lightSpecular, xlu_ambient);
+    gl_FragData[0] = vec4(xlt_oColour);
+;
+}
+
+// uniforms:
+// ambient:<none> type 12 arrsize 0
+// diffuse:<none> type 25 arrsize 0
+// invShadowMapSize0:<none> type 12 arrsize 0
+// invShadowMapSize1:<none> type 12 arrsize 0
+// invShadowMapSize2:<none> type 12 arrsize 0
+// lightDiffuse:<none> type 12 arrsize 0
+// lightSpecular:<none> type 12 arrsize 0
+// normalMap:<none> type 25 arrsize 0
+// pssmSplitPoints:<none> type 12 arrsize 0
+// shadowMap0:<none> type 25 arrsize 0
+// shadowMap1:<none> type 25 arrsize 0
+// shadowMap2:<none> type 25 arrsize 0
+// specular:<none> type 25 arrsize 0

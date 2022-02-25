@@ -1,0 +1,5 @@
+// This should not crash when using the empty macro.
+#define COMPUTE_FOO(a)
+COMPUTE_FOO(a)
+
+float4 main() : COLOR { return 0; }

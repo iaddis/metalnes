@@ -1,0 +1,4 @@
+(5): ERROR: '' : constant expression required 
+(5): ERROR: '' : array size must be a constant integer expression 
+(11): ERROR: '' : constant expression required 
+(11): ERROR: '' : array size must be a constant integer expression 

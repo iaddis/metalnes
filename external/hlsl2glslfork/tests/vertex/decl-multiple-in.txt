@@ -1,0 +1,12 @@
+void main (float4 vertex : POSITION, out float4 overtex : POSITION)
+{
+	// there was a crash bug in 'stackPos' declared like this
+	//int stack[64], stackPos = 0, node = 0;
+
+	// test more variants
+	float fltArrInit[] = {1,2,3,4};
+	float fltArrInit2[] = {1,2,3,4}, fltInit2 = 1.3, fltArrInit2a[5], fltArrInit2b[6] = {1,2,3,4,5,6};
+	float fltInit3 = 1.3, fltArrInit3[] = {1,2,3,4}, fltArrInit3a[5];
+
+    overtex = vertex;
+}

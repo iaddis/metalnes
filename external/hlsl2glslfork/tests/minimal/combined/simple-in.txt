@@ -1,0 +1,53 @@
+float4x4 world;
+float4x4 view;
+float4x4 proj;
+float4x4 stupid[10];
+float4x4 bounding_volume;
+
+sampler2D diffuse_map;
+sampler2DShadow shadow_map;
+
+struct VS_INPUT {
+	float4 position : POSITION;
+	float2 uv : TEXCOORD0;
+	int vertex_id : SV_VertexID;
+	int instance_id : SV_InstanceID;
+};
+
+struct PS_INPUT {
+	float4 position : POSITION;
+	float2 uv : TEXCOORD0;
+};
+
+PS_INPUT vs_main(VS_INPUT input) {
+	PS_INPUT o;
+
+	float3x3 dummy = float3x3(float3(0), float3(0), float3(0));
+
+	float4 wp = mul(input.position, world);
+	stupid[2] = view;
+
+	stupid[2]._m30_m31_m32 = dummy._m21_m00_m00;
+
+	dummy[2][0] = 0;
+	dummy._m20_m02 = float2(0, 0);
+	dummy._m22 = dummy[input.instance_id * 2 + input.vertex_id];
+
+	float3 op = float3(1, 1, 1);
+	float3 containment = (op > bounding_volume._m00_m10_m20) * (op < bounding_volume._m01_m11_m21);
+	float mask = dot(containment, containment) == 3;
+
+	o.position = mul(mul(wp, stupid[2]), proj);
+	o.uv = input.uv;
+
+	return o;
+}
+
+half4 ps_main(PS_INPUT input, int primitive_id : SV_PrimitiveID) : COLOR0 {
+	half4 c = half4(1, 1, 1, (float)primitive_id);
+	c = tex2D(diffuse_map, input.uv);
+	float depth = 1;
+	float4 shadow = float4(input.uv, depth, 1);
+	c *= tex2Dproj(shadow_map, shadow).r;
+	return c;
+}

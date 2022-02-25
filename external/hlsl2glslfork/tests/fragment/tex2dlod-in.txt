@@ -1,0 +1,6 @@
+#line 1 "tex2dlod-in.txt" 
+sampler2D tex;
+
+half4 main (float4 uv : TEXCOORD0) : COLOR0 {
+	return tex2Dlod (tex, float4(uv.xy,0,0));
+}

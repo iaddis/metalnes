@@ -1,0 +1,248 @@
+mat2 xll_transpose_mf2x2(mat2 m) {
+  return mat2( m[0][0], m[1][0], m[0][1], m[1][1]);
+}
+mat3 xll_transpose_mf3x3(mat3 m) {
+  return mat3( m[0][0], m[1][0], m[2][0],
+               m[0][1], m[1][1], m[2][1],
+               m[0][2], m[1][2], m[2][2]);
+}
+mat4 xll_transpose_mf4x4(mat4 m) {
+  return mat4( m[0][0], m[1][0], m[2][0], m[3][0],
+               m[0][1], m[1][1], m[2][1], m[3][1],
+               m[0][2], m[1][2], m[2][2], m[3][2],
+               m[0][3], m[1][3], m[2][3], m[3][3]);
+}
+mat3 xll_constructMat3_mf4x4( mat4 m) {
+  return mat3( vec3( m[0]), vec3( m[1]), vec3( m[2]));
+}
+vec2 xll_matrixindex_mf2x2_i (mat2 m, int i) { vec2 v; v.x=m[0][i]; v.y=m[1][i]; return v; }
+vec3 xll_matrixindex_mf3x3_i (mat3 m, int i) { vec3 v; v.x=m[0][i]; v.y=m[1][i]; v.z=m[2][i]; return v; }
+vec4 xll_matrixindex_mf4x4_i (mat4 m, int i) { vec4 v; v.x=m[0][i]; v.y=m[1][i]; v.z=m[2][i]; v.w=m[3][i]; return v; }
+#line 104
+struct MySurfaceOutput {
+    vec3 Albedo;
+    vec3 Normal;
+    vec3 Emission;
+    vec3 Specular;
+    float Reflectivity;
+    float Roughness;
+    float Alpha;
+};
+#line 253
+struct ContinuousSamplerLOD {
+    float mip0;
+    float mip1;
+    float mipFrac;
+};
+#line 268
+struct PlanarMapping {
+    vec4 plane;
+    vec3 tangent;
+    vec3 bitangent;
+    vec2 uvOffset;
+};
+#line 91
+struct Input {
+    vec2 uv_MainTex;
+    vec2 uv_BumpMap;
+    vec3 viewDir;
+    vec3 worldPos;
+    vec3 worldNormal;
+    vec3 worldRefl;
+    vec3 TtoW0;
+    vec3 TtoW1;
+    vec3 TtoW2;
+};
+#line 407
+struct v2f_surf {
+    vec4 pos;
+    vec4 pack0;
+    vec3 worldPos;
+    vec3 viewDir;
+    vec4 TtoW0;
+    vec4 TtoW1;
+    vec4 TtoW2;
+    vec4 lmap;
+    vec3 lightDir;
+};
+#line 17
+struct appdata_full {
+    vec4 vertex;
+    vec4 tangent;
+    vec3 normal;
+    vec4 texcoord;
+    vec4 texcoord1;
+    vec4 color;
+};
+uniform vec3 _WorldSpaceCameraPos;
+uniform vec4 _WorldSpaceLightPos0;
+#line 3
+uniform vec4 unity_SHAr;
+uniform vec4 unity_SHAg;
+uniform vec4 unity_SHAb;
+uniform vec4 unity_SHBr;
+#line 7
+uniform vec4 unity_SHBg;
+uniform vec4 unity_SHBb;
+uniform vec4 unity_SHC;
+uniform mat4 glstate_matrix_mvp;
+#line 11
+uniform mat4 glstate_matrix_modelview0;
+uniform mat4 _Object2World;
+uniform mat4 _World2Object;
+uniform vec4 unity_Scale;
+#line 15
+uniform mat4 glstate_matrix_projection;
+uniform vec4 glstate_lightmodel_ambient;
+#line 27
+#line 32
+#line 37
+#line 41
+#line 46
+#line 85
+uniform vec4 _LightColor0;
+uniform vec4 _SpecColor;
+#line 115
+uniform float _Rolloff;
+#line 120
+#line 124
+uniform float _Falloff;
+#line 210
+uniform float _Roughness;
+uniform float _Roughness2;
+#line 218
+uniform float _Reflectivity;
+uniform float _Refl0;
+uniform float _Refl90;
+uniform float _Metalic;
+uniform float _SpecOnlyIntensity;
+#line 222
+uniform float _ReflOnlyIntensity;
+#line 242
+#line 260
+#line 264
+#line 276
+uniform mat4 _WorldToMirrorProjMatrix;
+uniform sampler2D _MirrorTex;
+#line 302
+uniform vec4 _PlanarReflection0;
+uniform vec4 _PlanarReflectionTangent0;
+uniform vec4 _PlanarReflectionBiTangent0;
+#line 342
+uniform sampler2D _PlanarReflectionTex0;
+uniform vec4 _PlanarReflection1;
+uniform vec4 _PlanarReflectionTangent1;
+uniform vec4 _PlanarReflectionBiTangent1;
+uniform sampler2D _PlanarReflectionTex1;
+#line 346
+uniform vec4 _PlanarReflection2;
+uniform vec4 _PlanarReflectionTangent2;
+uniform vec4 _PlanarReflectionBiTangent2;
+uniform sampler2D _PlanarReflectionTex2;
+uniform samplerCube _Cube;
+#line 350
+uniform sampler2D _MainTex;
+uniform sampler2D _BumpMap;
+uniform sampler2D _BumpMap2;
+#line 382
+uniform sampler2D _MainReflectivityTex;
+uniform sampler2D _MainRoughnessTex;
+uniform vec4 _BumpMap2_ST;
+uniform vec4 _Color;
+uniform vec4 _ReflColor;
+#line 386
+uniform float _BumpMapFactor;
+uniform float _BumpMapFactor2;
+uniform vec4 _MainReflectivityTex_AddMul;
+uniform vec4 _MainRoughnessTex_AddMul;
+#line 420
+uniform vec4 unity_LightmapST;
+uniform vec4 unity_ShadowFadeCenterAndType;
+uniform vec4 _MainTex_ST;
+uniform vec4 _BumpMap_ST;
+#line 424
+#line 32
+vec3 ObjSpaceLightDir( in vec4 v ) {
+    vec3 objSpaceLightPos = (_World2Object * _WorldSpaceLightPos0).xyz;
+    return objSpaceLightPos.xyz;
+}
+#line 41
+vec3 ObjSpaceViewDir( in vec4 v ) {
+    vec3 objSpaceCameraPos = ((_World2Object * vec4( _WorldSpaceCameraPos.xyz, 1.0)).xyz * unity_Scale.w);
+    return (objSpaceCameraPos - v.xyz);
+}
+#line 424
+v2f_surf xlat_main( in appdata_full v ) {
+    v2f_surf o;
+    o.pos = (glstate_matrix_mvp * v.vertex);
+    #line 428
+    o.pack0.xy = ((v.texcoord.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
+    o.pack0.zw = ((v.texcoord.xy * _BumpMap_ST.xy) + _BumpMap_ST.zw);
+    v.normal = normalize(v.normal);
+    v.tangent.xyz = normalize(v.tangent.xyz);
+    #line 432
+    o.worldPos = (_Object2World * v.vertex).xyz;
+    vec3 viewDir = (-ObjSpaceViewDir( v.vertex));
+    vec3 worldRefl = (xll_constructMat3_mf4x4( _Object2World) * viewDir);
+    vec3 binormal = (cross( normalize(v.normal), normalize(v.tangent.xyz)) * v.tangent.w);
+    #line 436
+    mat3 rotation = xll_transpose_mf3x3(mat3( v.tangent.xyz, binormal, v.normal));
+    o.TtoW0 = (vec4( (rotation * xll_matrixindex_mf4x4_i (_Object2World, 0).xyz), worldRefl.x) * unity_Scale.w);
+    o.TtoW1 = (vec4( (rotation * xll_matrixindex_mf4x4_i (_Object2World, 1).xyz), worldRefl.y) * unity_Scale.w);
+    o.TtoW2 = (vec4( (rotation * xll_matrixindex_mf4x4_i (_Object2World, 2).xyz), worldRefl.z) * unity_Scale.w);
+    #line 440
+    o.lmap.xy = ((v.texcoord1.xy * unity_LightmapST.xy) + unity_LightmapST.zw);
+    o.lmap.zw = vec2( 0.0, 0.0);
+    o.lmap.z = (length(((_Object2World * v.vertex).xyz - unity_ShadowFadeCenterAndType.xyz)) * unity_ShadowFadeCenterAndType.w);
+    o.lmap.w = ((-(glstate_matrix_modelview0 * v.vertex).z) * (1.0 - unity_ShadowFadeCenterAndType.w));
+    #line 444
+    vec3 worldN = (xll_constructMat3_mf4x4( _Object2World) * (v.normal * unity_Scale.w));
+    vec3 lightDir = (rotation * ObjSpaceLightDir( v.vertex));
+    o.lightDir = lightDir;
+    vec3 viewDirForLight = (rotation * ObjSpaceViewDir( v.vertex));
+    #line 448
+    o.viewDir = viewDirForLight;
+    return o;
+}
+attribute vec4 TANGENT;
+varying vec4 xlv_TEXCOORD0;
+varying vec3 xlv_TEXCOORD1;
+varying vec3 xlv_TEXCOORD2;
+varying vec4 xlv_TEXCOORD3;
+varying vec4 xlv_TEXCOORD4;
+varying vec4 xlv_TEXCOORD5;
+varying vec4 xlv_TEXCOORD6;
+varying vec3 xlv_TEXCOORD7;
+void main() {
+    v2f_surf xl_retval;
+    appdata_full xlt_v;
+    xlt_v.vertex = vec4(gl_Vertex);
+    xlt_v.tangent = vec4(TANGENT);
+    xlt_v.normal = vec3(gl_Normal);
+    xlt_v.texcoord = vec4(gl_MultiTexCoord0);
+    xlt_v.texcoord1 = vec4(gl_MultiTexCoord1);
+    xlt_v.color = vec4(gl_Color);
+    xl_retval = xlat_main( xlt_v);
+    gl_Position = vec4(xl_retval.pos);
+    xlv_TEXCOORD0 = vec4(xl_retval.pack0);
+    xlv_TEXCOORD1 = vec3(xl_retval.worldPos);
+    xlv_TEXCOORD2 = vec3(xl_retval.viewDir);
+    xlv_TEXCOORD3 = vec4(xl_retval.TtoW0);
+    xlv_TEXCOORD4 = vec4(xl_retval.TtoW1);
+    xlv_TEXCOORD5 = vec4(xl_retval.TtoW2);
+    xlv_TEXCOORD6 = vec4(xl_retval.lmap);
+    xlv_TEXCOORD7 = vec3(xl_retval.lightDir);
+}
+
+// uniforms:
+// _BumpMap_ST:<none> type 12 arrsize 0
+// _MainTex_ST:<none> type 12 arrsize 0
+// _Object2World:<none> type 21 arrsize 0
+// _World2Object:<none> type 21 arrsize 0
+// _WorldSpaceCameraPos:<none> type 11 arrsize 0
+// _WorldSpaceLightPos0:<none> type 12 arrsize 0
+// glstate_matrix_modelview0:<none> type 21 arrsize 0
+// glstate_matrix_mvp:<none> type 21 arrsize 0
+// unity_LightmapST:<none> type 12 arrsize 0
+// unity_Scale:<none> type 12 arrsize 0
+// unity_ShadowFadeCenterAndType:<none> type 12 arrsize 0

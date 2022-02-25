@@ -1,0 +1,21 @@
+#line 1 "complex-particle-in.txt" 
+float4x4 glstate_matrix_mvp;
+struct appdata_t {
+    float4 vertex : POSITION;
+    fixed4 color : COLOR;
+    float2 texcoord : TEXCOORD0;
+};
+struct v2f {
+    float4 vertex : POSITION;
+    fixed4 color : COLOR;
+    half2 texcoord : TEXCOORD0;
+};
+float4 _MainTex_ST;
+v2f main (appdata_t v)
+{
+    v2f o;
+    o.vertex = mul (glstate_matrix_mvp, v.vertex);
+    o.color = v.color;
+    o.texcoord = (v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw);
+    return o;
+}

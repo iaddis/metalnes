@@ -1,0 +1,1 @@
+(1): ERROR: Unsupported return type for shader entry function (vec4) or wrong semantic (SV_MYTARGET)

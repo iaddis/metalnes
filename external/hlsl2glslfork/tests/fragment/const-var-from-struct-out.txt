@@ -1,0 +1,21 @@
+
+#line 1
+uniform vec4 _Color;
+#line 3
+vec4 xlat_main(  ) {
+    #line 5
+    float r = _Color.x;
+    float g = _Color.y;
+    float b = _Color.z;
+    float a = _Color.w;
+    #line 9
+    return vec4( r, g, b, a);
+}
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _Color:<none> type 12 arrsize 0

@@ -1,0 +1,89 @@
+
+#line 14
+struct v2f {
+    highp vec4 pos;
+    mediump vec4 color;
+};
+#line 9
+struct appdata {
+    highp vec4 vertex;
+    highp vec3 normal;
+};
+uniform highp vec4 unity_LightColor[4];
+uniform highp vec4 unity_LightPosition[4];
+#line 3
+uniform highp vec4 unity_LightAtten[4];
+uniform highp mat4 UNITY_MATRIX_MVP;
+uniform highp mat4 UNITY_MATRIX_MV;
+#line 7
+uniform highp mat4 UNITY_MATRIX_IT_MV;
+#line 19
+#line 35
+v2f xlat_main( in appdata v ) {
+    #line 37
+    v2f o;
+    o.pos = (UNITY_MATRIX_MVP * v.vertex);
+    o.color = vec4( 0.0);
+    #line 41
+    highp int i = 0;
+    for ( ; (i < 2); (++i)) {
+        o.color += unity_LightColor[i];
+    }
+    #line 45
+    highp int i_1 = 0;
+    for ( ; (i_1 < 4); (++i_1)) {
+        o.color += unity_LightColor[i_1];
+    }
+    #line 49
+    highp int j = 3;
+    for ( ; (j >= 0); j = (j - 1)) {
+        o.color += unity_LightColor[j];
+    }
+    #line 53
+    highp int i_2 = 0;
+    for ( ; (i_2 < 2); (++i_2)) {
+        highp vec4 l = (unity_LightColor[i_2] * unity_LightAtten[i_2].x);
+        o.color += l;
+    }
+    #line 59
+    highp int i_3 = 0;
+    for ( ; (i_3 < 2); (++i_3)) {
+        highp vec4 l_1 = (unity_LightColor[i_3] * unity_LightAtten[i_3].z);
+        o.color += l_1;
+    }
+    #line 65
+    highp int k = 1;
+    for ( ; (k < 3); ) {
+        o.color += unity_LightColor[k].x;
+        #line 69
+        highp int z = (k + 1);
+        k = z;
+    }
+    #line 74
+    highp int x = 0;
+    for ( ; (x < 3); (++x)) {
+        highp int y = 0;
+        for ( ; (y < 3); (++y)) {
+            o.color.xy += vec2( float(x), float(y));
+        }
+    }
+    #line 80
+    return o;
+}
+in highp vec4 xlat_attrib_POSITION;
+in highp vec3 xlat_attrib_NORMAL;
+out mediump vec4 xlv_TEXCOORD0;
+void main() {
+    v2f xl_retval;
+    appdata xlt_v;
+    xlt_v.vertex = vec4(xlat_attrib_POSITION);
+    xlt_v.normal = vec3(xlat_attrib_NORMAL);
+    xl_retval = xlat_main( xlt_v);
+    gl_Position = vec4(xl_retval.pos);
+    xlv_TEXCOORD0 = vec4(xl_retval.color);
+}
+
+// uniforms:
+// UNITY_MATRIX_MVP:<none> type 21 arrsize 0
+// unity_LightAtten:<none> type 12 arrsize 4
+// unity_LightColor:<none> type 12 arrsize 4

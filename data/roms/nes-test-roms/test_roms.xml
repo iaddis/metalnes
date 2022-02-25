@@ -1,0 +1,723 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuite>
+ <test testnotes="" filename="apu_reset/4015_cleared.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[75NVOeAT7/jVw73+CEdeKsb2Pic=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_reset/4017_timing.nes" system="ntsc" failcomment="Failed #3" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[kr2ADiHwHh+7mXBKsp0q7YxpcLI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_reset/4017_written.nes" system="ntsc" failcomment="Failed #2" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[ifu32wt30uQrjADm6Ir2jKtsjDA=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_reset/irq_flag_cleared.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[75NVOeAT7/jVw73+CEdeKsb2Pic=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_reset/len_ctrs_enabled.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[75NVOeAT7/jVw73+CEdeKsb2Pic=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_reset/works_immediately.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[75NVOeAT7/jVw73+CEdeKsb2Pic=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_mixer/dmc.nes" system="ntsc" failcomment="" runframes="780" testresult="pass">
+  <tvsha1><![CDATA[dbPq1gWhVJbjPvi61pn/0dUVy/s=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_mixer/noise.nes" system="ntsc" failcomment="" runframes="1260" testresult="pass">
+  <tvsha1><![CDATA[eZG7kHcDAzvFUFMXjZynRd3ZyRU=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_mixer/square.nes" system="ntsc" failcomment="" runframes="1080" testresult="pass">
+  <tvsha1><![CDATA[JXc9txqBccnWpiYoJcNv/D05uCA=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_mixer/triangle.nes" system="ntsc" failcomment="" runframes="780" testresult="pass">
+  <tvsha1><![CDATA[CF8XZLs+e9CFTikZ1gHoVjTtWns=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_test/apu_test.nes" system="ntsc" failcomment="" runframes="360" testresult="pass">
+  <tvsha1><![CDATA[WbE12eKlTfjwenhtU0Tq70qsaqQ=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_test/rom_singles/1-len_ctr.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[1EjN5lks7VxI/HHTIMDfb1GX/lo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_test/rom_singles/2-len_table.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[5dFdw9vsWOZg08m95wH7IY5Sry8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_test/rom_singles/3-irq_flag.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[bpfq4a8sy8g2F6/RvruaQkcngtM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_test/rom_singles/4-jitter.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[b568KWtuumfzfyQCnq43g0twLAg=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_test/rom_singles/5-len_timing.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[w+7iZgC2jbZcjILdYvftOC35b+U=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_test/rom_singles/6-irq_flag_timing.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[Mt3McQrpQOTzXZB4gS0IV0kMqDA=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_test/rom_singles/7-dmc_basics.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[pBC+8N0h/pcYXTm7k6Bs3rnYf0E=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="apu_test/rom_singles/8-dmc_rates.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[mW8OnTTRl7lokJSVQ8//h5sANzk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/01.len_ctr.nes" system="ntsc" failcomment="Failed $01?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[HBVq6tsOAHcNBeoZyLj+4f2a8co=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/02.len_table.nes" system="ntsc" failcomment="Failed $01?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[nat4ZwUocnQZH4jRW6x3mwOTsFs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/03.irq_flag.nes" system="ntsc" failcomment="Failed $01" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[Aj0NZ+s4ukMvRATOzKU9OUnI4N8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/04.clock_jitter.nes" system="ntsc" failcomment="Failed $01?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[8zyWmTCkc2aIpDsVFdxfjOwmPTI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/05.len_timing_mode0.nes" system="ntsc" failcomment="Failed $01?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[9ozH82AlUwGbq3cRmrhWwGvwvsg=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/06.len_timing_mode1.nes" system="ntsc" failcomment="Failed $01?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[8zyWmTCkc2aIpDsVFdxfjOwmPTI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/07.irq_flag_timing.nes" system="ntsc" failcomment="Failed $01?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[8zyWmTCkc2aIpDsVFdxfjOwmPTI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/08.irq_timing.nes" system="ntsc" failcomment="Failed $01?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[8zyWmTCkc2aIpDsVFdxfjOwmPTI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/09.reset_timing.nes" system="ntsc" failcomment="Failed $04?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[ePpAYcHN/+uAOKUW81wiTRrpX/k=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/10.len_halt_timing.nes" system="ntsc" failcomment="Failed $01?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[sKyarOHydJQxKI9D/B2hT+brsfs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_apu_2005.07.30/11.len_reload_timing.nes" system="ntsc" failcomment="Failed $01?" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[8zP2TJRfpI28k1wHn+xfeMkAXMs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_nes_cpu_test5/cpu.nes" system="ntsc" failcomment="" runframes="1140" testresult="pass">
+  <tvsha1><![CDATA[2/JXgutt9eKd6bBL4vjk1iJ7lpM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_nes_cpu_test5/official.nes" system="ntsc" failcomment="" runframes="720" testresult="pass">
+  <tvsha1><![CDATA[2/JXgutt9eKd6bBL4vjk1iJ7lpM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_ppu_tests_2005.09.15b/palette_ram.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[2ACKiuKHeQth9xxXEZtgRQUIi6w=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_ppu_tests_2005.09.15b/power_up_palette.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[2ACKiuKHeQth9xxXEZtgRQUIi6w=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_ppu_tests_2005.09.15b/sprite_ram.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[2ACKiuKHeQth9xxXEZtgRQUIi6w=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_ppu_tests_2005.09.15b/vbl_clear_time.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[2ACKiuKHeQth9xxXEZtgRQUIi6w=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="blargg_ppu_tests_2005.09.15b/vram_access.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[2ACKiuKHeQth9xxXEZtgRQUIi6w=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="branch_timing_tests/1.Branch_Basics.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[NTpzRpbjMHVYziSDAZpwThpaDDg=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="branch_timing_tests/2.Backward_Branch.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[BGjGkBOMnGfR2X4B2d3H/VSsPxw=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="branch_timing_tests/3.Forward_Branch.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[S2UdyUN17QLEAbTPnM/sTGinkxo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="cpu_dummy_reads/cpu_dummy_reads.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[IZ7If73DZSDpOamXOmHx+MzmPBI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="cpu_interrupts_v2/cpu_interrupts.nes" system="ntsc" failcomment="Incorrect timing" runframes="180" testresult="fail">
+  <tvsha1><![CDATA[T9rPa+weWMvKViPMIfw3Axfnjk8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="cpu_interrupts_v2/rom_singles/1-cli_latency.nes" system="ntsc" failcomment="Incorrect timing" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[WcRBDZ4I2ps+ONlEk104SvZuMmI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="cpu_interrupts_v2/rom_singles/2-nmi_and_brk.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[G51vjIhxdNPMxGRkDStGjECiZdo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="cpu_interrupts_v2/rom_singles/3-nmi_and_irq.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[nhdRKkcnEqojeRlTCr+F1kMz9IU=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="cpu_interrupts_v2/rom_singles/4-irq_and_dma.nes" system="ntsc" failcomment="D8F25536" runframes="120" testresult="fail">
+  <tvsha1><![CDATA[UJ2RQxlYNBA2sMDJktkKScnRjv8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="cpu_interrupts_v2/rom_singles/5-branch_delays_irq.nes" system="ntsc" failcomment="" runframes="420" testresult="pass">
+  <tvsha1><![CDATA[BmYdOy2tbc1gHPxU3O28UuI+Tss=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="cpu_reset/ram_after_reset.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[FiAsKo3Df69PZWd5r9lcCTxzKvM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="cpu_reset/registers.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[FiAsKo3Df69PZWd5r9lcCTxzKvM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="No inputs -- official only" filename="cpu_timing_test6/cpu_timing_test.nes" system="ntsc" failcomment="" runframes="660" testresult="pass">
+  <tvsha1><![CDATA[qiCw5Tc02sYX/zr58+sSEm2thAY=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="A pressed -- official + NOP" filename="cpu_timing_test6/cpu_timing_test.nes" system="ntsc" failcomment="" runframes="780" testresult="pass">
+  <tvsha1><![CDATA[fpbbQbbXCLSJiqSqKtGpjfhQ/Gc=]]></tvsha1>
+  <recordedinput><![CDATA[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]]></recordedinput>
+ </test>
+ <test testnotes="B pressed -- official + undoc" filename="cpu_timing_test6/cpu_timing_test.nes" system="ntsc" failcomment="" runframes="1020" testresult="pass">
+  <tvsha1><![CDATA[pxjbcfJBNDWLLRn+1n1PARRTKAo=]]></tvsha1>
+  <recordedinput><![CDATA[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]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dmc_dma_during_read4/dma_2007_read.nes" system="ntsc" failcomment="Incorrect cycle stealing" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[FiAsKo3Df69PZWd5r9lcCTxzKvM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dmc_dma_during_read4/dma_2007_write.nes" system="ntsc" failcomment="Not sure no output" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[FiAsKo3Df69PZWd5r9lcCTxzKvM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dmc_dma_during_read4/dma_4016_read.nes" system="ntsc" failcomment="Incorrect cycle stealing" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[FiAsKo3Df69PZWd5r9lcCTxzKvM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dmc_dma_during_read4/double_2007_read.nes" system="ntsc" failcomment="Incorrect cycle stealing" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[n8KPQ9tB6W6iemDYSyinaCXRIZI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dmc_dma_during_read4/read_write_2007.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[ogLiZLQg2KSbdltpnma896mtmiI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dmc_tests/buffer_retained.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[FgXL90wCmm5D08QDIiVjJz6igV8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dmc_tests/latency.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[FgXL90wCmm5D08QDIiVjJz6igV8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dmc_tests/status.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[FgXL90wCmm5D08QDIiVjJz6igV8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dmc_tests/status_irq.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[FgXL90wCmm5D08QDIiVjJz6igV8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="dpcmletterbox/dpcmletterbox.nes" system="ntsc" failcomment="" runframes="540" testresult="pass">
+  <tvsha1><![CDATA[HqDCDnLus66rAAJaEctOrKjcTBE=]]></tvsha1>
+  <recordedinput><![CDATA[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]]></recordedinput>
+ </test>
+ <test testnotes="" filename="exram/mmc5exram.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[vOHaW/jrowr4YJI6p81HiWNbdG0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="full_palette/flowing_palette.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[yFcBNdynREn+Xeqadq+MBbxqU3s=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="full_palette/full_palette.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[pfhjVQOp7rCwov+n6by1wsDhH7Y=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="full_palette/full_palette_smooth.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[vAOuKgAV8DMq4ZyTPDgGpPopPk0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_misc/instr_misc.nes" system="ntsc" failcomment="" runframes="300" testresult="pass">
+  <tvsha1><![CDATA[iZ2XYkUeZjv5ePYE9Md5lU8+H28=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_misc/rom_singles/01-abs_x_wrap.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[WCx7tS1Mwo8NqngfulG9adk1kiM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_misc/rom_singles/02-branch_wrap.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[jlVAxP0SaI05NPtuUeT7Ob9iero=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_misc/rom_singles/03-dummy_reads.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[tyTlCPdKk4iSaZJ3xdOFhBnVHuk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_misc/rom_singles/04-dummy_reads_apu.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[oORp9qLG3OmJzJHQIEjAp7XTlWE=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/01-implied.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[n7U5RnFgcdb7kFV1dZfksAqUBMs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/02-immediate.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[OYTH2t40zTRfpTnF1GKsxZ8vna8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/03-zero_page.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[IWJ0/os7GyhIQ8/7297rlGQmJpU=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/04-zp_xy.nes" system="ntsc" failcomment="" runframes="360" testresult="pass">
+  <tvsha1><![CDATA[sUn1ZLzjfc0byz6/iacouftCNaU=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/05-absolute.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[y/bns/H8tdQCdiqYWMn0qzAr+00=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/06-abs_xy.nes" system="ntsc" failcomment="" runframes="420" testresult="pass">
+  <tvsha1><![CDATA[jS2Zgrjd3BU3Jj8qobdUWF0nxPk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/07-ind_x.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[LdpOb9FUY/7uVET7saATEPXPTD0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/08-ind_y.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[M87UDz5ijJzD1v5ioFB7dJqUXSo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/09-branches.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[WJVcKaRUZPErFU0/UISvG+x8Czw=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/10-stack.nes" system="ntsc" failcomment="" runframes="240" testresult="pass">
+  <tvsha1><![CDATA[mDhsrKJkaoGI162u/ZDMjgeEZn4=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/11-jmp_jsr.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[pn0CDLxK0Btl8ogs7cZs5s9mFig=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/12-rts.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[Q+FItBqJ35fSJUxezY7rDohGpj8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/13-rti.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[mC53jqJUSVgt6Mab5p9vTFGF4pA=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/14-brk.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[SRIwi0+9JMhuZnb1SgkMfolFpSQ=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/rom_singles/15-special.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[oNLQxerG1cRgxFHLi3pWOmeHVDY=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/all_instrs.nes" system="ntsc" failcomment="" runframes="2340" testresult="pass">
+  <tvsha1><![CDATA[RBzdRMiDUkizcDzxfBgd+ahh1NM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_test-v3/official_only.nes" system="ntsc" failcomment="" runframes="2040" testresult="pass">
+  <tvsha1><![CDATA[RBzdRMiDUkizcDzxfBgd+ahh1NM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_timing/instr_timing.nes" system="ntsc" failcomment="" runframes="1320" testresult="pass">
+  <tvsha1><![CDATA[J7ka+aDZntB3l83JlCXW9nTY/uY=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_timing/rom_singles/1-instr_timing.nes" system="ntsc" failcomment="" runframes="1080" testresult="pass">
+  <tvsha1><![CDATA[ZCRfNt3EX1IneK9Ai/OiCbUwNzE=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="instr_timing/rom_singles/2-branch_timing.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[086PXJoyijU44W2y4tTDtkIGR2M=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_irq_tests/1.Clocking.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[ZqkTHgTTAPpDRn9sqNad2yz5pYs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_irq_tests/2.Details.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[R026+0tGfi7uc9HyUeDCFq0sxJw=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_irq_tests/3.A12_clocking.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[kQuwXXwPR/0Lwzwy6McyfEFiXDs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_irq_tests/4.Scanline_timing.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[HEO9IvZ5q+kZgHEfpldi1kMwrzA=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_irq_tests/5.MMC3_rev_A.nes" system="ntsc" failcomment="Fails MMC3 special case" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[kZ+G1y5kY+7Yirs8wbD/JHQzUHs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_irq_tests/6.MMC3_rev_B.nes" system="ntsc" failcomment="Fails MMC3 special case" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[HgjMoHsRE6UaRcFVKtGMryhMBXI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_test/1-clocking.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[/6lQUCFnZUjfw6pW46LqKU4n6Sk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_test/2-details.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[e6ZUPFCkoRfTNNKJsMOIv0C8pjw=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_test/3-A12_clocking.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[3Srp4z0tNrT8KeU0XszHGGGXwP0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_test/4-scanline_timing.nes" system="ntsc" failcomment="Scanline 0 IRQ should occur later when $2000=$08" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[FiAsKo3Df69PZWd5r9lcCTxzKvM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_test/5-MMC3.nes" system="ntsc" failcomment="Fails MMC3 special case" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[U94R4I+tSgOovMfFSXnJtxs6y4k=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="mmc3_test/6-MMC6.nes" system="ntsc" failcomment="Fails MMC3 special case" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[1D7g0UPazJz8zECHs09dVaFrrEo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="nmi_sync/demo_ntsc.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[zQIwJjgZpN5wCAxYUJCseb4po/k=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="nmi_sync/demo_pal.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[dB2ZFNAsqCpdvySQegJ1Pak7T40=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="oam_read/oam_read.nes" system="ntsc" failcomment="ECF10F79" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[IL1pN5YupaMdcHHfyKhbXZRAGDo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="oam_stress/oam_stress.nes" system="ntsc" failcomment="5AC3A0D7" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[bf4oDOQX+xdo4hSxUmNSvFrS7c0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/blargg_litewall-2.nes" system="ntsc" failcomment="" runframes="240" testresult="pass">
+  <tvsha1><![CDATA[0mO3fr2KOYTXLzblxdL1aPMWg/0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/litewall5.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[VqHdXgmpKEBGI4hsxcms2YtauKs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/midscanline.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[GDKkqv1rPhNXDAHAevZ2ZguIpxU=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/nestest.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[9TB6z7tvI3VzIlngozSjdBQ6Ils=]]></tvsha1>
+  <recordedinput><![CDATA[CAAAAABUdAAAAKnoAAAA/lwBAABS0QEAAKdFAgAA+7kCAABQLgMAAKSiAwAA+RYEAABNiwQAAKL/BAAA9nMFAABL6AUAAJ9cBgAA9NAGAABIRQcAAJ25BwAA8S0IAABGoggAAJoWCQAA74oJAABD/wkAAJhzCgAA7OcKAABBXAsAAJXQCwAA6kQMAAA+uQwAAJMtDQAA56ENAAA8Fg4AAJCKDgAA5f4OAAA5cw8AAI7nDwAA4lsQAAA30BAAAItEEQAA4LgRAAg0LRIACImhEgAA3RUTAAAyihMAAIb+EwAA23IUAAAv5xQAAIRbFQAA2M8VAAAtRBYAAIG4FgAA1iwXAAAqoRcAAH8VGAAA04kYAAAo/hgAAHxyGQAA0eYZAAAlWxoAAHrPGgAAzkMbAAQkuBsABHgsHAAEzKAcAAAhFR0AAHWJHQAAyv0dAAAech4AAHPmHgAAx1ofAAAczx8AAHBDIAAAxbcgAAAZLCEAAG6gIQAAwhQiAAAXiSIAAGv9IgAAwHEjAAgU5iMACGlaJAAIvc4kAAASQyUAAGa3JQAAuysmAAAPoCYAAGQUJwAAuIgnAAAN/ScAAGFxKAAAtuUoAAAKWikAAF/OKQAAs0IqAAAItyoAAFwrKwAAsZ8rAAAFFCwAAFqILAAArvwsAAADcS0AAFflLQAArFkuAAAAzi4AAFVCLwAAqbYvAAD+KjAAAFKfMAAApxMxAAD7hzEAAFD8MQAApHAyAAD55DIAAE1ZMwAAos0zAAD2QTQAAEu2NAAAnyo1AAD0njUAAEgTNgAAnYc2AADx+zYAAEZwNwAAmuQ3AADvWDgAAEPNOAAAmEE5AADstTkAAEEqOgAAlZ46AADqEjsAAD6HOwAAk/s7AADnbzwAADzkPAAAkFg9AADlzD0AADlBPgAAjrU+AADiKT8AADeePwAAixJAAADghkAAADT7QAAAiW9BAADd40EAADJYQgAAhsxCAADbQEMAAC+1QwAAhClEAADYnUQAAC0SRQAAgYZFAADW+kUAACpvRgAAf+NGAADTV0cAACjMRwAAfEBIAADRtEgAACUpSQAAep1JAADOEUoAACOGSgAAd/pKAADMbksAACDjSwAAdVdMAADJy0wAAB5ATQAAcrRNAADHKE4AABudTgAAcBFPAADEhU8AABn6TwAAbW5QAADC4lAAABZXUQAAa8tRAAC/P1IAABS0UgAAaChTAAC9nFMAABERVAAAZoVUAAC6+VQAAA9uVQAAY+JVAAC4VlYAAAzLVgAAYT9XAAC1s1cAAAooWAAAXpxYAACzEFkAAAeFWQAAXPlZAACwbVoAAAXiWgAAWVZbAACuylsAAAI/XAAAV7NcAACrJ10AAACcXQAAVBBeAACphF4AAP34XgAAUm1fAACm4V8AAPtVYAAAT8pgAACkPmEAAPiyYQAATSdiAAChm2IAAPYPYwAASoRjAACf+GMAAPNsZAAASOFkAACcVWUAAPHJZQAART5mAACasmYAAO4mZwAAQ5tnAACXD2gAAOyDaAAAQPhoAACVbGkAAOngaQAAPlVqAACSyWoAAOc9awAAO7JrAACQJmwAAOSabAAA]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/PCM.demo.wgraphics.nes" system="ntsc" failcomment="" runframes="300" testresult="pass">
+  <tvsha1><![CDATA[pHRC5undB25lm7rgcB7K44YpZkE=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterChromaLuma.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[wEUfkz6VhjuxPJcdfOMLnmhx+Lo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterDemo.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[oxoBgkOY2C9bGJoOWdo7jebHreE=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterTest1.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[c7a6DBN3YgGwon13GnwTANmcfo0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterTest2.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[rRFr2RcS+655f7NARQbme135utc=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterTest3.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[ZQDyp7EioQrVBlgUAjoxtY8NbLk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterTest3a.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[ExxlU4SEW1lZZTqvHJsxS95TToU=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterTest3b.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[GQLGeg3+Qk4fv7JYweCNHvaA4Tk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterTest3c.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[KjlFw7WJNtCr13OasylAmuCY2aw=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterTest3d.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[N2QzIE0OX4Bbhpx/NLPTpinu6Po=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/RasterTest3e.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[jJDtkpyMOz2NTtgbhhFi7KXZWpw=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/read2004.nes" system="ntsc" failcomment="Incorrect $2004 readback" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[RNW9kBLVfB5SgUoD6uYPU/udxFk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/Retrocoders - Years behind.NES" system="pal" failcomment="" runframes="780" testresult="pass">
+  <tvsha1><![CDATA[OJqKklIlGZkCKN3EL8kkW2ce1h4=]]></tvsha1>
+  <recordedinput><![CDATA[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]]></recordedinput>
+ </test>
+ <test testnotes="" filename="other/S0.NES" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[x7tDPDXKlymWFCPRowQlOdQjJu4=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/01.len_ctr.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[J7Qmo/zCVHk9hQEFUKIrIaNEscQ=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/02.len_table.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[YYNbRYfPQ8bXRE0qXGUEpxhyL/A=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/03.irq_flag.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[hpmSdSrqu2RaJqUtUX6YhLElS7A=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/04.clock_jitter.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[8K9j42uw1+dG5fiCEriRgXEzzpM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/05.len_timing_mode0.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[StnSc2hykQj/eMlPdD/OKQhR12w=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/06.len_timing_mode1.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[yW85SWbEG6tWwmP7rV//7UiXbkM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/07.irq_flag_timing.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[MsUTruXhQCR5IZ3nVgmMG1US5k8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/08.irq_timing.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[dNMYZL2dKE6NnmYhk5xuz4r40JE=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/10.len_halt_timing.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[3ZbITvYr1b+bFycu3BuSl76Krrc=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="pal_apu_tests/11.len_reload_timing.nes" system="pal" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[/aZjf/fDkthoN9deucmLl/WicMo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_open_bus/ppu_open_bus.nes" system="ntsc" failcomment="" runframes="300" testresult="pass">
+  <tvsha1><![CDATA[C07IITu+L4f2q5PDt99I3WlK2r0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/01-vbl_basics.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[CpMy2y52QJB1+Ut8CKgz9A7I344=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/02-vbl_set_time.nes" system="ntsc" failcomment="" runframes="240" testresult="pass">
+  <tvsha1><![CDATA[x5lMpbxxlMZKNkAZ3hr++SEy0Yw=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/03-vbl_clear_time.nes" system="ntsc" failcomment="" runframes="240" testresult="pass">
+  <tvsha1><![CDATA[QAVr0aXlcZpXVBtniaxXdRbazno=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/04-nmi_control.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[KLWQ7fq5zVi5d0PfwYWBLYCi7HY=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/05-nmi_timing.nes" system="ntsc" failcomment="" runframes="300" testresult="pass">
+  <tvsha1><![CDATA[p477oq82Zqm8ofQsXheCf+TCRTw=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/06-suppression.nes" system="ntsc" failcomment="" runframes="300" testresult="pass">
+  <tvsha1><![CDATA[39xUI45+3b2+HH7LMGCcUNt4vKY=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/07-nmi_on_timing.nes" system="ntsc" failcomment="" runframes="240" testresult="pass">
+  <tvsha1><![CDATA[1g/TnrYgE7kiS0aaw2EdeQxl8D4=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/08-nmi_off_timing.nes" system="ntsc" failcomment="" runframes="300" testresult="pass">
+  <tvsha1><![CDATA[29z8PGl7oPWYOP1/5cmj0/esdOo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/09-even_odd_frames.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[l9ASihPBcYc0jKAp4LMM1gfEYP0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/rom_singles/10-even_odd_timing.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[UpPRP5OVU51XTAMS7RUE8iak/BI=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="ppu_vbl_nmi/ppu_vbl_nmi.nes" system="ntsc" failcomment="" runframes="1800" testresult="pass">
+  <tvsha1><![CDATA[6X5+GM6YQfB4enaqJlBrDa5Qtzo=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="read_joy3/count_errors.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[RZYtt5fgC1Z42qRBrQmXmb5ifaU=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="read_joy3/count_errors_fast.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[yB3G65HUXE2Wo0xtjgZYvSbiO+I=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="read_joy3/test_buttons.nes" system="ntsc" failcomment="" runframes="300" testresult="pass">
+  <tvsha1><![CDATA[zr4miqOZKgHF0LMqQqYckcxINbY=]]></tvsha1>
+  <recordedinput><![CDATA[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]]></recordedinput>
+ </test>
+ <test testnotes="" filename="read_joy3/thorough_test.nes" system="ntsc" failcomment="NO output?" runframes="4000" testresult="fail">
+  <tvsha1><![CDATA[FiAsKo3Df69PZWd5r9lcCTxzKvM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="scanline/scanline.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[+/yWXG2qfhq6MIayc51eQg/u2Es=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="scrolltest/scroll.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[K0/GeusLu+zyMlr083j1m0gXeuM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprdma_and_dmc_dma/sprdma_and_dmc_dma.nes" system="ntsc" failcomment="Incorrect cycle counts" runframes="1440" testresult="fail">
+  <tvsha1><![CDATA[FiAsKo3Df69PZWd5r9lcCTxzKvM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprdma_and_dmc_dma/sprdma_and_dmc_dma_512.nes" system="ntsc" failcomment="Incorrect cycle counts" runframes="1200" testresult="fail">
+  <tvsha1><![CDATA[FiAsKo3Df69PZWd5r9lcCTxzKvM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/01.basics.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[g/VxI/pEE1YgYC6i1WYWhEu39N4=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/02.alignment.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[Sg/MGfJNAOW5g2iCM2QGzRONbhM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/03.corners.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[V3ICSP+38/Z6SqOeQiYhKLQOW5w=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/04.flip.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[ejt5YTdLSEzx4oETy306J0tZoko=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/05.left_clip.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[Cwde8FZMs6z3n1NDQHLsCVgsPQs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/06.right_edge.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[Usj4WtxKj+6yjiAtjvt79cBBtOE=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/07.screen_bottom.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[Wqt8ZHLfPp4BYy5MCsC2JCngqqw=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/08.double_height.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[DfMiV6YRYgPxD+1B3T3FTuv+YJM=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/09.timing_basics.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[+dRfx/nvSLg4Gls5cGwKB4WQD5E=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/10.timing_order.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[rqcJD3McCNwA8LUu6SH2pAoMvUs=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_hit_tests_2005.10.05/11.edge_timing.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[I/QgailO8jvJADJbgXd2Wiztnhg=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_overflow_tests/1.Basics.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[j9zIKsi6wv884n3xjT1Y3aopymU=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_overflow_tests/2.Details.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[Z1TvJ6ADX3xKIhAfPTK28VEnGAE=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_overflow_tests/3.Timing.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[YGCIdXFdv1QPGu4dX4SVOVDv18M=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_overflow_tests/4.Obscure.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[G7QTo/aa6XTtLYiJuYep+JBoIyQ=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="sprite_overflow_tests/5.Emulator.nes" system="ntsc" failcomment="Failed #4" runframes="60" testresult="fail">
+  <tvsha1><![CDATA[IF/3Dz7zvQkklIeJDTDB+SSCXpU=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="stomper/smwstomp.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[kCn0N3p5wTqvDiM8jKaLNzE9qpc=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="stress/NEStress.nes" system="ntsc" failcomment="" runframes="60" testresult="pass">
+  <tvsha1><![CDATA[YzXy8rgf6/wWuUerg8ixrCLoC3Q=]]></tvsha1>
+  <recordedinput><![CDATA[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]]></recordedinput>
+ </test>
+ <test testnotes="" filename="vbl_nmi_timing/1.frame_basics.nes" system="ntsc" failcomment="" runframes="240" testresult="pass">
+  <tvsha1><![CDATA[92MKeu+BNV2FPH3kv1/K9bMxjrk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="vbl_nmi_timing/2.vbl_timing.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[W7dVlXd44bcC1IiV4leiH74T7mk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="vbl_nmi_timing/3.even_odd_frames.nes" system="ntsc" failcomment="" runframes="120" testresult="pass">
+  <tvsha1><![CDATA[k+smsz5p87yWCYdp1OKa1YaXRQk=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="vbl_nmi_timing/4.vbl_clear_timing.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[/ZLeXZYpV/qwGX7FfKRAjxn0otE=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="vbl_nmi_timing/5.nmi_suppression.nes" system="ntsc" failcomment="" runframes="240" testresult="pass">
+  <tvsha1><![CDATA[dj7JK/m85c5RceEBNDgxgRuRqw8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="vbl_nmi_timing/6.nmi_disable.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[tIJKYXx4bCWegJzob7wDNqXfYk0=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+ <test testnotes="" filename="vbl_nmi_timing/7.nmi_timing.nes" system="ntsc" failcomment="" runframes="180" testresult="pass">
+  <tvsha1><![CDATA[7qr77ue+0LN1Rr3g51kSfjNTCj8=]]></tvsha1>
+  <recordedinput><![CDATA[]]></recordedinput>
+ </test>
+</testsuite>

@@ -1,0 +1,58 @@
+
+#line 22
+void xlat_main( in vec4 position, in vec4 normal, in vec2 uv, out vec4 oPosition, out vec4 oShadowUV, out vec3 oUv, out vec4 oColour, mat4 world, mat4 worldViewProj, mat4 texViewProj, vec4 camObjPos, vec4 objSpaceLight, vec4 lightColour, vec4 offset ) {
+    #line 24
+    vec4 mypos = position;
+    vec4 factor = (vec4( 1.0, 1.0, 1.0, 1.0) - uv.yyyy);
+    mypos = (mypos + (offset * factor));
+    oPosition = (worldViewProj * mypos);
+    #line 28
+    oUv.xy = uv.xy;
+    vec4 worldPos = (world * mypos);
+    #line 32
+    oShadowUV = (texViewProj * worldPos);
+    vec4 EyeVec = (camObjPos - mypos);
+    #line 38
+    float alignedEye = dot( normal, EyeVec);
+    if ((alignedEye < 0.0)){
+        normal = (-normal);
+    }
+    #line 45
+    vec3 lightVec = normalize((objSpaceLight.xyz - (mypos.xyz * objSpaceLight.w)));
+    float alignedLight = dot( normal.xyz, lightVec);
+    #line 50
+    oUv.z = float((( (alignedLight < 0.0) ) ? ( 0 ) : ( 1 )));
+    float diffuseFactor = max( alignedLight, 0.0);
+    #line 54
+    oColour = lightColour;
+}
+uniform mat4 xlu_world;
+uniform mat4 xlu_worldViewProj;
+uniform mat4 xlu_texViewProj;
+uniform vec4 xlu_camObjPos;
+uniform vec4 xlu_objSpaceLight;
+uniform vec4 xlu_lightColour;
+uniform vec4 xlu_offset;
+varying vec4 xlv_TEXCOORD0;
+varying vec3 xlv_TEXCOORD1;
+varying vec4 xlv_COLOR;
+void main() {
+    vec4 xlt_oPosition;
+    vec4 xlt_oShadowUV;
+    vec3 xlt_oUv;
+    vec4 xlt_oColour;
+    xlat_main( vec4(gl_Vertex), vec4(gl_Normal, 0.0), vec2(gl_MultiTexCoord0), xlt_oPosition, xlt_oShadowUV, xlt_oUv, xlt_oColour, xlu_world, xlu_worldViewProj, xlu_texViewProj, xlu_camObjPos, xlu_objSpaceLight, xlu_lightColour, xlu_offset);
+    gl_Position = vec4(xlt_oPosition);
+    xlv_TEXCOORD0 = vec4(xlt_oShadowUV);
+    xlv_TEXCOORD1 = vec3(xlt_oUv);
+    xlv_COLOR = vec4(xlt_oColour);
+}
+
+// uniforms:
+// camObjPos:<none> type 12 arrsize 0
+// lightColour:<none> type 12 arrsize 0
+// objSpaceLight:<none> type 12 arrsize 0
+// offset:<none> type 12 arrsize 0
+// texViewProj:<none> type 21 arrsize 0
+// world:<none> type 21 arrsize 0
+// worldViewProj:<none> type 21 arrsize 0

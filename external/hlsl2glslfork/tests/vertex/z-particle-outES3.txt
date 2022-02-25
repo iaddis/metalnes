@@ -1,0 +1,46 @@
+
+#line 7
+struct v2f {
+    highp vec4 vertex;
+    lowp vec4 color;
+    mediump vec2 texcoord;
+};
+#line 2
+struct appdata_t {
+    highp vec4 vertex;
+    lowp vec4 color;
+    highp vec2 texcoord;
+};
+#line 1
+uniform highp mat4 glstate_matrix_mvp;
+#line 12
+uniform highp vec4 _MainTex_ST;
+#line 13
+v2f xlat_main( in appdata_t v ) {
+    v2f o;
+    #line 16
+    o.vertex = (glstate_matrix_mvp * v.vertex);
+    o.color = v.color;
+    o.texcoord = ((v.texcoord.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
+    return o;
+}
+in highp vec4 xlat_attrib_POSITION;
+in lowp vec4 xlat_attrib_COLOR;
+in highp vec2 xlat_attrib_TEXCOORD0;
+out lowp vec4 xlv_COLOR;
+out mediump vec2 xlv_TEXCOORD0;
+void main() {
+    v2f xl_retval;
+    appdata_t xlt_v;
+    xlt_v.vertex = vec4(xlat_attrib_POSITION);
+    xlt_v.color = vec4(xlat_attrib_COLOR);
+    xlt_v.texcoord = vec2(xlat_attrib_TEXCOORD0);
+    xl_retval = xlat_main( xlt_v);
+    gl_Position = vec4(xl_retval.vertex);
+    xlv_COLOR = vec4(xl_retval.color);
+    xlv_TEXCOORD0 = vec2(xl_retval.texcoord);
+}
+
+// uniforms:
+// _MainTex_ST:<none> type 12 arrsize 0
+// glstate_matrix_mvp:<none> type 21 arrsize 0

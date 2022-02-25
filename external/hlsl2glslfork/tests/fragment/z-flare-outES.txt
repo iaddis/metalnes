@@ -1,0 +1,102 @@
+
+#line 123
+struct v2f_vertex_lit {
+    highp vec2 uv;
+    highp vec4 diff;
+    highp vec4 spec;
+};
+#line 159
+struct v2f_img {
+    highp vec4 pos;
+    highp vec2 uv;
+};
+#line 153
+struct appdata_img {
+    highp vec4 vertex;
+    highp vec2 texcoord;
+};
+#line 1
+uniform highp mat4 glstate_matrix_mvp;
+uniform highp mat4 glstate_matrix_modelview0;
+uniform highp mat4 glstate_matrix_projection;
+uniform highp mat4 glstate_matrix_transpose_modelview0;
+#line 5
+uniform highp mat4 glstate_matrix_invtrans_modelview0;
+uniform highp mat4 glstate_matrix_texture0;
+uniform highp mat4 glstate_matrix_texture1;
+uniform highp mat4 glstate_matrix_texture2;
+#line 9
+uniform highp mat4 glstate_matrix_texture3;
+uniform highp vec4 glstate_lightmodel_ambient;
+uniform highp vec4 _Time;
+uniform highp vec4 _SinTime;
+#line 13
+uniform highp vec4 _CosTime;
+uniform highp vec4 _ProjectionParams;
+uniform highp vec4 _ScreenParams;
+uniform highp vec4 unity_Scale;
+#line 17
+uniform highp vec3 _WorldSpaceCameraPos;
+uniform highp vec4 _WorldSpaceLightPos0;
+uniform highp mat4 _Object2World;
+uniform highp mat4 _World2Object;
+uniform highp vec4 _LightPositionRange;
+#line 46
+#line 51
+#line 56
+#line 61
+#line 65
+#line 70
+uniform highp vec4 unity_4LightPosX0;
+uniform highp vec4 unity_4LightPosY0;
+uniform highp vec4 unity_4LightPosZ0;
+uniform highp vec4 unity_4LightAtten0;
+#line 74
+uniform highp vec3 unity_LightColor0;
+uniform highp vec3 unity_LightColor1;
+uniform highp vec3 unity_LightColor2;
+uniform highp vec3 unity_LightColor3;
+#line 78
+#line 102
+uniform highp vec4 unity_SHAr;
+uniform highp vec4 unity_SHAg;
+uniform highp vec4 unity_SHAb;
+uniform highp vec4 unity_SHBr;
+#line 106
+uniform highp vec4 unity_SHBg;
+uniform highp vec4 unity_SHBb;
+uniform highp vec4 unity_SHC;
+#line 130
+#line 138
+#line 165
+#line 178
+#line 187
+#line 192
+#line 201
+#line 206
+#line 215
+#line 232
+#line 237
+uniform highp vec4 _ZBufferParams;
+#line 245
+#line 249
+#line 253
+uniform highp vec4 unity_LightShadowBias;
+#line 261
+uniform sampler2D _FlareTexture;
+#line 269
+uniform highp vec4 _FlareTexture_ST;
+#line 270
+mediump vec4 xlat_main( in highp vec4 color, in highp vec2 texcoord ) {
+    return (texture2D( _FlareTexture, texcoord) * color);
+}
+varying highp vec4 xlv_COLOR;
+varying highp vec2 xlv_TEXCOORD0;
+void main() {
+    mediump vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_COLOR), vec2(xlv_TEXCOORD0));
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _FlareTexture:<none> type 25 arrsize 0

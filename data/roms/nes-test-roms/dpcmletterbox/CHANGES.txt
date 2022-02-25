@@ -1,0 +1,16 @@
+_____________________________________________________________________
+v2 (2010-08-16):
+  * NMI handler no longer uses the Y register without saving it.
+  * Lots more comments in the NMI handler.
+  * Vertical mirroring to illustrate how this effect would fit into a
+    real game.
+  * Reads the controllers during a period that is guaranteed
+    glitch-free, then lets the player move the camera.
+  * Actually sets the sample address so that the length-17 loop
+    isn't playing garbage.
+  * Priming playback no longer raises an IRQ.
+
+_____________________________________________________________________
+v1 (2010-08-12):
+  * initial release
+

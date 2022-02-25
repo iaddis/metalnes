@@ -1,0 +1,47 @@
+
+#line 17
+void xlat_main( in vec4 position, in vec4 shadowUV, in vec3 uv, in vec4 vertexLight, out vec4 oColour, sampler2D shadowMap, sampler2D diffuseMap, float fixedDepthBias, float gradientClamp, float gradientScaleBias ) {
+    #line 19
+    if ((shadowUV.z > 0.0)){
+        vec4 diffuse = texture2D( diffuseMap, uv.xy);
+        if ((diffuse.w > 0.001)){
+            #line 24
+            oColour = vec4( 0.0, 0.0, 0.0, 0.0);
+        }
+        else{
+            #line 29
+            shadowUV = (shadowUV / shadowUV.w);
+            vec4 shadowDepths = texture2D( shadowMap, shadowUV.xy);
+            float gradientFactor = (gradientClamp * gradientScaleBias);
+            #line 33
+            float depthAdjust = (gradientFactor + (fixedDepthBias * shadowDepths.x));
+            float centerdepth = (shadowDepths.x + depthAdjust);
+            oColour = (( (centerdepth > shadowUV.z) ) ? ( vec4( vertexLight.xyz, diffuse.w) ) : ( vec4( 0.0, 0.0, 0.0, diffuse.w) ));
+        }
+    }
+    else{
+        #line 41
+        oColour = vec4( 0.0, 0.0, 0.0, 0.0);
+    }
+}
+uniform sampler2D xlu_shadowMap;
+uniform sampler2D xlu_diffuseMap;
+uniform float xlu_fixedDepthBias;
+uniform float xlu_gradientClamp;
+uniform float xlu_gradientScaleBias;
+varying vec4 xlv_TEXCOORD0;
+varying vec3 xlv_TEXCOORD1;
+varying vec4 xlv_COLOR;
+void main() {
+    vec4 xlt_oColour;
+    xlat_main( vec4(0.0), vec4(xlv_TEXCOORD0), vec3(xlv_TEXCOORD1), vec4(xlv_COLOR), xlt_oColour, xlu_shadowMap, xlu_diffuseMap, xlu_fixedDepthBias, xlu_gradientClamp, xlu_gradientScaleBias);
+    gl_FragData[0] = vec4(xlt_oColour);
+;
+}
+
+// uniforms:
+// diffuseMap:<none> type 25 arrsize 0 register s1
+// fixedDepthBias:<none> type 9 arrsize 0
+// gradientClamp:<none> type 9 arrsize 0
+// gradientScaleBias:<none> type 9 arrsize 0
+// shadowMap:<none> type 25 arrsize 0 register s0

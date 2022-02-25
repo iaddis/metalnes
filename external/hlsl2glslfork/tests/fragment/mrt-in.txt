@@ -1,0 +1,8 @@
+#line 1 "mrt-in.txt" 
+half4 main (out half4 c1 : COLOR1, out float4 c2 : COLOR2, out half4 c3 : COLOR3) : COLOR0
+{
+	c1 = 1.0;
+	c2 = 0.5;
+	c3 = half4(1,2,3,4);
+	return 2.0;
+}

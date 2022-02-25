@@ -1,0 +1,41 @@
+
+#line 7
+struct v2f {
+    highp vec4 pos;
+    highp vec4 color;
+};
+#line 12
+struct appdata {
+    highp vec4 pos;
+    highp int vertexID;
+};
+#line 2
+uniform highp mat4 matrices[64];
+uniform highp mat4 matrix_vp;
+uniform mediump vec4 colors[64];
+#line 17
+#line 17
+v2f xlat_main( in appdata v, in highp int instanceID ) {
+    v2f o;
+    highp vec4 wpos = (matrices[instanceID] * v.pos);
+    #line 21
+    o.pos = (matrix_vp * wpos);
+    o.color = colors[int(mod(float(v.vertexID), 64.0))];
+    return o;
+}
+in highp vec4 xlat_attrib_POSITION;
+out highp vec4 xlv_COLOR;
+void main() {
+    v2f xl_retval;
+    appdata xlt_v;
+    xlt_v.pos = vec4(xlat_attrib_POSITION);
+    xlt_v.vertexID = int(gl_VertexID);
+    xl_retval = xlat_main( xlt_v, int(gl_InstanceID));
+    gl_Position = vec4(xl_retval.pos);
+    xlv_COLOR = vec4(xl_retval.color);
+}
+
+// uniforms:
+// colors:<none> type 12 arrsize 64
+// matrices:<none> type 21 arrsize 64
+// matrix_vp:<none> type 21 arrsize 0

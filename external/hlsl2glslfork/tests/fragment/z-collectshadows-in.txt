@@ -1,0 +1,66 @@
+#line 1 "complex-collectshadows-in.txt" 
+
+struct v2f {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+	float3 ray : TEXCOORD1;
+};
+
+sampler2D _CameraDepthTexture;
+float4 unity_LightmapFade;
+
+float4x4 _View2Shadow;
+float4x4 _View2Shadow1;
+float4x4 _View2Shadow2;
+float4x4 _View2Shadow3;
+float4 _LightSplitsNear;
+float4 _LightSplitsFar;
+float4 _LightShadowData;
+sampler2D _ShadowMapTexture;
+
+uniform float4 _ZBufferParams;
+
+inline float Linear01Depth( float z )
+{
+	return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
+}
+
+inline float2 EncodeFloatRG( float v )
+{
+	float2 kEncodeMul = float2(1.0, 255.0);
+	float kEncodeBit = 1.0/255.0;
+	float2 enc = kEncodeMul * v;
+	enc = frac (enc);
+	enc.x -= enc.y * kEncodeBit;
+	return enc;
+}
+
+inline half unitySampleShadow (float4 eyePos)
+{
+	float3 sc0 = mul (_View2Shadow, eyePos).xyz;
+	float3 sc1 = mul (_View2Shadow1, eyePos).xyz;
+	float3 sc2 = mul (_View2Shadow2, eyePos).xyz;
+	float3 sc3 = mul (_View2Shadow3, eyePos).xyz;
+	
+	float z = eyePos.z;
+	
+	float4 near = float4( z >= _LightSplitsNear );
+	float4 far = float4( z < _LightSplitsFar );
+	float4 weights = near * far;
+	float4 coord = float4(sc0 * weights[0] + sc1 * weights[1] + sc2 * weights[2] + sc3 * weights[3], 1);
+	half shadow = tex2D (_ShadowMapTexture, coord.xy).r < coord.z ? _LightShadowData.r : 1.0;
+	return shadow;
+}
+
+half4 main (v2f i) : COLOR
+{
+	float depth = tex2D (_CameraDepthTexture, i.uv).r;
+	depth = Linear01Depth (depth);
+	float4 vpos = float4(i.ray * depth,1);
+	half shadow = unitySampleShadow (vpos);
+	float4 res;
+	res.x = shadow;
+	res.y = 1.0;
+	res.zw = EncodeFloatRG (1 - depth);
+	return res;	
+}

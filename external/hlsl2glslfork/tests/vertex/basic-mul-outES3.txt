@@ -1,0 +1,20 @@
+uniform highp mat4 matrix_mvp;
+uniform highp mat4 matrix_normal;
+#line 4
+#line 4
+void xlat_main( in highp vec4 vertex, out highp vec4 overtex, in highp vec3 normal, out highp vec3 onormal ) {
+    overtex = (matrix_mvp * vertex);
+}
+in highp vec4 xlat_attrib_POSITION;
+in highp vec3 xlat_attrib_NORMAL;
+out highp vec3 xlv_TEXCOORD0;
+void main() {
+    highp vec4 xlt_overtex;
+    highp vec3 xlt_onormal;
+    xlat_main( vec4(xlat_attrib_POSITION), xlt_overtex, vec3(xlat_attrib_NORMAL), xlt_onormal);
+    gl_Position = vec4(xlt_overtex);
+    xlv_TEXCOORD0 = vec3(xlt_onormal);
+}
+
+// uniforms:
+// matrix_mvp:<none> type 21 arrsize 0

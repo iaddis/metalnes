@@ -1,0 +1,22 @@
+(17): ERROR: '~' :  not supported  
+(20): ERROR: '<<=' :  not supported  
+(21): ERROR: '<<=' :  not supported  
+(23): ERROR: '%=' :  not supported  
+(24): ERROR: '&=' :  not supported  
+(25): ERROR: '^=' :  not supported  
+(26): ERROR: '|=' :  not supported  
+(29): ERROR: '~' :  not supported  
+(30): ERROR: '<<' :  wrong operand types  no operation '<<' exists that takes a left-hand operand of type 'vec4' and a right operand of type 'const int' (or there is no acceptable conversion)
+(31): ERROR: '>>' :  wrong operand types  no operation '>>' exists that takes a left-hand operand of type 'vec4' and a right operand of type 'const int' (or there is no acceptable conversion)
+(32): ERROR: '<<=' :  not supported  
+(32): ERROR: 'assign' :  cannot convert from 'const int' to 'vec4'
+(33): ERROR: '<<=' :  not supported  
+(33): ERROR: 'assign' :  cannot convert from 'const int' to 'vec4'
+(35): ERROR: '%=' :  not supported  
+(36): ERROR: '&=' :  not supported  
+(36): ERROR: 'assign' :  cannot convert from 'const int' to 'vec4'
+(37): ERROR: '^=' :  not supported  
+(37): ERROR: 'assign' :  cannot convert from 'const int' to 'vec4'
+(38): ERROR: '|=' :  not supported  
+(38): ERROR: 'assign' :  cannot convert from 'const int' to 'vec4'
+(41): ERROR: '!' :  wrong operand type no operation '!' exists that takes an operand of type uniform vec4 (or there is no acceptable conversion)

@@ -1,0 +1,259 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2B924B77120018E8003868C9 /* hlsl2glsltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B924B76120018E8003868C9 /* hlsl2glsltest.cpp */; };
+		2BDE31851158FE3300CCC6A3 /* libhlsl2glsl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BDE316C1158FB3600CCC6A3 /* libhlsl2glsl.a */; };
+		2BDE326F1159221E00CCC6A3 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BDE326E1159221E00CCC6A3 /* AGL.framework */; };
+		2BDE328D1159241000CCC6A3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BDE328C1159241000CCC6A3 /* OpenGL.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B476BF11185655400AE5D98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2BDE31671158FB3600CCC6A3 /* hlslang.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B951C981135194700DBAF46;
+			remoteInfo = hlsl2glsl;
+		};
+		2BDE316B1158FB3600CCC6A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2BDE31671158FB3600CCC6A3 /* hlslang.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2B951C991135194700DBAF46;
+			remoteInfo = hlsl2glsl;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76F690486A84900D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2B924B76120018E8003868C9 /* hlsl2glsltest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hlsl2glsltest.cpp; sourceTree = SOURCE_ROOT; };
+		2BDE31671158FB3600CCC6A3 /* hlslang.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = hlslang.xcodeproj; path = ../../hlslang.xcodeproj; sourceTree = SOURCE_ROOT; };
+		2BDE326E1159221E00CCC6A3 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = System/Library/Frameworks/AGL.framework; sourceTree = SDKROOT; };
+		2BDE328C1159241000CCC6A3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		8DD76F6C0486A84900D96B5E /* hlsl2glsltest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hlsl2glsltest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76F660486A84900D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BDE31851158FE3300CCC6A3 /* libhlsl2glsl.a in Frameworks */,
+				2BDE326F1159221E00CCC6A3 /* AGL.framework in Frameworks */,
+				2BDE328D1159241000CCC6A3 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* hlsl2glsltest */ = {
+			isa = PBXGroup;
+			children = (
+				2BDE31671158FB3600CCC6A3 /* hlslang.xcodeproj */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+				2BDE326E1159221E00CCC6A3 /* AGL.framework */,
+				2BDE328C1159241000CCC6A3 /* OpenGL.framework */,
+			);
+			name = hlsl2glsltest;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				2B924B76120018E8003868C9 /* hlsl2glsltest.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76F6C0486A84900D96B5E /* hlsl2glsltest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2BDE31681158FB3600CCC6A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2BDE316C1158FB3600CCC6A3 /* libhlsl2glsl.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76F620486A84900D96B5E /* hlsl2glsltest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "hlsl2glsltest" */;
+			buildPhases = (
+				8DD76F640486A84900D96B5E /* Sources */,
+				8DD76F660486A84900D96B5E /* Frameworks */,
+				8DD76F690486A84900D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B476BF21185655400AE5D98 /* PBXTargetDependency */,
+			);
+			name = hlsl2glsltest;
+			productInstallPath = "$(HOME)/bin";
+			productName = hlsl2glsltest;
+			productReference = 8DD76F6C0486A84900D96B5E /* hlsl2glsltest */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+			};
+			buildConfigurationList = 1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "hlsl2glsltest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 08FB7794FE84155DC02AAC07 /* hlsl2glsltest */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2BDE31681158FB3600CCC6A3 /* Products */;
+					ProjectRef = 2BDE31671158FB3600CCC6A3 /* hlslang.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				8DD76F620486A84900D96B5E /* hlsl2glsltest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2BDE316C1158FB3600CCC6A3 /* libhlsl2glsl.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libhlsl2glsl.a;
+			remoteRef = 2BDE316B1158FB3600CCC6A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76F640486A84900D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B924B77120018E8003868C9 /* hlsl2glsltest.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B476BF21185655400AE5D98 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = hlsl2glsl;
+			targetProxy = 2B476BF11185655400AE5D98 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB923208733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = hlsl2glsltest;
+			};
+			name = Debug;
+		};
+		1DEB923308733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = hlsl2glsltest;
+			};
+			name = Release;
+		};
+		1DEB923608733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/..";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		1DEB923708733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/..";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "hlsl2glsltest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923208733DC60010E9CD /* Debug */,
+				1DEB923308733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "hlsl2glsltest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923608733DC60010E9CD /* Debug */,
+				1DEB923708733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

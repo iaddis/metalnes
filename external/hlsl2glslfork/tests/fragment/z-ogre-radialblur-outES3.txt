@@ -1,0 +1,61 @@
+float xll_saturate_f( float x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec2 xll_saturate_vf2( vec2 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec3 xll_saturate_vf3( vec3 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec4 xll_saturate_vf4( vec4 x) {
+  return clamp( x, 0.0, 1.0);
+}
+mat2 xll_saturate_mf2x2(mat2 m) {
+  return mat2( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0));
+}
+mat3 xll_saturate_mf3x3(mat3 m) {
+  return mat3( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0));
+}
+mat4 xll_saturate_mf4x4(mat4 m) {
+  return mat4( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0), clamp(m[3], 0.0, 1.0));
+}
+#line 1
+uniform sampler2D tex;
+const highp float[10] samples = float[10]( -0.08, -0.05, -0.03, -0.02, -0.01, 0.01, 0.02, 0.03, 0.05, 0.08);
+#line 21
+#line 21
+highp vec4 xlat_main( in highp vec4 Pos, in highp vec2 texCoord, highp float sampleDist, highp float sampleStrength ) {
+    highp vec2 dir = (0.5 - texCoord);
+    #line 28
+    highp float dist = sqrt(((dir.x * dir.x) + (dir.y * dir.y)));
+    #line 32
+    dir = normalize(dir);
+    highp vec4 color = texture( tex, texCoord);
+    #line 37
+    highp vec4 sum = color;
+    highp int i = 0;
+    for ( ; (i < 10); (i++)) {
+        highp vec4 res = texture( tex, (texCoord + ((dir * samples[i]) * sampleDist)));
+        #line 41
+        sum += res;
+    }
+    sum /= 11.0;
+    #line 47
+    highp float t = (dist * sampleStrength);
+    t = xll_saturate_f(t);
+    #line 51
+    return mix( color, sum, vec4( t));
+}
+uniform highp float xlu_sampleDist;
+uniform highp float xlu_sampleStrength;
+in highp vec2 xlv_TEXCOORD0;
+void main() {
+    highp vec4 xl_retval;
+    xl_retval = xlat_main( vec4(0.0), vec2(xlv_TEXCOORD0), xlu_sampleDist, xlu_sampleStrength);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// sampleDist:<none> type 9 arrsize 0
+// sampleStrength:<none> type 9 arrsize 0
+// tex:<none> type 25 arrsize 0 register s0

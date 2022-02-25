@@ -1,0 +1,4 @@
+#line 1 "vface-in.txt" 
+half4 main (float face : VFACE) : COLOR0 {
+	return face;
+}

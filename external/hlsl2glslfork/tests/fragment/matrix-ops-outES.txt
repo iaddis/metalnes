@@ -1,0 +1,30 @@
+vec2 xll_matrixindex_mf2x2_i (mat2 m, int i) { vec2 v; v.x=m[0][i]; v.y=m[1][i]; return v; }
+vec3 xll_matrixindex_mf3x3_i (mat3 m, int i) { vec3 v; v.x=m[0][i]; v.y=m[1][i]; v.z=m[2][i]; return v; }
+vec4 xll_matrixindex_mf4x4_i (mat4 m, int i) { vec4 v; v.x=m[0][i]; v.y=m[1][i]; v.z=m[2][i]; v.w=m[3][i]; return v; }
+uniform highp float _Speed;
+uniform highp vec4 _Time;
+#line 3
+uniform highp mat4 _MVP;
+#line 4
+highp vec4 xlat_main( in highp vec2 uv ) {
+    highp float s = sin((_Speed * _Time.x));
+    #line 7
+    highp float c = cos((_Speed * _Time.x));
+    highp mat2 rotationMatrix = mat2( c, s, (-s), c);
+    rotationMatrix = ((rotationMatrix * 2.0) - 1.0);
+    highp vec3 elems1 = vec3(_MVP[0].w, _MVP[1].w, _MVP[2].w);
+    #line 11
+    highp vec3 elems2 = xll_matrixindex_mf4x4_i (_MVP, 3).xyz;
+    return vec4( (rotationMatrix * uv), dot( elems1, elems2), 0.0);
+}
+varying highp vec2 xlv_TEXCOORD0;
+void main() {
+    highp vec4 xl_retval;
+    xl_retval = xlat_main( vec2(xlv_TEXCOORD0));
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _MVP:<none> type 21 arrsize 0
+// _Speed:<none> type 9 arrsize 0
+// _Time:<none> type 12 arrsize 0

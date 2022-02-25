@@ -1,0 +1,7 @@
+/* This should produce "RIGHT" instead of "WRONG" */
+#define x(a) a
+#define y(WRONG) x(WRONG)
+
+float y(RIGHT) ;
+
+float4 main() : COLOR { return RIGHT; }

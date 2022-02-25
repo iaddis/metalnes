@@ -1,0 +1,45 @@
+
+#line 3
+struct a2v {
+    highp vec4 pos;
+    highp vec2 uv;
+    highp vec3 normal;
+    highp vec4 color;
+};
+#line 1
+uniform highp mat4 mvp;
+#line 15
+#line 15
+void xlat_main( in a2v v, out highp vec4 opos, out highp float ofog, out highp vec2 ouv, out highp vec4 ocolor ) {
+    opos = (mvp * v.pos);
+    ocolor = v.color;
+    #line 19
+    ocolor.xyz += v.normal;
+    ouv = v.uv;
+}
+attribute highp vec4 xlat_attrib_POSITION;
+attribute highp vec2 xlat_attrib_TEXCOORD0;
+attribute highp vec3 xlat_attrib_NORMAL;
+attribute highp vec4 xlat_attrib_COLOR;
+varying highp float xlv_FOG;
+varying highp vec2 xlv_TEXCOORD0;
+varying highp vec4 xlv_COLOR;
+void main() {
+    a2v xlt_v;
+    xlt_v.pos = vec4(xlat_attrib_POSITION);
+    xlt_v.uv = vec2(xlat_attrib_TEXCOORD0);
+    xlt_v.normal = vec3(xlat_attrib_NORMAL);
+    xlt_v.color = vec4(xlat_attrib_COLOR);
+    highp vec4 xlt_opos;
+    highp float xlt_ofog;
+    highp vec2 xlt_ouv;
+    highp vec4 xlt_ocolor;
+    xlat_main( xlt_v, xlt_opos, xlt_ofog, xlt_ouv, xlt_ocolor);
+    gl_Position = vec4(xlt_opos);
+    xlv_FOG = float(xlt_ofog);
+    xlv_TEXCOORD0 = vec2(xlt_ouv);
+    xlv_COLOR = vec4(xlt_ocolor);
+}
+
+// uniforms:
+// mvp:<none> type 21 arrsize 0

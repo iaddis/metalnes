@@ -1,0 +1,25 @@
+#line 1 "complex-ogre-grass1-in.txt" 
+// grass shadow caster
+void main(
+                    float4 position : POSITION,
+                    float2 uv	        : TEXCOORD0,
+                    float2 depth		: TEXCOORD1,
+                         
+                    out float4 result : COLOR,
+              
+                    uniform sampler2D diffuseMap
+                    )
+{	
+	float alpha = tex2D(diffuseMap, uv).a;
+	if (alpha > 0.001)
+    {
+       result = float4(1.0f, 1.0f, 1.0f, 0.0f);
+    }
+    else
+    {
+        float finalDepth = depth.x / depth.y;
+        // just smear across all components 
+        // therefore this one needs high individual channel precision
+        result = float4(finalDepth.xxx, 1.0f);
+    }
+}

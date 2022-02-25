@@ -1,0 +1,6 @@
+#define a(b,c) b##c
+a(uni, form) float aaa;
+a(flo, at4) main() : COLOR
+{
+	return aaa;
+}

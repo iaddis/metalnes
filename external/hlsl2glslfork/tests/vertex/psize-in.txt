@@ -1,0 +1,5 @@
+void main (out float4 pos : POSITION, out float size : PSIZE)
+{
+	pos = float4(1,2,3,4);
+	size = 1.5;
+}

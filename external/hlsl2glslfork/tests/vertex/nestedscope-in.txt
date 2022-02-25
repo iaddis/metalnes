@@ -1,0 +1,30 @@
+#line 1 "nestedscope-in.txt" 
+float4x4 mvp;
+
+struct a2v {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+	float3 normal : NORMAL;
+	float4 color : COLOR;
+};
+
+struct v2f {
+	float4 pos : POSITION;
+	float fog : FOG;
+	float2 uv : TEXCOORD0;
+	float4 color : COLOR;
+};
+
+v2f main (a2v v)
+{
+	v2f o;
+	float4 vec = mul (v.pos, mvp);
+	{
+		float4 vec = v.color;
+		vec.rgb += v.normal;
+		o.color = vec;
+	}
+	o.pos = vec;
+	o.uv = v.uv;
+	return o;
+}

@@ -1,0 +1,2 @@
+(11): ERROR: 'float2x3' :  not supported in pre-GLSL1.20 
+(23): ERROR: 'float2x4' :  not supported in pre-GLSL1.20 

@@ -1,0 +1,451 @@
+uniform float3 _WorldSpaceCameraPos ;
+uniform fixed4 _WorldSpaceLightPos0 ;
+float4 unity_SHAr ;
+float4 unity_SHAg ;
+float4 unity_SHAb ;
+float4 unity_SHBr ;
+float4 unity_SHBg ;
+float4 unity_SHBb ;
+float4 unity_SHC ;
+float4x4 glstate_matrix_mvp ;
+float4x4 glstate_matrix_modelview0 ;
+uniform float4x4 _Object2World ;
+uniform float4x4 _World2Object ;
+uniform float4 unity_Scale ;
+float4x4 glstate_matrix_projection ;
+float4 glstate_lightmodel_ambient ;
+struct appdata_full
+{
+    float4 vertex : POSITION ;
+    float4 tangent : TANGENT ;
+    float3 normal : NORMAL ;
+    float4 texcoord : TEXCOORD0 ;
+    float4 texcoord1 : TEXCOORD1 ;
+    fixed4 color : COLOR ;
+}
+;
+inline float3 WorldSpaceLightDir ( in float4 v )
+{
+    float3 worldPos = mul ( _Object2World , v ) . xyz ;
+    return _WorldSpaceLightPos0 . xyz ;
+}
+inline float3 ObjSpaceLightDir ( in float4 v )
+{
+    float3 objSpaceLightPos = mul ( _World2Object , _WorldSpaceLightPos0 ) . xyz ;
+    return objSpaceLightPos . xyz ;
+}
+inline float3 WorldSpaceViewDir ( in float4 v )
+{
+    return _WorldSpaceCameraPos . xyz - mul ( _Object2World , v ) . xyz ;
+}
+inline float3 ObjSpaceViewDir ( in float4 v )
+{
+    float3 objSpaceCameraPos = mul ( _World2Object , float4 ( _WorldSpaceCameraPos . xyz , 1 ) ) . xyz * unity_Scale . w ;
+    return objSpaceCameraPos - v . xyz ;
+}
+half3 ShadeSH9 ( half4 normal )
+{
+    half3 x1 , x2 , x3 ;
+    x1 . r = dot ( unity_SHAr , normal ) ;
+    x1 . g = dot ( unity_SHAg , normal ) ;
+    x1 . b = dot ( unity_SHAb , normal ) ;
+    half4 vB = normal . xyzz * normal . yzzx ;
+    x2 . r = dot ( unity_SHBr , vB ) ;
+    x2 . g = dot ( unity_SHBg , vB ) ;
+    x2 . b = dot ( unity_SHBb , vB ) ;
+    float vC = normal . x * normal . x - normal . y * normal . y ;
+    x3 = unity_SHC . rgb * vC ;
+    return x1 + x2 + x3 ;
+}
+inline fixed Luminance ( fixed3 c )
+{
+    return dot ( c , fixed3 ( 0.22 , 0.707 , 0.071 ) ) ;
+}
+inline fixed3 DecodeLightmap ( fixed4 color )
+{
+    return ( 8.0 * color . a ) * color . rgb ;
+}
+inline fixed3 UnpackNormal ( fixed4 packednormal )
+{
+    fixed3 normal ;
+    normal . xy = packednormal . wy * 2 - 1 ;
+    normal . z = sqrt ( 1 - normal . x * normal . x - normal . y * normal . y ) ;
+    return normal ;
+}
+struct SurfaceOutput
+{
+    fixed3 Albedo ;
+    fixed3 Normal ;
+    fixed3 Emission ;
+    half Specular ;
+    fixed Gloss ;
+    fixed Alpha ;
+}
+;
+fixed4 _LightColor0 ;
+fixed4 _SpecColor ;
+inline fixed3 unityApplyLightmap ( fixed3 albedo , fixed3 lighting , fixed3 colorTint , fixed atten )
+{
+    return albedo * lighting ;
+}
+struct Input
+{
+    float2 uv_MainTex ;
+    float2 uv_BumpMap ;
+    float3 viewDir ;
+    float3 worldPos ;
+    float3 worldNormal ;
+    float3 worldRefl ;
+    half3 TtoW0 ;
+    half3 TtoW1 ;
+    half3 TtoW2 ;
+}
+;
+struct MySurfaceOutput
+{
+    float3 Albedo ;
+    float3 Normal ;
+    float3 Emission ;
+    float3 Specular ;
+    float Reflectivity ;
+    float Roughness ;
+    float Alpha ;
+}
+;
+float _Rolloff ;
+inline float LambertTermWithRolloff ( float3 normal , float3 lightDir )
+{
+    return max ( 0.0f , dot ( normal , lightDir ) + _Rolloff ) / ( 1.0f + _Rolloff * 2.0f ) ;
+}
+inline float BlinnTermWithRolloff ( float3 normal , float3 halfDir )
+{
+    return max ( 0.0f , dot ( normal , halfDir ) + _Rolloff * 2.0f ) / ( 1.0f + _Rolloff * 2.0f ) ;
+}
+float _Falloff ;
+inline float FresnelTerm ( float refl0 , float refl90 , float cosA )
+{
+    float t = pow ( abs ( 1.0f - cosA ) , _Falloff ) ;
+    return refl0 * ( 1 - t ) + refl90 * t ;
+}
+inline float CTGeometricTerm ( float NdotL , float NdotH , float NdotV , float VdotH )
+{
+    return min ( 1.0 , min ( ( 2.0 * NdotH * NdotV ) / VdotH , ( 2.0 * NdotH * NdotL ) / VdotH ) ) ;
+}
+inline float CTRoughnessTerm ( float roughness , float NdotH )
+{
+    float mSq = roughness * roughness ;
+    float a = 1.0 / ( 4.0 * mSq * pow ( NdotH , 4.0 ) ) ;
+    float b = NdotH * NdotH - 1.0f ;
+    float c = mSq * NdotH * NdotH ;
+    return a * exp ( b / c ) ;
+}
+inline float CookTorranceTerm ( float roughness , float refl0 , float refl90 , float3 normal , float3 lightDir , float3 viewDir )
+{
+    float3 halfDir = normalize ( lightDir + viewDir ) ;
+    float nl = LambertTermWithRolloff ( normal , lightDir ) ;
+    float nh = BlinnTermWithRolloff ( normal , halfDir ) ;
+    float nv = max ( 0.0 , dot ( normal , viewDir ) ) ;
+    float vh = max ( 0.0 , dot ( viewDir , halfDir ) ) ;
+    float F = FresnelTerm ( refl0 , refl90 , vh ) ;
+    float G = CTGeometricTerm ( nl , nh , nv , vh ) ;
+    float R = CTRoughnessTerm ( roughness , nh ) ;
+    R = max ( 0 , R ) ;
+    return max ( 0 , ( F * G * R ) / ( nv * nl ) ) ;
+}
+inline float OrenNayarTerm ( float roughness , float3 normal , float3 lightDir , float3 viewDir )
+{
+    const float PI = 3.14159f ;
+    const float INVERSE_PI = 1.0 / PI ;
+    const float INVERSE_PI_SQ = INVERSE_PI * INVERSE_PI ;
+    float rSq = roughness * roughness ;
+    float NdotL = LambertTermWithRolloff ( normal , lightDir ) ;
+    float NdotV = dot ( normal , viewDir ) ;
+    float a = max ( acos ( NdotV ) , acos ( NdotL ) ) ;
+    float b = min ( acos ( NdotV ) , acos ( NdotL ) ) ;
+    float y = dot ( viewDir - normal * NdotV , lightDir - normal * NdotL ) ;
+    float K1 = rSq / ( rSq + 0.33 ) ;
+    float K2 = rSq / ( rSq + 0.09 ) ;
+    float c1 = 1.0 - 0.5 * K1 ;
+    float c2 = 0.45 * K2 ;
+    c2 *= sin ( a ) - ( ( y >= 0.0 ) ? 0.0 : pow ( 2.0 * b * INVERSE_PI , 3.0 ) ) ;
+    float c3 = ( 1.0 / 8.0 ) * K2 * pow ( 4.0 * a * b * INVERSE_PI_SQ , 2.0 ) ;
+    float x = y * c2 * tan ( b ) ;
+    float e = ( 1 - abs ( y ) ) * c3 * tan ( ( a + b ) / 2.0 ) ;
+    return c1 + x + e ;
+}
+inline float OrenNayarSimpleTerm ( float roughness , float3 normal , float3 lightDir , float3 viewDir )
+{
+    const float PI = 3.14159f ;
+    const float INVERSE_PI = 1.0 / PI ;
+    const float INVERSE_PI_SQ = INVERSE_PI * INVERSE_PI ;
+    float rSq = roughness * roughness ;
+    float NdotL = LambertTermWithRolloff ( normal , lightDir ) ;
+    float NdotV = dot ( normal , viewDir ) ;
+    float x = sqrt ( ( 1.0 - NdotV * NdotV ) * ( 1.0 - NdotL * NdotL ) ) / max ( NdotV , NdotL ) ;
+    float y = dot ( viewDir - normal * NdotV , lightDir - normal * NdotL ) ;
+    float K1 = rSq / ( rSq + 0.33 ) ;
+    float K2 = rSq / ( rSq + 0.09 ) ;
+    float c1 = 1.0 - 0.5 * K1 ;
+    float c2 = 0.45 * K2 ;
+    return c1 + c2 * max ( 0 , y ) * x ;
+}
+inline float EvalMipLevel ( float3 uvw , float texResolution )
+{
+    float3 dxSize = ddx ( uvw ) ;
+    float3 dySize = ddy ( uvw ) ;
+    float fMipLevel ;
+    float fMinTexCoordDelta ;
+    float3 dTexCoords ;
+    dTexCoords = dxSize * dxSize + dySize * dySize ;
+    fMinTexCoordDelta = max ( dTexCoords . z , max ( dTexCoords . x , dTexCoords . y ) ) * texResolution ;
+    fMipLevel = max ( 0.5 * log2 ( fMinTexCoordDelta ) , 0 ) ;
+    return fMipLevel ;
+}
+inline float RemapToRange ( float v , float4 range )
+{
+    v *= range . y ;
+    v += range . x ;
+    return v ;
+}
+inline float3 CombineNormals ( float3 n1 , float3 n2 )
+{
+    float3 n = normalize ( n1 ) ;
+    float3x3 nBasis = float3x3 ( float3 ( n . z , n . x , - n . y ) , float3 ( n . x , n . z , - n . y ) , float3 ( n . x , n . y , n . z ) ) ;
+    return normalize ( n2 . x * nBasis [ 0 ] + n2 . y * nBasis [ 1 ] + n2 . z * nBasis [ 2 ] ) ;
+}
+float _Roughness ;
+float _Roughness2 ;
+float _Reflectivity ;
+float _Refl0 , _Refl90 ;
+float _Metalic ;
+float _SpecOnlyIntensity ;
+float _ReflOnlyIntensity ;
+inline fixed4 LightingOrenNayar_CookTorrance ( MySurfaceOutput s , float3 lightDir , float3 viewDir , float atten )
+{
+    float3 normal = normalize ( s . Normal ) ;
+    lightDir = normalize ( lightDir ) ;
+    viewDir = normalize ( viewDir ) ;
+    float nl = LambertTermWithRolloff ( normal , lightDir ) ;
+    float diffRoughness = _Roughness2 ;
+    float specRoughness = max ( 0.02f , _Roughness * s . Roughness ) ;
+    float refl0 = _Refl0 * _Reflectivity ;
+    float refl90 = _Refl90 * _Reflectivity ;
+    float spec = CookTorranceTerm ( specRoughness , refl0 , refl90 , normal , lightDir , viewDir ) * _SpecOnlyIntensity ;
+    float3 specColor = _LightColor0 . rgb * 2.0 * lerp ( s . Specular , s . Specular * s . Albedo , _Metalic ) ;
+    float3 diffColor = _LightColor0 . rgb * 2.0 ;
+    float diffScatter = OrenNayarTerm ( diffRoughness , normal , lightDir , viewDir ) ;
+    fixed4 c ;
+    c . rgb = ( lerp ( s . Albedo * diffColor * diffScatter , specColor * spec , s . Reflectivity ) ) * nl * atten ;
+    c . a = s . Alpha + length ( specColor ) * spec * s . Reflectivity * nl * atten ;
+    return c ;
+}
+inline fixed4 LightingOrenNayar_CookTorrance_DualLightmap ( MySurfaceOutput s , fixed4 indirect , fixed4 total , half blendFactor , float3 lightDir , float3 viewDir , float atten )
+{
+    float3 lmInd = DecodeLightmap ( indirect ) - glstate_lightmodel_ambient . rgb * 2.0 ;
+    float3 lmTotal = DecodeLightmap ( total ) - glstate_lightmodel_ambient . rgb * 2.0 ;
+    float3 lmTotalBumped = lerp ( lmInd , lmTotal , pow ( s . Normal . z , 2.0 ) ) ;
+    float4 rtLight = LightingOrenNayar_CookTorrance ( s , lightDir , viewDir , atten ) ;
+    fixed4 c ;
+    c . rgb = lerp ( lmInd , lmTotalBumped , blendFactor ) * s . Albedo * ( 1 - s . Reflectivity ) + rtLight . rgb * ( 1 - blendFactor ) ;
+    c . a = rtLight . a * ( 1 - blendFactor ) ;
+    return c ;
+}
+struct ContinuousSamplerLOD
+{
+    float mip0 ;
+    float mip1 ;
+    float mipFrac ;
+}
+;
+inline float4 tex2Dclod ( sampler2D s , float2 uv , in ContinuousSamplerLOD level )
+{
+    return lerp ( tex2Dlod ( s , float4 ( uv , 0 , level . mip0 ) ) , tex2Dlod ( s , float4 ( uv , 0 , level . mip1 ) ) , level . mipFrac ) ;
+}
+inline float4 texCUBEclod ( samplerCUBE s , float3 dir , in ContinuousSamplerLOD level )
+{
+    return lerp ( texCUBElod ( s , float4 ( dir , level . mip0 ) ) , texCUBElod ( s , float4 ( dir , level . mip1 ) ) , level . mipFrac ) ;
+}
+struct PlanarMapping
+{
+    float4 plane ;
+    float3 tangent ;
+    float3 bitangent ;
+    float2 uvOffset ;
+}
+;
+float4x4 _WorldToMirrorProjMatrix ;
+sampler2D _MirrorTex ;
+inline float4 SampleMirrorReflection ( float3 worldPos , in ContinuousSamplerLOD level )
+{
+    float4 ppos = mul ( _WorldToMirrorProjMatrix , float4 ( worldPos , 1.0f ) ) ;
+    return tex2Dclod ( _MirrorTex , ppos . xy / ppos . w , level ) ;
+}
+inline float4 SampleCubeReflection ( samplerCUBE s , float3 rayDir , in ContinuousSamplerLOD level )
+{
+    return texCUBEclod ( s , rayDir , level ) ;
+}
+inline float4 SamplePlanarReflection ( sampler2D s , in PlanarMapping p , float3 rayStart , float3 rayDir , in ContinuousSamplerLOD level )
+{
+    float Vd = - dot ( p . plane . xyz , rayDir ) ;
+    if ( Vd < 1e-4 ) return float4 ( 0 , 0 , 0 , 0 ) ;
+    float Vo = dot ( p . plane . xyz , rayStart ) + p . plane . w ;
+    float t = Vo / Vd ;
+    if ( t < 0.0 ) return float4 ( 0 , 0 , 0 , 0 ) ;
+    float3 Pi = rayStart + rayDir * t ;
+    float3 Po = p . plane . xyz * p . plane . w ;
+    float3 d = Pi - Po ;
+    float u = dot ( d , p . tangent ) * 0.5 + 0.5 - p . uvOffset . x * 0.5 ;
+    float v = dot ( d , - p . bitangent ) * 0.5 + 0.5 + p . uvOffset . y * 0.5 ;
+    if ( u < 0.0 || u > 1.0 || v < 0.0 || v > 1.0 ) return float4 ( 0 , 0 , 0 , 0 ) ;
+    return tex2Dclod ( s , float2 ( u , v ) , level ) ;
+}
+inline float4 GlossyReflectionTerm ( Input IN , samplerCUBE crefl , in PlanarMapping pm0 , sampler2D prefl0 , in PlanarMapping pm1 , sampler2D prefl1 , in PlanarMapping pm2 , sampler2D prefl2 , float3 normal , float Q , float lod )
+{
+    float W = Q / pow ( 2.0 , 0.5 ) ;
+    float3 worldP = IN . worldPos ;
+    float4 o1 = 0 ;
+    float4 o2 = 0 ;
+    float3 worldRefl ;
+    worldRefl = reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , ( normal ) ) , dot ( IN . TtoW1 , ( normal ) ) , dot ( IN . TtoW2 , ( normal ) ) ) ) ;
+    ContinuousSamplerLOD clod ;
+    clod . mip0 = floor ( lod ) ;
+    clod . mip1 = clod . mip0 + 1.0f ;
+    clod . mipFrac = frac ( lod ) ;
+    o1 = SampleMirrorReflection ( worldP , clod ) ;
+    o1 = lerp ( SamplePlanarReflection ( prefl0 , pm0 , worldP , worldRefl , clod ) , o1 , o1 . a ) ;
+    o1 = lerp ( SamplePlanarReflection ( prefl1 , pm1 , worldP , worldRefl , clod ) , o1 , o1 . a ) ;
+    o1 = lerp ( SamplePlanarReflection ( prefl2 , pm2 , worldP , worldRefl , clod ) , o1 , o1 . a ) ;
+    clod . mip0 = floor ( lod * 2 ) ;
+    clod . mip1 = clod . mip0 + 1.0f ;
+    clod . mipFrac = frac ( lod * 2 ) ;
+    worldRefl = reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , ( normal + float3 ( Q , 0 , 0 ) ) ) , dot ( IN . TtoW1 , ( normal + float3 ( Q , 0 , 0 ) ) ) , dot ( IN . TtoW2 , ( normal + float3 ( Q , 0 , 0 ) ) ) ) ) ;
+    o2 += SampleCubeReflection ( crefl , worldRefl , clod ) ;
+    worldRefl = reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , ( normal + float3 ( - Q , 0 , 0 ) ) ) , dot ( IN . TtoW1 , ( normal + float3 ( - Q , 0 , 0 ) ) ) , dot ( IN . TtoW2 , ( normal + float3 ( - Q , 0 , 0 ) ) ) ) ) ;
+    o2 += SampleCubeReflection ( crefl , worldRefl , clod ) ;
+    worldRefl = reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , ( normal + float3 ( 0 , - Q , 0 ) ) ) , dot ( IN . TtoW1 , ( normal + float3 ( 0 , - Q , 0 ) ) ) , dot ( IN . TtoW2 , ( normal + float3 ( 0 , - Q , 0 ) ) ) ) ) ;
+    o2 += SampleCubeReflection ( crefl , worldRefl , clod ) ;
+    worldRefl = reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , ( normal + float3 ( 0 , Q , 0 ) ) ) , dot ( IN . TtoW1 , ( normal + float3 ( 0 , Q , 0 ) ) ) , dot ( IN . TtoW2 , ( normal + float3 ( 0 , Q , 0 ) ) ) ) ) ;
+    o2 += SampleCubeReflection ( crefl , worldRefl , clod ) ;
+    worldRefl = reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , ( normal + float3 ( W , W , 0 ) ) ) , dot ( IN . TtoW1 , ( normal + float3 ( W , W , 0 ) ) ) , dot ( IN . TtoW2 , ( normal + float3 ( W , W , 0 ) ) ) ) ) ;
+    o2 += SampleCubeReflection ( crefl , worldRefl , clod ) ;
+    worldRefl = reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , ( normal + float3 ( - W , W , 0 ) ) ) , dot ( IN . TtoW1 , ( normal + float3 ( - W , W , 0 ) ) ) , dot ( IN . TtoW2 , ( normal + float3 ( - W , W , 0 ) ) ) ) ) ;
+    o2 += SampleCubeReflection ( crefl , worldRefl , clod ) ;
+    worldRefl = reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , ( normal + float3 ( W , - W , 0 ) ) ) , dot ( IN . TtoW1 , ( normal + float3 ( W , - W , 0 ) ) ) , dot ( IN . TtoW2 , ( normal + float3 ( W , - W , 0 ) ) ) ) ) ;
+    o2 += SampleCubeReflection ( crefl , worldRefl , clod ) ;
+    worldRefl = reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , ( normal + float3 ( - W , - W , 0 ) ) ) , dot ( IN . TtoW1 , ( normal + float3 ( - W , - W , 0 ) ) ) , dot ( IN . TtoW2 , ( normal + float3 ( - W , - W , 0 ) ) ) ) ) ;
+    o2 += SampleCubeReflection ( crefl , worldRefl , clod ) ;
+    o2 /= 8.0 ;
+    return lerp ( o2 , o1 , o1 . a ) ;
+}
+float4 _PlanarReflection0 ;
+float4 _PlanarReflectionTangent0 , _PlanarReflectionBiTangent0 ;
+sampler2D _PlanarReflectionTex0 ;
+float4 _PlanarReflection1 ;
+float4 _PlanarReflectionTangent1 , _PlanarReflectionBiTangent1 ;
+sampler2D _PlanarReflectionTex1 ;
+float4 _PlanarReflection2 ;
+float4 _PlanarReflectionTangent2 , _PlanarReflectionBiTangent2 ;
+sampler2D _PlanarReflectionTex2 ;
+samplerCUBE _Cube ;
+inline float3 GlobalIllumination ( Input IN , MySurfaceOutput s , out float3 spec )
+{
+    float3 normal = normalize ( s . Normal ) ;
+    float3 worldRefl = normalize ( reflect ( IN . worldRefl , half3 ( dot ( IN . TtoW0 , normal ) , dot ( IN . TtoW1 , normal ) , dot ( IN . TtoW2 , normal ) ) ) ) ;
+    fixed3 worldN = fixed3 ( dot ( IN . TtoW0 , normal ) , dot ( IN . TtoW1 , normal ) , dot ( IN . TtoW2 , normal ) ) ;
+    float roughness = _Roughness * s . Roughness ;
+    float Q = 0.25 * 0.33 * ( 1.0 - pow ( 1.0 - max ( 0 , roughness - 0.033 ) , 2.0 ) ) ;
+    float LOD = 1.25 * ( 1.0 - pow ( 1.0 - max ( 0 , roughness ) , 2.0 ) ) * 4.0 ;
+    PlanarMapping pm0 ;
+    pm0 . plane = _PlanarReflection0 ;
+    pm0 . tangent = _PlanarReflectionTangent0 . xyz ;
+    pm0 . bitangent = _PlanarReflectionBiTangent0 . xyz ;
+    pm0 . uvOffset = float2 ( _PlanarReflectionTangent0 . w , _PlanarReflectionBiTangent0 . w ) ;
+    PlanarMapping pm1 ;
+    pm1 . plane = _PlanarReflection1 ;
+    pm1 . tangent = _PlanarReflectionTangent1 . xyz ;
+    pm1 . bitangent = _PlanarReflectionBiTangent1 . xyz ;
+    pm1 . uvOffset = float2 ( _PlanarReflectionTangent1 . w , _PlanarReflectionBiTangent1 . w ) ;
+    PlanarMapping pm2 ;
+    pm2 . plane = _PlanarReflection2 ;
+    pm2 . tangent = _PlanarReflectionTangent2 . xyz ;
+    pm2 . bitangent = _PlanarReflectionBiTangent2 . xyz ;
+    pm2 . uvOffset = float2 ( _PlanarReflectionTangent2 . w , _PlanarReflectionBiTangent2 . w ) ;
+    LOD = max ( EvalMipLevel ( worldRefl , 256.0f ) , LOD ) ;
+    float3 refl = GlossyReflectionTerm ( IN , _Cube , pm0 , _PlanarReflectionTex0 , pm1 , _PlanarReflectionTex1 , pm2 , _PlanarReflectionTex2 , normal , Q , LOD ) . xyz * _ReflOnlyIntensity ;
+    refl *= lerp ( s . Specular , s . Specular * s . Albedo , _Metalic ) ;
+    spec = refl * saturate ( s . Reflectivity ) ;
+    float3 ambient = ShadeSH9 ( float4 ( worldN , 1.0 ) ) * s . Albedo ;
+    return lerp ( ambient , refl , saturate ( s . Reflectivity ) ) ;
+}
+sampler2D _MainTex ;
+sampler2D _BumpMap , _BumpMap2 ;
+sampler2D _MainReflectivityTex ;
+sampler2D _MainRoughnessTex ;
+float4 _BumpMap2_ST ;
+fixed4 _Color , _ReflColor ;
+float _BumpMapFactor , _BumpMapFactor2 ;
+float4 _MainReflectivityTex_AddMul ;
+float4 _MainRoughnessTex_AddMul ;
+void surf ( Input IN , inout MySurfaceOutput o )
+{
+    half4 c = tex2D ( _MainTex , IN . uv_MainTex ) ;
+    o . Albedo = c . rgb * _Color . rgb ;
+    o . Alpha = c . a ;
+    o . Specular = _ReflColor . rgb ;
+    float2 uv_BumpMap2 = ( IN . uv_MainTex . xy * _BumpMap2_ST . xy ) + _BumpMap2_ST . zw ;
+    float3 up = float3 ( 0 , 0 , 1 ) ;
+    float3 n1 = lerp ( up , max ( float3 ( - 1 , - 1 , 0.01 ) , UnpackNormal ( tex2D ( _BumpMap , IN . uv_BumpMap ) ) ) , _BumpMapFactor ) ;
+    float3 n2 = lerp ( up , max ( float3 ( - 1 , - 1 , 0.01 ) , UnpackNormal ( tex2D ( _BumpMap2 , uv_BumpMap2 ) ) ) , _BumpMapFactor2 ) ;
+    o . Normal = CombineNormals ( n1 , n2 ) ;
+    float NdotV = max ( 0.0 , dot ( o . Normal , normalize ( IN . viewDir ) ) ) ;
+    float F = FresnelTerm ( _Refl0 * _Reflectivity , _Refl90 * _Reflectivity , NdotV ) ;
+    o . Reflectivity = RemapToRange ( tex2D ( _MainReflectivityTex , IN . uv_MainTex ) . r , _MainReflectivityTex_AddMul ) * F ;
+    o . Roughness = RemapToRange ( tex2D ( _MainRoughnessTex , IN . uv_MainTex ) . r , _MainRoughnessTex_AddMul ) ;
+    float3 globalSpec ;
+    o . Emission = GlobalIllumination ( IN , o , globalSpec ) ;
+}
+struct v2f_surf
+{
+    float4 pos : POSITION ;
+    float4 pack0 : TEXCOORD0 ;
+    float3 worldPos : TEXCOORD1 ;
+    float3 viewDir : TEXCOORD2 ;
+    fixed4 TtoW0 : TEXCOORD3 ;
+    fixed4 TtoW1 : TEXCOORD4 ;
+    fixed4 TtoW2 : TEXCOORD5 ;
+    float4 lmap : TEXCOORD6 ;
+    fixed3 lightDir : TEXCOORD7 ;
+}
+;
+float4 unity_LightmapST ;
+float4 unity_ShadowFadeCenterAndType ;
+float4 _MainTex_ST ;
+float4 _BumpMap_ST ;
+v2f_surf main ( appdata_full v )
+{
+    v2f_surf o ;
+    o . pos = mul ( glstate_matrix_mvp , v . vertex ) ;
+    o . pack0 . xy = ( v . texcoord . xy * _MainTex_ST . xy + _MainTex_ST . zw ) ;
+    o . pack0 . zw = ( v . texcoord . xy * _BumpMap_ST . xy + _BumpMap_ST . zw ) ;
+    v . normal = normalize ( v . normal ) ;
+    v . tangent . xyz = normalize ( v . tangent . xyz ) ;
+    o . worldPos = mul ( _Object2World , v . vertex ) . xyz ;
+    float3 viewDir = - ObjSpaceViewDir ( v . vertex ) ;
+    float3 worldRefl = mul ( ( float3x3 ) _Object2World , viewDir ) ;
+    float3 binormal = cross ( normalize ( v . normal ) , normalize ( v . tangent . xyz ) ) * v . tangent . w ;
+    float3x3 rotation = float3x3 ( v . tangent . xyz , binormal , v . normal ) ;
+    o . TtoW0 = float4 ( mul ( rotation , _Object2World [ 0 ] . xyz ) , worldRefl . x ) * unity_Scale . w ;
+    o . TtoW1 = float4 ( mul ( rotation , _Object2World [ 1 ] . xyz ) , worldRefl . y ) * unity_Scale . w ;
+    o . TtoW2 = float4 ( mul ( rotation , _Object2World [ 2 ] . xyz ) , worldRefl . z ) * unity_Scale . w ;
+    o . lmap . xy = v . texcoord1 . xy * unity_LightmapST . xy + unity_LightmapST . zw ;
+    o . lmap . zw = float2 ( 0 , 0 ) ;
+    o . lmap . z = length ( mul ( _Object2World , v . vertex ) . xyz - unity_ShadowFadeCenterAndType . xyz ) * unity_ShadowFadeCenterAndType . w ;
+    o . lmap . w = ( - mul ( glstate_matrix_modelview0 , v . vertex ) . z ) * ( 1.0 - unity_ShadowFadeCenterAndType . w ) ;
+    float3 worldN = mul ( ( float3x3 ) _Object2World , ( v . normal * unity_Scale . w ) ) ;
+    float3 lightDir = mul ( rotation , ObjSpaceLightDir ( v . vertex ) ) ;
+    o . lightDir = lightDir ;
+    float3 viewDirForLight = mul ( rotation , ObjSpaceViewDir ( v . vertex ) ) ;
+    o . viewDir = viewDirForLight ;
+    ;
+    return o ;
+}

@@ -1,0 +1,24 @@
+#line 1 "in-vals-ret-struct-in.txt" 
+float4x4 mvp;
+
+struct v2f {
+	float4 pos : POSITION;
+	float fog : FOG;
+	float2 uv : TEXCOORD0;
+	float4 color : COLOR;
+};
+
+v2f main (
+	float4 pos : POSITION,
+	float2 uv : TEXCOORD0,
+	float3 normal : NORMAL,
+	float4 color : COLOR
+)
+{
+	v2f o;
+	o.pos = mul (mvp, pos);
+	o.color = color;
+	o.color.rgb += normal;
+	o.uv = uv;
+	return o;
+}

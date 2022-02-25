@@ -1,0 +1,78 @@
+
+float4x4 UNITY_MATRIX_MVP;
+float4x4 _Object2World;
+float4 _WorldSpaceLightPos0;
+
+struct appdata_full {
+    float4 vertex : POSITION;
+    float4 tangent : TANGENT;
+    float3 normal : NORMAL;
+    float4 texcoord : TEXCOORD0;
+    float4 texcoord1 : TEXCOORD1;
+    fixed4 color : COLOR;
+};
+
+struct SurfaceOutput {
+	fixed3 Albedo;
+	fixed3 Normal;
+	fixed3 Emission;
+	half Specular;
+	fixed Gloss;
+	fixed Alpha;
+};
+
+sampler2D _MainTex;
+
+fixed4 ololo;
+
+struct Input {
+	float2 uv_MainTex;
+};
+
+fixed4 LightingNoLight (SurfaceOutput s, fixed3 lightDir, fixed atten) {
+	fixed4 c;
+	c.rgb = s.Alpha * (s.Albedo + ololo);
+	c.a = 1.0;
+	return c;
+}
+
+void surf (Input IN, inout SurfaceOutput o) {
+	half4 c = tex2D (_MainTex, IN.uv_MainTex);
+	ololo = c;
+	o.Albedo = c.rgb;
+	o.Alpha = c.a;
+}
+struct v2f_surf {
+	float4 pos : SV_POSITION;
+	float2 pack0 : TEXCOORD0;
+	fixed3 normal : TEXCOORD1;
+	fixed3 vlight : TEXCOORD2;
+};
+float4 _MainTex_ST;
+v2f_surf vert_surf (appdata_full v) {
+	v2f_surf o;
+	o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+	o.pack0.xy = v.texcoord;
+	float3 worldN = mul((float3x3)_Object2World, v.normal);
+	o.normal = worldN;
+	o.vlight = 0.1;
+	return o;
+}
+
+fixed4 main (v2f_surf IN) : COLOR {
+	Input surfIN;
+	surfIN.uv_MainTex = IN.pack0.xy;
+	SurfaceOutput o;
+	o.Albedo = 0.0;
+	o.Emission = 0.0;
+	o.Specular = 0.0;
+	o.Alpha = 0.0;
+	o.Gloss = 0.0;
+	o.Normal = IN.normal;
+	surf (surfIN, o);
+	fixed atten = 1.0;
+	fixed4 c = 0;
+	c = LightingNoLight (o, _WorldSpaceLightPos0.xyz, atten);
+	c.rgb += o.Albedo * IN.vlight;
+	return c;
+}

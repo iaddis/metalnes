@@ -1,0 +1,117 @@
+
+#line 8
+struct v2f {
+    vec4 pos;
+    vec2 uv;
+};
+#line 3
+uniform vec4 _ZBufferParams;
+#line 14
+uniform sampler2D _MainTex;
+uniform sampler2D _CameraDepthTexture;
+uniform sampler2D _VelTex;
+uniform sampler2D _NeighbourMaxTex;
+#line 18
+uniform sampler2D _NoiseTex;
+uniform vec4 _MainTex_TexelSize;
+uniform vec4 _CameraDepthTexture_TexelSize;
+uniform vec4 _VelTex_TexelSize;
+#line 22
+uniform mat4 _InvViewProj;
+uniform mat4 _PrevViewProj;
+uniform mat4 _ToPrevViewProjCombined;
+uniform float _MaxVelocity;
+#line 26
+uniform float _MinVelocity;
+uniform vec4 _VelBufferSize;
+uniform vec4 _TileBufferSize;
+uniform vec4 _BlurDirectionPacked;
+#line 30
+uniform float _SoftZDistance;
+#line 38
+#line 42
+#line 47
+#line 52
+#line 4
+float Linear01Depth( in float z ) {
+    return (1.0 / ((_ZBufferParams.x * z) + _ZBufferParams.y));
+}
+#line 38
+float cone( in vec2 x, in vec2 y, in vec2 v ) {
+    return clamp( (1.0 - (length((x - y)) / length(v))), 0.0, 1.0);
+}
+#line 42
+float cylinder( in vec2 x, in vec2 y, in vec2 v ) {
+    float lv = length(v);
+    return (1.0 - smoothstep( (0.95 * lv), (1.05 * lv), length((x - y))));
+}
+#line 47
+float softDepthCompare( in float za, in float zb ) {
+    return clamp( (1.0 - ((za - zb) / _SoftZDistance)), 0.0, 1.0);
+}
+#line 52
+vec4 xlat_main( in v2f i ) {
+    vec2 x = i.uv;
+    vec2 xf = x;
+    #line 56
+    vec2 x2 = ((xf * _VelBufferSize.xy) / (_TileBufferSize.xy * 8.0));
+    vec2 vn = texture2D( _NeighbourMaxTex, x2).xy;
+    vec4 cx = texture2D( _MainTex, x);
+    float zx = texture2D( _CameraDepthTexture, x).x;
+    #line 60
+    zx = (-Linear01Depth( zx));
+    vec2 vx = texture2D( _VelTex, xf).xy;
+    ivec2 pixelCoord = ivec2((i.uv * _MainTex_TexelSize.zw));
+    float j = (texture2D( _NoiseTex, (i.uv * 4.0)).x * 0.25);
+    #line 64
+    float weight = 1.0;
+    vec4 sum = (cx * weight);
+    int centerSample = 6;
+    int i_1 = 0;
+    for ( ; (i_1 < 13); (i_1++)) {
+        #line 69
+        float contrib = 1.0;
+        if ((i_1 == centerSample)){
+            contrib = 0.0;
+        }
+        float t = mix( -1.0, 1.0, (((float(i_1) + j) + 1.0) / 14.0));
+        vec2 y = (x + (vn * t));
+        #line 73
+        vec2 yf = y;
+        vec2 vy = texture2D( _VelTex, vec4( yf, 0.0, 0.0).xy).xy;
+        float zy = texture2D( _CameraDepthTexture, vec4( y, 0.0, 0.0).xy).x;
+        zy = (-Linear01Depth( zy));
+        #line 77
+        float f = softDepthCompare( zx, zy);
+        float b = softDepthCompare( zy, zx);
+        float alphay = (((f * cone( y, x, vy)) + (b * cone( x, y, vx))) + ((cylinder( y, x, vy) * cylinder( x, y, vx)) * 2.0));
+        vec4 cy = texture2D( _MainTex, vec4( y, 0.0, 0.0).xy);
+        #line 81
+        sum += ((cy * alphay) * contrib);
+        weight += (alphay * contrib);
+    }
+    sum /= weight;
+    #line 85
+    return sum;
+}
+varying vec2 xlv_TEXCOORD0;
+void main() {
+    vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.uv = vec2(xlv_TEXCOORD0);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _CameraDepthTexture:<none> type 25 arrsize 0
+// _MainTex:<none> type 25 arrsize 0
+// _MainTex_TexelSize:<none> type 12 arrsize 0
+// _NeighbourMaxTex:<none> type 25 arrsize 0
+// _NoiseTex:<none> type 25 arrsize 0
+// _SoftZDistance:<none> type 9 arrsize 0
+// _TileBufferSize:<none> type 12 arrsize 0
+// _VelBufferSize:<none> type 12 arrsize 0
+// _VelTex:<none> type 25 arrsize 0
+// _ZBufferParams:<none> type 12 arrsize 0

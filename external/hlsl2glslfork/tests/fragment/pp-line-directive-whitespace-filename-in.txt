@@ -1,0 +1,4 @@
+// This should NOT produce an error
+#line 1337 "Some filename with a spaces in it.txt"
+
+float4 main() : COLOR { return 0; }

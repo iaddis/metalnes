@@ -1,0 +1,12 @@
+#line 1 "const-var-from-function-in.txt" 
+uniform half4 _Color;
+
+half4 main() : COLOR0
+{
+	// all these, c1..c4 should be turned into non-const
+    const half c1 = max(_Color.r, _Color.g);
+    const half c2 = _Color.b * _Color.a;
+    const float c3 = log2(4 * 4);
+    const float c4 = -_Color.r;
+    return half4(c1, c2, c3, c4);
+}

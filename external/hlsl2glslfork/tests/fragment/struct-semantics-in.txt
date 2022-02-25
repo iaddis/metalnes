@@ -1,0 +1,23 @@
+
+struct Input
+{
+    fixed4 color;
+    half3 interpolator1;
+    half3 interpolator2;
+};
+
+struct v2f
+{
+    float4 vertex : SV_POSITION;
+    // semantics on a nested struct itself.
+    Input data : TEXCOORD1;
+};
+
+half4 main(v2f i) : COLOR
+{
+	half4 res = 0;
+	res += i.data.color;
+	res.xyz += i.data.interpolator1;
+	res.xyz += i.data.interpolator2;
+	return res;
+}

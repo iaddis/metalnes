@@ -1,0 +1,29 @@
+
+#line 1
+struct v2f {
+    highp vec4 vertex;
+    lowp vec4 color;
+    mediump vec2 texcoord;
+};
+#line 6
+uniform lowp vec4 _TintColor;
+uniform sampler2D _MainTex;
+#line 8
+mediump vec4 xlat_main( in v2f i ) {
+    #line 10
+    return (i.color * texture2D( _MainTex, i.texcoord));
+}
+varying lowp vec4 xlv_COLOR;
+varying mediump vec2 xlv_TEXCOORD0;
+void main() {
+    mediump vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.vertex = vec4(0.0);
+    xlt_i.color = vec4(xlv_COLOR);
+    xlt_i.texcoord = vec2(xlv_TEXCOORD0);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _MainTex:<none> type 25 arrsize 0

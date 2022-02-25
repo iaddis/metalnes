@@ -1,0 +1,14 @@
+
+#line 1
+void xlat_main( out vec4 pos, out float size ) {
+    #line 3
+    pos = vec4( 1.0, 2.0, 3.0, 4.0);
+    size = 1.5;
+}
+void main() {
+    vec4 xlt_pos;
+    float xlt_size;
+    xlat_main( xlt_pos, xlt_size);
+    gl_Position = vec4(xlt_pos);
+    gl_PointSize = float(xlt_size);
+}

@@ -1,0 +1,2 @@
+multiple-file-lines-in.hlsl(14): ERROR: 'bloat4' : undeclared identifier 
+multiple-file-lines-in.hlsl(14): ERROR: 'b' : syntax error syntax error

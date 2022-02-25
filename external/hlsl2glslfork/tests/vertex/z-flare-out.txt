@@ -1,0 +1,120 @@
+
+#line 123
+struct v2f_vertex_lit {
+    vec2 uv;
+    vec4 diff;
+    vec4 spec;
+};
+#line 159
+struct v2f_img {
+    vec4 pos;
+    vec2 uv;
+};
+#line 153
+struct appdata_img {
+    vec4 vertex;
+    vec2 texcoord;
+};
+#line 262
+struct appdata_t {
+    vec4 vertex;
+    vec4 color;
+    vec2 texcoord;
+};
+#line 1
+uniform mat4 glstate_matrix_mvp;
+uniform mat4 glstate_matrix_modelview0;
+uniform mat4 glstate_matrix_projection;
+uniform mat4 glstate_matrix_transpose_modelview0;
+#line 5
+uniform mat4 glstate_matrix_invtrans_modelview0;
+uniform mat4 glstate_matrix_texture0;
+uniform mat4 glstate_matrix_texture1;
+uniform mat4 glstate_matrix_texture2;
+#line 9
+uniform mat4 glstate_matrix_texture3;
+uniform vec4 glstate_lightmodel_ambient;
+uniform vec4 _Time;
+uniform vec4 _SinTime;
+#line 13
+uniform vec4 _CosTime;
+uniform vec4 _ProjectionParams;
+uniform vec4 _ScreenParams;
+uniform vec4 unity_Scale;
+#line 17
+uniform vec3 _WorldSpaceCameraPos;
+uniform vec4 _WorldSpaceLightPos0;
+uniform mat4 _Object2World;
+uniform mat4 _World2Object;
+uniform vec4 _LightPositionRange;
+#line 46
+#line 51
+#line 56
+#line 61
+#line 65
+#line 70
+uniform vec4 unity_4LightPosX0;
+uniform vec4 unity_4LightPosY0;
+uniform vec4 unity_4LightPosZ0;
+uniform vec4 unity_4LightAtten0;
+#line 74
+uniform vec3 unity_LightColor0;
+uniform vec3 unity_LightColor1;
+uniform vec3 unity_LightColor2;
+uniform vec3 unity_LightColor3;
+#line 78
+#line 102
+uniform vec4 unity_SHAr;
+uniform vec4 unity_SHAg;
+uniform vec4 unity_SHAb;
+uniform vec4 unity_SHBr;
+#line 106
+uniform vec4 unity_SHBg;
+uniform vec4 unity_SHBb;
+uniform vec4 unity_SHC;
+#line 130
+#line 138
+#line 165
+#line 178
+#line 187
+#line 192
+#line 201
+#line 206
+#line 215
+#line 232
+#line 237
+uniform vec4 _ZBufferParams;
+#line 245
+#line 249
+#line 253
+uniform vec4 unity_LightShadowBias;
+#line 261
+uniform sampler2D _FlareTexture;
+#line 269
+uniform vec4 _FlareTexture_ST;
+#line 270
+void xlat_main( in appdata_t v, out vec4 overtex, out vec4 ocolor, out vec2 otexcoord ) {
+    overtex = (glstate_matrix_mvp * v.vertex);
+    #line 273
+    ocolor = v.color;
+    otexcoord = ((v.texcoord.xy * _FlareTexture_ST.xy) + _FlareTexture_ST.zw);
+}
+varying vec4 xlv_COLOR;
+varying vec2 xlv_TEXCOORD0;
+void main() {
+    appdata_t xlt_v;
+    xlt_v.vertex = vec4(gl_Vertex);
+    xlt_v.color = vec4(gl_Color);
+    xlt_v.texcoord = vec2(gl_MultiTexCoord0);
+    vec4 xlt_overtex;
+    vec4 xlt_ocolor;
+    vec2 xlt_otexcoord;
+    xlat_main( xlt_v, xlt_overtex, xlt_ocolor, xlt_otexcoord);
+    gl_Position = vec4(xlt_overtex);
+    xlv_COLOR = vec4(xlt_ocolor);
+    xlv_TEXCOORD0 = vec2(xlt_otexcoord);
+}
+
+// uniforms:
+// _FlareTexture_ST:<none> type 12 arrsize 0
+// glstate_matrix_mvp:<none> type 21 arrsize 0

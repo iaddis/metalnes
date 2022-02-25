@@ -1,0 +1,20 @@
+float uni1;
+half4 uni4;
+
+sampler2D tex1;
+
+float3 SampleDiffuse(float2 uv)
+{
+	uni4.xy = uv; // modify uniform!
+	return tex2D (tex1, uni4.xy);
+}
+
+fixed4 main (float4 uv:TEXCOORD0) : COLOR0 {
+	fixed4 c = 0.0;
+	c.x += uni4.x;
+	c.rgb += SampleDiffuse(uv.xy);
+	c.z += uni1;
+	uni1 += 2.0;
+	c.w += uni1;
+	return c;
+}

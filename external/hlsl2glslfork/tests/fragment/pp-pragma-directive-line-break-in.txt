@@ -1,0 +1,3 @@
+#pragma warning (disable:4507)
+float should_remain_on_separate_line;
+half4 main() : COLOR { return should_remain_on_separate_line; }

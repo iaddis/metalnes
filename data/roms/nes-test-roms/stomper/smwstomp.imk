@@ -1,0 +1,5 @@
+MAKEINES
+smwstomp.nes
+MAPR 4
+PROG smwstomp.obj
+CHAR smwstomp.chr

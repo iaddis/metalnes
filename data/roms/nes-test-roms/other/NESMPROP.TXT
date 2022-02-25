@@ -1,0 +1,108 @@
+                         Proposed NES music format
+                         -------------------------
+
+
+This file encompasses a way to transfer NES music data in a small, easy to
+use format.
+
+The basic idea is one rips the music/sound code from an NES game and prepends
+a small header to the data.
+
+A program of some form (6502/sound emulator) then takes the data and loads
+it into the proper place into the 6502's address space, then inits and plays
+the tune.
+
+Here's an overview of the proposed header:
+
+offset  # of bytes   Function
+----------------------------
+
+0000    5   STRING  "NESM",01Ah  ; denotes an NES sound format file
+0005    1   BYTE    version number
+0006    1   BYTE    total songs   (1=1 song, 2=2 songs, etc)
+0007    1   BYTE    starting song (1= 1st song, 2=2nd song, etc)
+0008    2   WORD    (lo/hi) load address of data (0000-FFFF)
+000a    2   WORD    (lo/hi) init address of data (0000-FFFF)
+000c    2   WORD    (lo/hi) play address of data (0000-FFFF)
+000e    32  STRING  The name of the song, null terminated
+002e    32  STRING  The artist, if known, null terminated
+004e    32  STRING  The Copyright holder, null terminated
+006e    2   WORD    (lo/hi) speed, in 1/1000000th sec ticks (see note)
+0070    16  ----    16 extra bytes for expansion (bankswitch info, if needed)
+0080    nnn ----    the music program/data follows
+
+This may look somewhat familiar;  if so that's because this is somewhat
+sorta of based on the PSID file format for C64 music/sound.
+
+I have included a working sample file of this format, "linus.nsf".  The 
+".nsf" extention is short for "NES Sound Format" and should be used for all
+such files.  
+
+I will attempt to describe how to load and play the above sample file, and
+I have included an .NES file for use on the emulators that plays the sample
+file.  To change song, hit start.  This will increment the song and re-run
+the init code.  See included ASM file for info
+
+The header for the file appears like so:
+
+
+offset:  bytes
+
+0000:  "NESM",01ah     ;this denotes an NESM file
+0005:  001h            ;version 1 of the format
+0006:  02bh            ;there are 43 songs 
+0007:  00dh            ;start on 12th song
+0008:  08000h          ;load that data in starting at 8000h
+000a:  09a3ch          ;init code located at 9A3Ch
+000c:  09a8bh          ;play code located at 9a8bh
+000e:  "Linus Spacehead",0,0,0,0,0,0,0,0...         ;name of song
+002e:  "<?>",0,0,0,0...                             ;who dunnit
+004e:  "1992 Codemasters",0,0,0,0...                ;copyright date/owner
+006e:  0411ah          ;speed of tune (see note)
+0070:  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0              ;unused bytes, set to 00h
+0080:  data of song follows
+
+The current version of this format is 1, denoted by "01h" located in offset
+0005h.  
+
+
+The way it works is pretty simple. 
+
+1) Set up RAM at 0000-07ffh, and from 5000-FFFFh.  Now, load the data from 
+   the NESM file starting at the denoted start address (offsets 0008h and
+   0009h in file).  Continue loading data in until EOF.
+
+2) Set up some form of song selector for the user.  Get the number of songs
+   from the file, and the start song and set up your UI accordingly.  
+
+3) Set the accumulator to the selected song minus 1. (i.e. if you wish to
+   play the 1st song, set the accumulator to 0.)
+
+4) Call the init address denoted at offsets 000ah and 000bh in the file.
+
+5) Now, repeatedly call the play address, denoted at offsets 000ch and 000dh
+   in the file.
+
+6) If another song is to be played, set the accumulator and re-run the init
+   routine.
+
+Note about song playback speed:
+
+offsets 006eh and 006fh in the file denote the speed of playback in
+1/1000000ths of a second.  For the "usual" 60Hz playback rate, set this to
+411ah.  
+
+To generate a differing playback rate, use this formula:
+
+
+          speed
+PBRATE= ---------
+         1000000
+
+Where PBRATE is the value you stick into 006e/006fh in the file, and
+speed is the desired speed in hertz. 
+
+
+That's it!
+
+

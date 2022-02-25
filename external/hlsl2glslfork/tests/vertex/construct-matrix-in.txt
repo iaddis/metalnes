@@ -1,0 +1,66 @@
+#line 1 "construct-matrix-in.txt" 
+float4 main (float4 pos : POSITION) : POSITION
+{
+	float4 v = 0;
+
+	// 2x2 matrices
+	float2x2 m2 = float2x2(
+		1, 2,
+		3, 4
+	);
+	float2x2 m2b = float2x2(
+		float2 (1,2),
+		float2 (3,4)
+	);
+	float2x2 m2c = float2x2(1.0);
+	float2x2 m2d = 1.0;
+	v.xy += mul (m2, pos.xy);
+	v.xy += mul (m2b, pos.xy);
+	v.xy += mul (m2c, pos.xy);
+	v.xy += mul (m2d, pos.xy);
+
+	// 3x3 matrices
+	float3x3 m3 = float3x3(
+		1, 2, 3,
+		4, 5, 6,
+		7, 8, 9
+	);
+	float3x3 m3b = float3x3(
+		float3(1, 2, 3),
+		float3(4, 5, 6),
+		float3(7, 8, 9)
+	);
+	float3x3 m3c = float3x3(
+		float3(1, 2, 3),
+		float3(4, 5, 6),
+		pos.xyz
+	);
+	float3x3 m3d = float3x3(1.0);
+	float3x3 m3e = 1.0;
+	v.xyz += mul (m3, pos.xyz);
+	v.xyz += mul (m3b, pos.xyz);
+	v.xyz += mul (m3c, pos.xyz);
+	v.xyz += mul (m3d, pos.xyz);
+	v.xyz += mul (m3e, pos.xyz);
+
+	// 4x4 matrices
+	float4x4 m4 = float4x4(
+		1, 2, 3, 4,
+		5, 6, 7, 8,
+		9, 10, 11, 12,
+		13, 14, 15, 16
+	);
+	float4x4 m4b = float4x4(
+		float4(1, 2, 3, 4),
+		float4(5, 6, 7, 8),
+		float4(9, 10, 11, 12),
+		float4(13, 14, 15, 16)
+	);
+	float4x4 m4c = float4x4(1.0);
+	float4x4 m4d = 1.0;
+	v.xyzw += mul (m4, pos.xyzw);
+	v.xyzw += mul (m4b, pos.xyzw);
+	v.xyzw += mul (m4c, pos.xyzw);
+	v.xyzw += mul (m4d, pos.xyzw);
+	return v;
+}

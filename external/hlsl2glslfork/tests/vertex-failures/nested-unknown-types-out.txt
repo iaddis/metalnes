@@ -1,0 +1,9 @@
+(23): ERROR: 'glstate' : undeclared identifier 
+(23): ERROR: 'light' : illegal vector field selection 
+(23): ERROR: 'glstate' :  left of '[' is not of type array, matrix, or vector  
+(23): ERROR: 'position' : illegal vector field selection 
+(23): ERROR: 'xyz' : vector field selection out of range 
+(25): ERROR: 'light' : illegal vector field selection 
+(25): ERROR: 'glstate' :  left of '[' is not of type array, matrix, or vector  
+(25): ERROR: 'diffuse' : illegal vector field selection 
+(25): ERROR: 'xyz' : vector field selection out of range 

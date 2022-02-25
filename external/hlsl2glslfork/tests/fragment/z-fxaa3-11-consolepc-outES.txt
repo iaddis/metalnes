@@ -1,0 +1,96 @@
+#extension GL_EXT_shader_texture_lod : require
+vec4 xll_tex2Dlod(sampler2D s, vec4 coord) {
+   return texture2DLodEXT( s, coord.xy, coord.w);
+}
+#line 968
+struct v2f {
+    highp vec4 pos;
+    highp vec2 uv;
+    highp vec4 uvPosPos;
+};
+#line 344
+#line 904
+#line 974
+uniform highp vec4 _MainTex_TexelSize;
+uniform sampler2D _MainTex;
+#line 978
+#line 344
+highp float FxaaLuma( in highp vec4 rgba ) {
+    return rgba.y;
+}
+#line 904
+highp vec4 FxaaPixelShader( in highp vec2 pos, in highp vec4 fxaaConsolePosPos, in sampler2D tex, in sampler2D fxaaConsole360TexExpBiasNegOne, in sampler2D fxaaConsole360TexExpBiasNegTwo, in highp vec2 fxaaQualityRcpFrame, in highp vec4 fxaaConsoleRcpFrameOpt, in highp vec4 fxaaConsoleRcpFrameOpt2, in highp vec4 fxaaConsole360RcpFrameOpt2, in highp float fxaaQualitySubpix, in highp float fxaaQualityEdgeThreshold, in highp float fxaaQualityEdgeThresholdMin, in highp float fxaaConsoleEdgeSharpness, in highp float fxaaConsoleEdgeThreshold, in highp float fxaaConsoleEdgeThresholdMin, in highp vec4 fxaaConsole360ConstDir ) {
+    highp float lumaNw = FxaaLuma( xll_tex2Dlod( tex, vec4( fxaaConsolePosPos.xy, 0.0, 0.0)));
+    highp float lumaSw = FxaaLuma( xll_tex2Dlod( tex, vec4( fxaaConsolePosPos.xw, 0.0, 0.0)));
+    #line 908
+    highp float lumaNe = FxaaLuma( xll_tex2Dlod( tex, vec4( fxaaConsolePosPos.zy, 0.0, 0.0)));
+    highp float lumaSe = FxaaLuma( xll_tex2Dlod( tex, vec4( fxaaConsolePosPos.zw, 0.0, 0.0)));
+    highp vec4 rgbyM = xll_tex2Dlod( tex, vec4( pos.xy, 0.0, 0.0));
+    #line 915
+    highp float lumaM = rgbyM.y;
+    highp float lumaMaxNwSw = max( lumaNw, lumaSw);
+    #line 919
+    lumaNe += 0.002604167;
+    highp float lumaMinNwSw = min( lumaNw, lumaSw);
+    highp float lumaMaxNeSe = max( lumaNe, lumaSe);
+    #line 923
+    highp float lumaMinNeSe = min( lumaNe, lumaSe);
+    highp float lumaMax = max( lumaMaxNeSe, lumaMaxNwSw);
+    highp float lumaMin = min( lumaMinNeSe, lumaMinNwSw);
+    #line 928
+    highp float lumaMaxScaled = (lumaMax * fxaaConsoleEdgeThreshold);
+    highp float lumaMinM = min( lumaMin, lumaM);
+    highp float lumaMaxScaledClamped = max( fxaaConsoleEdgeThresholdMin, lumaMaxScaled);
+    #line 932
+    highp float lumaMaxM = max( lumaMax, lumaM);
+    highp float dirSwMinusNe = (lumaSw - lumaNe);
+    highp float lumaMaxSubMinM = (lumaMaxM - lumaMinM);
+    highp float dirSeMinusNw = (lumaSe - lumaNw);
+    #line 936
+    if ((lumaMaxSubMinM < lumaMaxScaledClamped)){
+        return rgbyM;
+    }
+    highp vec2 dir;
+    dir.x = (dirSwMinusNe + dirSeMinusNw);
+    #line 940
+    dir.y = (dirSwMinusNe - dirSeMinusNw);
+    highp vec2 dir1 = normalize(dir.xy);
+    highp vec4 rgbyN1 = xll_tex2Dlod( tex, vec4( (pos.xy - (dir1 * fxaaConsoleRcpFrameOpt.zw)), 0.0, 0.0));
+    #line 944
+    highp vec4 rgbyP1 = xll_tex2Dlod( tex, vec4( (pos.xy + (dir1 * fxaaConsoleRcpFrameOpt.zw)), 0.0, 0.0));
+    highp float dirAbsMinTimesC = (min( abs(dir1.x), abs(dir1.y)) * fxaaConsoleEdgeSharpness);
+    highp vec2 dir2 = clamp( (dir1.xy / dirAbsMinTimesC), vec2( -2.0), vec2( 2.0));
+    #line 949
+    highp vec4 rgbyN2 = xll_tex2Dlod( tex, vec4( (pos.xy - (dir2 * fxaaConsoleRcpFrameOpt2.zw)), 0.0, 0.0));
+    highp vec4 rgbyP2 = xll_tex2Dlod( tex, vec4( (pos.xy + (dir2 * fxaaConsoleRcpFrameOpt2.zw)), 0.0, 0.0));
+    highp vec4 rgbyA = (rgbyN1 + rgbyP1);
+    #line 953
+    highp vec4 rgbyB = (((rgbyN2 + rgbyP2) * 0.25) + (rgbyA * 0.25));
+    #line 958
+    bool twoTap = ((rgbyB.y < lumaMin) || (rgbyB.y > lumaMax));
+    if (twoTap){
+        rgbyB.xyz = (rgbyA.xyz * 0.5);
+    }
+    return rgbyB;
+}
+#line 978
+highp vec4 xlat_main( in v2f i ) {
+    highp float fxaaN = 0.5;
+    #line 982
+    return FxaaPixelShader( i.uv, i.uvPosPos, _MainTex, _MainTex, _MainTex, _MainTex_TexelSize.xy, (_MainTex_TexelSize.xyxy * vec4( (-fxaaN), (-fxaaN), fxaaN, fxaaN)), (_MainTex_TexelSize.xyxy * vec4( -2.0, -2.0, 2.0, 2.0)), (_MainTex_TexelSize.xyxy * vec4( 8.0, 8.0, -4.0, -4.0)), 0.75, 0.166, 0.0833, 8.0, 0.125, 0.05, vec4( 1.0, -1.0, 0.25, -0.25));
+}
+varying highp vec2 xlv_TEXCOORD0;
+varying highp vec4 xlv_TEXCOORD1;
+void main() {
+    highp vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.uv = vec2(xlv_TEXCOORD0);
+    xlt_i.uvPosPos = vec4(xlv_TEXCOORD1);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _MainTex:<none> type 25 arrsize 0
+// _MainTex_TexelSize:<none> type 12 arrsize 0

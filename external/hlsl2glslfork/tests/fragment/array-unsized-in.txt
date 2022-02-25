@@ -1,0 +1,11 @@
+half4 main () : COLOR0 {
+	float2 lut[] = {
+		float2(-1, 0.1),
+		float2(0, 0.5),
+		float2(1, 0.1)
+	};
+	half4 c = 0;
+	for (int i = 0; i < 3; ++i)
+		c.xy += lut[i];
+	return c;
+}

@@ -1,0 +1,37 @@
+
+#line 1
+vec4 xlat_main(  ) {
+    #line 2
+    float foo = 1.0;
+    foo += 1.0;
+    foo += 100000.0;
+    foo += -0.001;
+    #line 6
+    foo += 1e-06;
+    foo += 1e-06;
+    foo += 1111111.0;
+    foo += 1111110.0;
+    #line 10
+    foo += 1.234568;
+    foo += 2.0;
+    foo += 3.0;
+    #line 14
+    vec3 f3;
+    vec4 v;
+    float boo;
+    v = vec4( f3.zyx, 1.0);
+    #line 18
+    v = vec4( vec3( foo), 1.0);
+    v = vec4( vec3( boo), 1.0);
+    v = vec4( foo);
+    v = vec4( 2.0);
+    #line 24
+    const float fcf = 1.9;
+    v = vec4( 1.9);
+    return vec4( foo);
+}
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_FragData[0] = vec4(xl_retval);
+}

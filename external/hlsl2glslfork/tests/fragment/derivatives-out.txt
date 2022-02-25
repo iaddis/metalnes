@@ -1,0 +1,59 @@
+float xll_dFdx_f(float f) {
+  return dFdx(f);
+}
+vec2 xll_dFdx_vf2(vec2 v) {
+  return dFdx(v);
+}
+vec3 xll_dFdx_vf3(vec3 v) {
+  return dFdx(v);
+}
+vec4 xll_dFdx_vf4(vec4 v) {
+  return dFdx(v);
+}
+mat2 xll_dFdx_mf2x2(mat2 m) {
+  return mat2( dFdx(m[0]), dFdx(m[1]));
+}
+mat3 xll_dFdx_mf3x3(mat3 m) {
+  return mat3( dFdx(m[0]), dFdx(m[1]), dFdx(m[2]));
+}
+mat4 xll_dFdx_mf4x4(mat4 m) {
+  return mat4( dFdx(m[0]), dFdx(m[1]), dFdx(m[2]), dFdx(m[3]));
+}
+float xll_fwidth_f(float f) {
+  return fwidth(f);
+}
+vec2 xll_fwidth_vf2(vec2 v) {
+  return fwidth(v);
+}
+vec3 xll_fwidth_vf3(vec3 v) {
+  return fwidth(v);
+}
+vec4 xll_fwidth_vf4(vec4 v) {
+  return fwidth(v);
+}
+mat2 xll_fwidth_mf2x2(mat2 m) {
+  return mat2( fwidth(m[0]), fwidth(m[1]));
+}
+mat3 xll_fwidth_mf3x3(mat3 m) {
+  return mat3( fwidth(m[0]), fwidth(m[1]), fwidth(m[2]));
+}
+mat4 xll_fwidth_mf4x4(mat4 m) {
+  return mat4( fwidth(m[0]), fwidth(m[1]), fwidth(m[2]), fwidth(m[3]));
+}
+#line 1
+vec4 xlat_main( in vec4 uv ) {
+    vec4 res;
+    #line 3
+    res.x = xll_dFdx_f(uv.x);
+    res.y = xll_dFdx_f(uv.y);
+    res.z = xll_fwidth_f(uv.z);
+    res.w = 1.0;
+    #line 7
+    return res;
+}
+varying vec4 xlv_TEXCOORD0;
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_TEXCOORD0));
+    gl_FragData[0] = vec4(xl_retval);
+}

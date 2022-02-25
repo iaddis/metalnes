@@ -1,0 +1,27 @@
+uniform float uni_1;
+float uni_2;
+
+static float stat_1;
+static const float stat_2 = 1.3;
+const static float stat_3 = 1.5;
+const float const_3 = 1e-6f;
+
+uniform float mutable_1;
+float mutable_2;
+
+float _mutable_with_underscore;
+
+// hlsl allows qualifiers on function return values
+static float func_static() { return 7.0; }
+const float func_const() { return 7.0; }
+const static float func_const_static() { return 7.0; }
+static const float func_static_const() { return 7.0; }
+
+float4 main () : POSITION
+{
+	mutable_1 = 3;
+	mutable_2 = 4;
+	_mutable_with_underscore = 5;
+	float func = func_static() + func_const() + func_const_static() + func_static_const();
+	return uni_1 + uni_2 + stat_1 + stat_2 + stat_3 + const_3 + mutable_1 + mutable_2 + _mutable_with_underscore + func;
+}

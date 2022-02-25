@@ -1,0 +1,17 @@
+#line 1 "const-main-arg-in.txt" 
+struct VertexInput
+{
+    float4 pos : POSITION;
+};
+
+struct VertexOutput
+{
+    float4 pos : POSITION;
+};
+
+VertexOutput main(const in VertexInput input)
+{
+    VertexOutput output;
+    output.pos = input.pos;
+    return(output);
+}

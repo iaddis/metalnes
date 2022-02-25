@@ -1,0 +1,166 @@
+float xll_saturate_f( float x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec2 xll_saturate_vf2( vec2 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec3 xll_saturate_vf3( vec3 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec4 xll_saturate_vf4( vec4 x) {
+  return clamp( x, 0.0, 1.0);
+}
+mat2 xll_saturate_mf2x2(mat2 m) {
+  return mat2( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0));
+}
+mat3 xll_saturate_mf3x3(mat3 m) {
+  return mat3( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0));
+}
+mat4 xll_saturate_mf4x4(mat4 m) {
+  return mat4( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0), clamp(m[3], 0.0, 1.0));
+}
+#line 73
+struct v2f {
+    vec4 pos;
+    vec4 normalInterpolator;
+    vec4 viewInterpolator;
+    vec4 bumpCoords;
+    vec4 screenPos;
+    vec4 grabPassPos;
+};
+uniform vec4 _ProjectionParams;
+uniform vec4 _ScreenParams;
+#line 3
+uniform vec4 _ZBufferParams;
+#line 12
+#line 18
+#line 44
+#line 61
+#line 83
+uniform sampler2D _BumpMap;
+uniform sampler2D _ReflectionTex;
+uniform sampler2D _RefractionTex;
+uniform sampler2D _ShoreTex;
+#line 87
+uniform sampler2D _CameraDepthTexture;
+uniform vec4 _RefrColorDepth;
+uniform vec4 _SpecularColor;
+uniform vec4 _BaseColor;
+#line 91
+uniform vec4 _ReflectionColor;
+uniform vec4 _InvFadeParemeter;
+uniform float _Shininess;
+uniform vec4 _WorldLightDir;
+#line 95
+uniform vec4 _DistortParams;
+uniform float _FresnelScale;
+uniform vec4 _BumpTiling;
+uniform vec4 _BumpDirection;
+#line 99
+uniform vec4 _Foam;
+#line 68
+vec4 ExtinctColor( in vec4 baseColor, in float extinctionAmount ) {
+    #line 70
+    return (baseColor - (extinctionAmount * vec4( 0.15, 0.03, 0.01, 0.0)));
+}
+#line 50
+vec4 Foam( in sampler2D shoreTex, in vec4 coords ) {
+    #line 52
+    vec4 foam = ((texture2D( shoreTex, coords.xy) * texture2D( shoreTex, coords.zw)) - 0.125);
+    return foam;
+}
+#line 55
+float Fresnel( in vec3 viewVector, in vec3 worldNormal, in float bias, in float power ) {
+    #line 57
+    float facing = clamp( (1.0 - max( dot( (-viewVector), worldNormal), 0.0)), 0.0, 1.0);
+    float refl2Refr = xll_saturate_f((bias + ((1.0 - bias) * pow( facing, power))));
+    return refl2Refr;
+}
+#line 12
+float LinearEyeDepth( in float z ) {
+    return (1.0 / ((_ZBufferParams.z * z) + _ZBufferParams.w));
+}
+#line 18
+vec3 PerPixelNormal( in sampler2D bumpMap, in vec4 coords, in vec3 vertexNormal, in float bumpStrength ) {
+    vec4 bump = (texture2D( bumpMap, coords.xy) + texture2D( bumpMap, coords.zw));
+    bump.xy = (bump.wy - vec2( 1.0, 1.0));
+    #line 22
+    vec3 worldNormal = (vertexNormal + ((bump.xxy * bumpStrength) * vec3( 1.0, 0.0, 1.0)));
+    return normalize(worldNormal);
+}
+#line 101
+vec4 xlat_main( in v2f i ) {
+    #line 103
+    vec3 worldNormal = PerPixelNormal( _BumpMap, i.bumpCoords, i.normalInterpolator.xyz, _DistortParams.x);
+    vec3 viewVector = normalize(i.viewInterpolator.xyz);
+    vec4 distortOffset = vec4( ((worldNormal.xz * _DistortParams.y) * 10.0), 0.0, 0.0);
+    vec4 screenWithOffset = (i.screenPos + distortOffset);
+    #line 107
+    vec4 grabWithOffset = (i.grabPassPos + distortOffset);
+    vec4 rtRefractionsNoDistort = texture2DProj( _RefractionTex, i.grabPassPos);
+    float refrFix = texture2DProj( _CameraDepthTexture, grabWithOffset).x;
+    vec4 rtRefractions = texture2DProj( _RefractionTex, grabWithOffset);
+    #line 111
+    vec4 rtReflections = texture2DProj( _ReflectionTex, screenWithOffset);
+    if ((LinearEyeDepth( refrFix) < i.screenPos.z)){
+        rtRefractions = rtRefractionsNoDistort;
+    }
+    vec3 reflectVector = normalize(reflect( viewVector, worldNormal));
+    vec3 h = normalize((_WorldLightDir.xyz + viewVector.xyz));
+    #line 115
+    float nh = max( 0.0, dot( worldNormal, (-h)));
+    float spec = max( 0.0, pow( nh, _Shininess));
+    vec4 edgeBlendFactors = vec4( 1.0, 0.0, 0.0, 0.0);
+    float depth = texture2DProj( _CameraDepthTexture, i.screenPos).x;
+    #line 119
+    depth = LinearEyeDepth( depth);
+    edgeBlendFactors = xll_saturate_vf4((_InvFadeParemeter * (depth - i.screenPos.w)));
+    edgeBlendFactors.y = (1.0 - edgeBlendFactors.y);
+    worldNormal.xz *= _FresnelScale;
+    #line 123
+    float refl2Refr = Fresnel( viewVector, worldNormal, _DistortParams.w, _DistortParams.z);
+    vec4 baseColor = ExtinctColor( _BaseColor, (i.viewInterpolator.w * _InvFadeParemeter.w));
+    vec4 reflectionColor = mix( rtReflections, _ReflectionColor, vec4( _ReflectionColor.w));
+    baseColor = mix( mix( rtRefractions, baseColor, vec4( baseColor.w)), reflectionColor, vec4( refl2Refr));
+    #line 127
+    baseColor = (baseColor + (spec * _SpecularColor));
+    vec4 foam = Foam( _ShoreTex, (i.bumpCoords * 2.0));
+    baseColor.xyz += ((foam.xyz * _Foam.x) * (edgeBlendFactors.y + xll_saturate_f((i.viewInterpolator.w - _Foam.y))));
+    baseColor.w = edgeBlendFactors.x;
+    #line 131
+    return baseColor;
+}
+varying vec4 xlv_TEXCOORD0;
+varying vec4 xlv_TEXCOORD1;
+varying vec4 xlv_TEXCOORD2;
+varying vec4 xlv_TEXCOORD3;
+varying vec4 xlv_TEXCOORD4;
+void main() {
+    vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.normalInterpolator = vec4(xlv_TEXCOORD0);
+    xlt_i.viewInterpolator = vec4(xlv_TEXCOORD1);
+    xlt_i.bumpCoords = vec4(xlv_TEXCOORD2);
+    xlt_i.screenPos = vec4(xlv_TEXCOORD3);
+    xlt_i.grabPassPos = vec4(xlv_TEXCOORD4);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _BaseColor:<none> type 12 arrsize 0
+// _BumpMap:<none> type 25 arrsize 0
+// _CameraDepthTexture:<none> type 25 arrsize 0
+// _DistortParams:<none> type 12 arrsize 0
+// _Foam:<none> type 12 arrsize 0
+// _FresnelScale:<none> type 9 arrsize 0
+// _InvFadeParemeter:<none> type 12 arrsize 0
+// _ReflectionColor:<none> type 12 arrsize 0
+// _ReflectionTex:<none> type 25 arrsize 0
+// _RefractionTex:<none> type 25 arrsize 0
+// _Shininess:<none> type 9 arrsize 0
+// _ShoreTex:<none> type 25 arrsize 0
+// _SpecularColor:<none> type 12 arrsize 0
+// _WorldLightDir:<none> type 12 arrsize 0
+// _ZBufferParams:<none> type 12 arrsize 0

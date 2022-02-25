@@ -1,0 +1,4 @@
+#line 1 "vpos-in.txt" 
+half4 main (float2 pos : VPOS) : COLOR0 {
+	return float4(pos,0,0);
+}

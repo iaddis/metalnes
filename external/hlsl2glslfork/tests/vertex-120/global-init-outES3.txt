@@ -1,0 +1,28 @@
+uniform highp vec4 uniVar;
+highp vec4 staticVar;
+#line 3
+highp vec4 staticVar2;
+uniform highp vec4 unusedVar;
+uniform highp float uninitializedVar;
+#line 7
+#line 12
+#line 7
+highp float test(  ) {
+    return (((staticVar.x * 2.0) + uninitializedVar) + staticVar2.y);
+}
+#line 12
+highp vec4 xlat_main(  ) {
+    highp vec4 tempVar = ((uniVar * staticVar) * test( ));
+    return tempVar;
+}
+void main() {
+staticVar = uniVar;
+staticVar2 = staticVar;
+    highp vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_Position = vec4(xl_retval);
+}
+
+// uniforms:
+// uniVar:<none> type 12 arrsize 0
+// uninitializedVar:<none> type 9 arrsize 0

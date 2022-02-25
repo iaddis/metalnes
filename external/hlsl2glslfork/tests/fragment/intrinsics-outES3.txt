@@ -1,0 +1,169 @@
+float xll_mod_f_f( float x, float y ) {
+  float d = x / y;
+  float f = fract (abs(d)) * y;
+  return d >= 0.0 ? f : -f;
+}
+vec2 xll_mod_vf2_vf2( vec2 x, vec2 y ) {
+  vec2 d = x / y;
+  vec2 f = fract (abs(d)) * y;
+  return vec2 (d.x >= 0.0 ? f.x : -f.x, d.y >= 0.0 ? f.y : -f.y);
+}
+vec3 xll_mod_vf3_vf3( vec3 x, vec3 y ) {
+  vec3 d = x / y;
+  vec3 f = fract (abs(d)) * y;
+  return vec3 (d.x >= 0.0 ? f.x : -f.x, d.y >= 0.0 ? f.y : -f.y, d.z >= 0.0 ? f.z : -f.z);
+}
+vec4 xll_mod_vf4_vf4( vec4 x, vec4 y ) {
+  vec4 d = x / y;
+  vec4 f = fract (abs(d)) * y;
+  return vec4 (d.x >= 0.0 ? f.x : -f.x, d.y >= 0.0 ? f.y : -f.y, d.z >= 0.0 ? f.z : -f.z, d.w >= 0.0 ? f.w : -f.w);
+}
+float xll_log10_f( float x ) {
+  return log2 ( x ) / 3.32192809; 
+}
+vec2 xll_log10_vf2( vec2 x ) {
+  return log2 ( x ) / vec2 ( 3.32192809 ); 
+}
+vec3 xll_log10_vf3( vec3 x ) {
+  return log2 ( x ) / vec3 ( 3.32192809 ); 
+}
+vec4 xll_log10_vf4( vec4 x ) {
+  return log2 ( x ) / vec4 ( 3.32192809 ); 
+}
+mat2 xll_log10_mf2x2(mat2 m) {
+  return mat2( xll_log10_vf2(m[0]), xll_log10_vf2(m[1]));
+}
+mat3 xll_log10_mf3x3(mat3 m) {
+  return mat3( xll_log10_vf3(m[0]), xll_log10_vf3(m[1]), xll_log10_vf3(m[2]));
+}
+mat4 xll_log10_mf4x4(mat4 m) {
+  return mat4( xll_log10_vf4(m[0]), xll_log10_vf4(m[1]), xll_log10_vf4(m[2]), xll_log10_vf4(m[3]));
+}
+vec4 xll_lit_f_f_f( float n_dot_l, float n_dot_h, float m ) {
+   return vec4(1, max(0.0, n_dot_l), pow(max(0.0, n_dot_h) * step(0.0, n_dot_l), m), 1.0);
+}
+void xll_clip_f(float x) {
+  if ( x<0.0 ) discard;
+}
+void xll_clip_vf2(vec2 x) {
+  if (any(lessThan(x,vec2(0.0)))) discard;
+}
+void xll_clip_vf3(vec3 x) {
+  if (any(lessThan(x,vec3(0.0)))) discard;
+}
+void xll_clip_vf4(vec4 x) {
+  if (any(lessThan(x,vec4(0.0)))) discard;
+}
+float xll_modf_f_i( float x, out int ip) {
+  ip = int (x);
+  return x-float(ip);
+}
+float xll_modf_f_f( float x, out float ip) {
+  int i = int (x);
+  ip = float(i);
+  return x-ip;
+}
+vec2 xll_modf_vf2_vi2( vec2 x, out ivec2 ip) {
+  ip = ivec2 (x);
+  return x-vec2(ip);
+}
+vec2 xll_modf_vf2_vf2( vec2 x, out vec2 ip) {
+  ivec2 i = ivec2 (x);
+  ip = vec2(i);
+  return x-ip;
+}
+vec3 xll_modf_vf3_vi3( vec3 x, out ivec3 ip) {
+  ip = ivec3 (x);
+  return x-vec3(ip);
+}
+vec3 xll_modf_vf3_vf3( vec3 x, out vec3 ip) {
+  ivec3 i = ivec3 (x);
+  ip = vec3(i);
+  return x-ip;
+}
+vec4 xll_modf_vf4_vi4( vec4 x, out ivec4 ip) {
+  ip = ivec4 (x);
+  return x-vec4(ip);
+}
+vec4 xll_modf_vf4_vf4( vec4 x, out vec4 ip) {
+  ivec4 i = ivec4 (x);
+  ip = vec4(i);
+  return x-ip;
+}
+float xll_round_f (float x) { return floor (x+0.5); }
+vec2 xll_round_vf2 (vec2 x) { return floor (x+vec2(0.5)); }
+vec3 xll_round_vf3 (vec3 x) { return floor (x+vec3(0.5)); }
+vec4 xll_round_vf4 (vec4 x) { return floor (x+vec4(0.5)); }
+float xll_trunc_f (float x) { return x < 0.0 ? -floor(-x) : floor(x); }
+vec2 xll_trunc_vf2 (vec2 v) { return vec2(
+  v.x < 0.0 ? -floor(-v.x) : floor(v.x),
+  v.y < 0.0 ? -floor(-v.y) : floor(v.y)
+); }
+vec3 xll_trunc_vf3 (vec3 v) { return vec3(
+  v.x < 0.0 ? -floor(-v.x) : floor(v.x),
+  v.y < 0.0 ? -floor(-v.y) : floor(v.y),
+  v.z < 0.0 ? -floor(-v.z) : floor(v.z)
+); }
+vec4 xll_trunc_vf4 (vec4 v) { return vec4(
+  v.x < 0.0 ? -floor(-v.x) : floor(v.x),
+  v.y < 0.0 ? -floor(-v.y) : floor(v.y),
+  v.z < 0.0 ? -floor(-v.z) : floor(v.z),
+  v.w < 0.0 ? -floor(-v.w) : floor(v.w)
+); }
+#line 1
+mediump vec4 xlat_main( in highp vec4 uv, in mediump vec4 huv ) {
+    #line 2
+    mediump vec4 c = vec4( 0.0);
+    c.x += xll_mod_f_f( uv.x, 2.0);
+    #line 6
+    c.xy += xll_mod_vf2_vf2( uv.xy, vec2( 2.0));
+    c.xyz += xll_mod_vf3_vf3( uv.xyz, vec3( 2.0));
+    c.xyzw += xll_mod_vf4_vf4( uv.xyzw, vec4( 2.0));
+    c.xyzw += xll_mod_vf4_vf4( huv.xyzw, vec4( 2.0));
+    #line 12
+    mediump vec4 d;
+    c.x += xll_modf_f_f( uv.x, d.x);
+    c.xy += xll_modf_vf2_vf2( uv.xy, d.xy);
+    c.xyz += xll_modf_vf3_vf3( uv.xyz, d.xyz);
+    #line 16
+    c.xyzw += xll_modf_vf4_vf4( uv.xyzw, d.xyzw);
+    xll_clip_f((c.x - 0.5));
+    #line 20
+    xll_clip_vf2((c.xy - 0.5));
+    xll_clip_vf3((c.xyz - 0.5));
+    xll_clip_vf4((c.xyzw - 0.5));
+    #line 25
+    highp ivec2 ii = ivec2( 1, 2);
+    highp ivec2 jj = ivec2( 3, 4);
+    c.x += mod(float(ii.x), float(jj.x));
+    c.xy += mod(vec2(ii.xy), vec2(jj.xy));
+    #line 29
+    highp int kk = int(mod(float(ii.x), float(ii.y)));
+    c.z += float(kk);
+    #line 33
+    c.x += mod(uv.x, uv.y);
+    c.xy += mod(uv.xy, uv.zw);
+    #line 37
+    c += xll_lit_f_f_f( c.x, 0.2, 0.3);
+    c.x += xll_round_f(2.5);
+    c.xy += xll_round_vf2(vec2( 2.5, 3.5));
+    #line 42
+    c.x += xll_trunc_f(2.5);
+    c.xy += xll_trunc_vf2(vec2( 2.5, 3.5));
+    c.xy += reflect( uv.xy, uv.zw);
+    #line 46
+    c.xy += reflect( huv.xy, huv.zw);
+    c.xyz += faceforward( uv.xyz, uv.xyw, uv.yzw);
+    c.xyz += faceforward( huv.xyz, huv.xyw, huv.yzw);
+    #line 51
+    c.x += xll_log10_f(uv.x);
+    c.xyz += xll_log10_vf3(uv.xyz);
+    return c;
+}
+in highp vec4 xlv_TEXCOORD0;
+in mediump vec4 xlv_TEXCOORD1;
+void main() {
+    mediump vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_TEXCOORD0), vec4(xlv_TEXCOORD1));
+    gl_FragData[0] = vec4(xl_retval);
+}

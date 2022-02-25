@@ -1,0 +1,80 @@
+
+#line 16
+struct v2f {
+    highp vec4 pos;
+    highp float fog;
+    highp vec2 uv;
+    highp vec4 color;
+};
+#line 9
+struct a2v {
+    highp vec4 pos;
+    highp vec2 uv;
+    mediump vec3 normal;
+    lowp vec4 color;
+};
+#line 1
+uniform highp mat4 mvp;
+uniform mediump mat4 hmat4;
+uniform mediump mat3 hmat3;
+uniform mediump mat2 hmat2;
+#line 5
+uniform lowp mat4 fmat4;
+uniform lowp mat3 fmat3;
+uniform lowp mat2 fmat2;
+#line 23
+#line 23
+v2f xlat_main( in a2v v ) {
+    v2f o;
+    o.pos = (mvp * v.pos);
+    #line 27
+    o.pos += (hmat4 * v.pos);
+    o.pos.xyz += (hmat3 * v.pos.xyz);
+    o.pos.xy += (hmat2 * v.pos.xy);
+    o.pos += (fmat4 * v.pos);
+    #line 31
+    o.pos.xyz += (fmat3 * v.pos.xyz);
+    o.pos.xy += (fmat2 * v.pos.xy);
+    o.color = v.color;
+    o.color = v.color;
+    #line 35
+    o.color = v.color;
+    o.color = v.color;
+    o.color.xyz += v.normal;
+    o.uv = v.uv;
+    #line 40
+    highp float dx = v.pos.x;
+    mediump float dy = v.pos.y;
+    lowp float dz = v.pos.z;
+    #line 44
+    return o;
+}
+attribute highp vec4 xlat_attrib_POSITION;
+attribute highp vec2 xlat_attrib_TEXCOORD0;
+attribute mediump vec3 xlat_attrib_NORMAL;
+attribute lowp vec4 xlat_attrib_COLOR;
+varying highp float xlv_FOG;
+varying highp vec2 xlv_TEXCOORD0;
+varying highp vec4 xlv_COLOR;
+void main() {
+    v2f xl_retval;
+    a2v xlt_v;
+    xlt_v.pos = vec4(xlat_attrib_POSITION);
+    xlt_v.uv = vec2(xlat_attrib_TEXCOORD0);
+    xlt_v.normal = vec3(xlat_attrib_NORMAL);
+    xlt_v.color = vec4(xlat_attrib_COLOR);
+    xl_retval = xlat_main( xlt_v);
+    gl_Position = vec4(xl_retval.pos);
+    xlv_FOG = float(xl_retval.fog);
+    xlv_TEXCOORD0 = vec2(xl_retval.uv);
+    xlv_COLOR = vec4(xl_retval.color);
+}
+
+// uniforms:
+// fmat2:<none> type 13 arrsize 0
+// fmat3:<none> type 17 arrsize 0
+// fmat4:<none> type 21 arrsize 0
+// hmat2:<none> type 13 arrsize 0
+// hmat3:<none> type 17 arrsize 0
+// hmat4:<none> type 21 arrsize 0
+// mvp:<none> type 21 arrsize 0

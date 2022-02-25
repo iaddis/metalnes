@@ -1,0 +1,26 @@
+#line 1 "loops-formultiple-in.txt" 
+float4 unity_LightColor[4];
+
+float4x4 UNITY_MATRIX_MVP;
+
+struct appdata {
+	float4 vertex : POSITION;
+	float3 normal : NORMAL;
+};
+
+struct v2f {
+	half4 pos : POSITION;
+	half4 color : TEXCOORD0;
+};
+
+v2f main (appdata v)
+{
+	v2f o;
+	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	o.color = 0;
+	for (int i = 0; i < 4; ++i)
+		o.color += max (0, unity_LightColor[i]);
+	for (int i = 0; i < 4; ++i)
+		o.color *= min (1, unity_LightColor[i]);
+	return o; 
+}

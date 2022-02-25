@@ -1,0 +1,22 @@
+#line 1 "complex-collectshadows-in.txt" 
+float4x4 glstate_matrix_mvp;
+struct appdata {
+	float4 vertex : POSITION;
+	float2 texcoord : TEXCOORD0;
+	float3 texcoord1 : TEXCOORD1;
+};
+
+struct v2f {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+	float3 ray : TEXCOORD1;
+};
+
+v2f main (appdata v)
+{
+	v2f o;
+	o.pos = mul(glstate_matrix_mvp, v.vertex);
+	o.uv = v.texcoord;
+	o.ray = v.texcoord1;
+	return o;
+}

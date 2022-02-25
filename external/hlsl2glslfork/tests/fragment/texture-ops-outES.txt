@@ -1,0 +1,76 @@
+#extension GL_EXT_shader_texture_lod : require
+#extension GL_OES_standard_derivatives : require
+float xll_dFdx_f(float f) {
+  return dFdx(f);
+}
+vec2 xll_dFdx_vf2(vec2 v) {
+  return dFdx(v);
+}
+vec3 xll_dFdx_vf3(vec3 v) {
+  return dFdx(v);
+}
+vec4 xll_dFdx_vf4(vec4 v) {
+  return dFdx(v);
+}
+mat2 xll_dFdx_mf2x2(mat2 m) {
+  return mat2( dFdx(m[0]), dFdx(m[1]));
+}
+mat3 xll_dFdx_mf3x3(mat3 m) {
+  return mat3( dFdx(m[0]), dFdx(m[1]), dFdx(m[2]));
+}
+mat4 xll_dFdx_mf4x4(mat4 m) {
+  return mat4( dFdx(m[0]), dFdx(m[1]), dFdx(m[2]), dFdx(m[3]));
+}
+float xll_dFdy_f(float f) {
+  return dFdy(f);
+}
+vec2 xll_dFdy_vf2(vec2 v) {
+  return dFdy(v);
+}
+vec3 xll_dFdy_vf3(vec3 v) {
+  return dFdy(v);
+}
+vec4 xll_dFdy_vf4(vec4 v) {
+  return dFdy(v);
+}
+mat2 xll_dFdy_mf2x2(mat2 m) {
+  return mat2( dFdy(m[0]), dFdy(m[1]));
+}
+mat3 xll_dFdy_mf3x3(mat3 m) {
+  return mat3( dFdy(m[0]), dFdy(m[1]), dFdy(m[2]));
+}
+mat4 xll_dFdy_mf4x4(mat4 m) {
+  return mat4( dFdy(m[0]), dFdy(m[1]), dFdy(m[2]), dFdy(m[3]));
+}
+vec4 xll_tex2Dgrad(sampler2D s, vec2 coord, vec2 ddx, vec2 ddy) {
+   return texture2DGradEXT( s, coord, ddx, ddy);
+}
+vec4 xll_texCUBElod(samplerCube s, vec4 coord) {
+  return textureCubeLodEXT( s, coord.xyz, coord.w);
+}
+vec4 xll_texCUBEgrad(samplerCube s, vec3 coord, vec3 ddx, vec3 ddy) {
+  return textureCubeGradEXT( s, coord, ddx, ddy);
+}
+#line 1
+uniform sampler2D tex;
+uniform samplerCube cub;
+#line 4
+mediump vec4 xlat_main( in highp vec4 uv ) {
+    #line 5
+    mediump vec4 c = vec4( 0.0);
+    c += xll_texCUBElod( cub, vec4( uv.xyz, 0.0));
+    c += xll_tex2Dgrad( tex, uv.xy, xll_dFdx_vf2(uv.xy), xll_dFdy_vf2(uv.xy));
+    c += xll_texCUBEgrad( cub, uv.xyz, xll_dFdx_vf3(uv.xyz), xll_dFdy_vf3(uv.xyz));
+    #line 9
+    return c;
+}
+varying highp vec4 xlv_TEXCOORD0;
+void main() {
+    mediump vec4 xl_retval;
+    xl_retval = xlat_main( vec4(xlv_TEXCOORD0));
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// cub:<none> type 28 arrsize 0
+// tex:<none> type 25 arrsize 0

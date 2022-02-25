@@ -1,0 +1,4 @@
+#define right(   x   ,   y   )       x    ##    y
+float right(     RI   ,    GHT    ) ;
+
+float4 main() : COLOR { return RIGHT; }

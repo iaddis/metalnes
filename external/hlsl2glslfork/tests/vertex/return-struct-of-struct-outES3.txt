@@ -1,0 +1,28 @@
+
+#line 0
+struct v2f_sub {
+    highp vec4 color;
+};
+#line 4
+struct v2f {
+    highp vec4 pos;
+    v2f_sub ss;
+};
+#line 8
+#line 8
+v2f xlat_main( in highp vec4 pos ) {
+    v2f o;
+    o.pos = pos;
+    #line 12
+    o.ss.color = pos;
+    return o;
+}
+in highp vec4 xlat_attrib_POSITION;
+out highp vec4 xlv_TEXCOORD;
+out highp vec4 xlv_COLOR;
+void main() {
+    v2f xl_retval;
+    xl_retval = xlat_main( vec4(xlat_attrib_POSITION));
+    xlv_TEXCOORD = vec4(xl_retval.pos);
+    xlv_COLOR = vec4(xl_retval.ss.color);
+}

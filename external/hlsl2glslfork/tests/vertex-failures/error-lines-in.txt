@@ -1,0 +1,20 @@
+
+
+//
+
+static const float line_5_must_be_inited;
+
+/*
+
+*/
+
+#line 100
+
+
+
+static const float line_103_must_be_inited;
+
+#line 200 "somefile.txt"
+
+
+static const float line_202_must_be_inited;

@@ -1,0 +1,5 @@
+/* This should produce "RIGHT" instead of "WRONG" */
+#define x(WRONG) WRONG
+float x(RIGHT) ;
+
+float4 main() : COLOR { return RIGHT; }

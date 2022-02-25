@@ -1,0 +1,49 @@
+
+#line 0
+struct Inner {
+    float member1;
+    ivec3 member2;
+};
+#line 13
+struct Outer {
+    Inner inner;
+    Inner inner2;
+    float member3;
+};
+#line 7
+struct Inner2 {
+    vec3 member1;
+    float member2;
+};
+#line 20
+struct OuterWithFirstSimpleMember {
+    float member0;
+    Inner inner1;
+    Inner inner2;
+};
+#line 27
+#line 32
+#line 27
+vec4 StructTakingFunc( in Outer outer, in Inner inner ) {
+    return vec4( (outer.inner.member2 + inner.member2), outer.inner.member1);
+}
+#line 32
+vec4 xlat_main(  ) {
+    Outer test;
+    test.inner.member1 = 1.0;
+    #line 36
+    test.inner.member2 = ivec3( 0);
+    Inner test2 = Inner(0.0, ivec3(0.0, 0.0, 0.0));
+    #line 40
+    Inner2 test3 = Inner2(vec3(0.0, 0.0, 0.0), 0.0);
+    OuterWithFirstSimpleMember test4 = OuterWithFirstSimpleMember(0.0, Inner(0.0, ivec3(0.0, 0.0, 0.0)), Inner(0.0, ivec3(0.0, 0.0, 0.0)));
+    #line 44
+    Outer test5 = Outer(Inner(0.0, ivec3(0.0, 0.0, 0.0)), Inner(0.0, ivec3(0.0, 0.0, 0.0)), 0.0);
+    test5 = Outer(Inner(0.0, ivec3(0.0, 0.0, 0.0)), Inner(0.0, ivec3(0.0, 0.0, 0.0)), 0.0);
+    return StructTakingFunc( test, test2);
+}
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_Position = vec4(xl_retval);
+}

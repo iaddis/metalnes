@@ -1,0 +1,59 @@
+#line 1 "index-matrix-in.txt" 
+float4 main (float4 pos : POSITION) : POSITION
+{
+	float4 v = 0;
+	float2x2 m2 = float2x2(
+		1, 2,
+		3, 4
+	);
+	float2x2 m2b = float2x2(
+		float2 (1,2),
+		float2 (3,4)
+	);
+	v.xy += m2[0];
+	v.xy += m2b[1];
+	float3x3 m3 = float3x3(
+		1, 2, 3,
+		4, 5, 6,
+		7, 8, 9
+	);
+	float3x3 m3b = float3x3(
+		float3(1, 2, 3),
+		float3(4, 5, 6),
+		float3(7, 8, 9)
+	);
+	float3x3 m3c = float3x3(
+		float3(1, 2, 3),
+		float3(4, 5, 6),
+		pos.xyz
+	);
+	v.xyz += m3[0];
+	v.xyz += m3b[1];
+	v.xyz += m3c[2];
+	v.xyz += float3x3(
+		1,2,3,
+		4,5,6,
+		7,8,9)[2];
+	for (int i = 0; i < 3; ++i) {
+		v.xyz += m3c[i];
+		v.x += m3b[i][2];
+		v.x += m3c[2][i];
+	}
+	v.x += m3b[1][2];
+	v.x += m3c[1][2];
+	float4x4 m4 = float4x4(
+		1, 2, 3, 4,
+		5, 6, 7, 8,
+		9, 10, 11, 12,
+		13, 14, 15, 16
+	);
+	float4x4 m4b = float4x4(
+		float4(1, 2, 3, 4),
+		float4(5, 6, 7, 8),
+		float4(9, 10, 11, 12),
+		float4(13, 14, 15, 16)
+	);
+	v.xyzw += m4[0];
+	v.xyzw += m4b[1];
+	return v;
+}

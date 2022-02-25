@@ -1,0 +1,28 @@
+void vec_upcast(float4 f)
+{
+}
+
+void vec_downcast(float2 f)
+{
+}
+
+float2 mat_downcast(float2x3 m)
+{
+	float2x2 m22 = m;
+    return m22[0].xx;
+}
+
+uniform float val;
+float4 main() : COLOR0
+{
+    vec_upcast(float2(0));
+    vec_downcast(float4(1));
+
+    float4x4 m = val;
+    float2x4 m2 = m;
+    float2x2 m3 = m2;
+    
+    float2x2 m5 = m3 + m2;
+
+    return float4(m[3] * mat_downcast(m2), 0, 0);
+}

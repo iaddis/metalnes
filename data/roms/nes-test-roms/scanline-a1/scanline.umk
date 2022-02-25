@@ -1,0 +1,8 @@
+MAKEUNIF
+scanline.unif
+MIRR 1
+MAPR NES-NROM-128
+NAME Scanline demo
+TVCI 0
+PRG0 scanline.obj
+CHR0 scanline.chr

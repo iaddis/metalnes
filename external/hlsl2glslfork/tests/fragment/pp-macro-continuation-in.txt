@@ -1,0 +1,21 @@
+// these should evaluate to empty
+#define AAA \
+
+#define BBB
+
+#define CCC /* comment */ \
+
+#define DDD
+
+#define EEE \
+	0.0
+
+
+float4 main() : COLOR
+{
+	AAA
+	BBB
+	CCC
+	DDD
+	return EEE;
+}

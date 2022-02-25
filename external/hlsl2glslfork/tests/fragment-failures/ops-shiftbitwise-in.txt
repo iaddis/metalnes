@@ -1,0 +1,44 @@
+// most of shifts and bitwise operations are errors in early
+// GLSL versions, so this should produce bunch of errors
+
+uniform bool ub;
+uniform bool4 ub4;
+uniform int ui;
+uniform int4 ui4;
+uniform float uf;
+uniform float4 uf4;
+
+
+fixed4 main() : COLOR0
+{
+	bool b = !ub;
+
+	int i = !ui;
+	i = ~ui;
+	i = i << 2;
+	i = i >> 3;
+	i <<= 4;
+	i >>= 5;
+
+	i %= 7;
+	i &= 15;
+	i ^= 3;
+	i |= 15;
+
+	int4 i4 = -ui4;
+	i4 = ~ui4;
+	i4 = i4 << 2;
+	i4 = i4 >> 3;
+	i4 <<= 4;
+	i4 >>= 5;
+
+	i4 %= 7;
+	i4 &= 15;
+	i4 ^= 3;
+	i4 |= 15;
+
+	float f = !uf;
+	float4 f4 = !uf4;
+
+	return 0.5;
+}

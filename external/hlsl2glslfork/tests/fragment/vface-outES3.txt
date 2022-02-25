@@ -1,0 +1,11 @@
+
+#line 1
+mediump vec4 xlat_main( in highp float face ) {
+    #line 2
+    return vec4( face);
+}
+void main() {
+    mediump vec4 xl_retval;
+    xl_retval = xlat_main( float((gl_FrontFacing ? 1.0 : -1.0)));
+    gl_FragData[0] = vec4(xl_retval);
+}

@@ -1,0 +1,15 @@
+#line 1 "return-struct-of-struct-in.txt"
+struct v2f_sub {
+    float4 color : COLOR;
+};
+struct v2f {
+    float4 pos : TEXCOORD;
+    v2f_sub ss;
+};
+v2f main( in float4 pos : POSITION )
+{
+    v2f o;
+    o.pos = pos;
+    o.ss.color = pos;
+    return o;
+}

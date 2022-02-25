@@ -1,0 +1,14 @@
+static const float lut1[3] = { 0.1, 0.2, 0.3 };
+static const float2 lut2[] = { float2(0.1,0.2), float2(0.2,0.3) };
+static const float4 lut4[1] = { float4(0.1,0.2,0.3,0.4) };
+   
+float4 main() : COLOR
+{
+	float4 c = 0.0;
+	for (int i = 0; i < 3; ++i)
+		c.x += lut1[i];
+	for (int i = 0; i < 2; ++i)
+		c.xy += lut2[i];
+	c += lut4[0];
+	return c;
+}

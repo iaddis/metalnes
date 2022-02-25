@@ -1,0 +1,10 @@
+#line 1 "ternary-vec4-in.txt" 
+half4 main (float4 uv : TEXCOORD0) : COLOR0 {
+	float4 a = 0;
+	a += uv > 0.5 ? float4(1,2,3,4) : float4(5,6,7,8);
+	a += uv > float4(0.5) ? float4(1,2,3,4) : float4(5,6,7,8);
+	a += uv > 0.5 ? float4(1) : float4(2);
+	a += uv > 0.5 ? 1 : 2;
+	a += frac(uv) ? float4(1) : float4(2);
+	return a;
+}

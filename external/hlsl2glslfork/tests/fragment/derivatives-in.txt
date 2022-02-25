@@ -1,0 +1,8 @@
+half4 main (float4 uv : TEXCOORD0) : COLOR0 {
+	fixed4 res;
+	res.x = ddx(uv.x);
+	res.y = ddx(uv.y);
+	res.z = fwidth(uv.z);
+	res.w = 1.0;
+	return res;
+}

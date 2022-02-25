@@ -1,0 +1,7 @@
+(2): ERROR: '' : constant expression required 
+(2): ERROR: '' : array size must be a constant integer expression 
+(4): ERROR: '' : array size must be a constant integer expression 
+(14): ERROR: '[' :  array index out of range '10'
+(15): ERROR: '[' :  array index out of range '10'
+(16): ERROR: '[' :  array index out of range '10'
+(17): ERROR: '[' :  array index out of range '11'

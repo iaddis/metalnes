@@ -1,0 +1,42 @@
+
+#line 13
+void xlat_main( in highp vec4 position, in highp vec3 normal, in highp vec2 uv, out highp vec4 oPosition, out highp vec2 oUv, out highp vec4 oColour, highp mat4 worldViewProj, highp vec4 ambient, highp vec4 objSpaceLight, highp vec4 lightColour, highp vec4 offset ) {
+    #line 15
+    highp vec4 mypos = position;
+    highp vec4 factor = (vec4( 1.0, 1.0, 1.0, 1.0) - uv.yyyy);
+    mypos = (mypos + (offset * factor));
+    #line 19
+    oPosition = (worldViewProj * mypos);
+    oUv = uv;
+    #line 24
+    highp vec3 light = normalize((objSpaceLight.xyz - (mypos.xyz * objSpaceLight.w)));
+    highp float diffuseFactor = abs(dot( normal.xyz, light));
+    #line 28
+    oColour = (ambient + (diffuseFactor * lightColour));
+}
+uniform highp mat4 xlu_worldViewProj;
+uniform highp vec4 xlu_ambient;
+uniform highp vec4 xlu_objSpaceLight;
+uniform highp vec4 xlu_lightColour;
+uniform highp vec4 xlu_offset;
+in highp vec4 xlat_attrib_POSITION;
+in highp vec3 xlat_attrib_NORMAL;
+in highp vec2 xlat_attrib_TEXCOORD0;
+out highp vec2 xlv_TEXCOORD0;
+out highp vec4 xlv_COLOR;
+void main() {
+    highp vec4 xlt_oPosition;
+    highp vec2 xlt_oUv;
+    highp vec4 xlt_oColour;
+    xlat_main( vec4(xlat_attrib_POSITION), vec3(xlat_attrib_NORMAL), vec2(xlat_attrib_TEXCOORD0), xlt_oPosition, xlt_oUv, xlt_oColour, xlu_worldViewProj, xlu_ambient, xlu_objSpaceLight, xlu_lightColour, xlu_offset);
+    gl_Position = vec4(xlt_oPosition);
+    xlv_TEXCOORD0 = vec2(xlt_oUv);
+    xlv_COLOR = vec4(xlt_oColour);
+}
+
+// uniforms:
+// ambient:<none> type 12 arrsize 0
+// lightColour:<none> type 12 arrsize 0
+// objSpaceLight:<none> type 12 arrsize 0
+// offset:<none> type 12 arrsize 0
+// worldViewProj:<none> type 21 arrsize 0

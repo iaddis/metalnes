@@ -1,0 +1,37 @@
+// This is trying to access non-existing field in non-existing struct
+// (glstate.light). There was a bug where due to previous errors,
+// later code was getting confused and was throwing an assert while
+// trying to convert float3x3 matrix into a float3.
+//
+// We should not print this dummy error message for this case, and no assert.
+
+float4x4 UNITY_MATRIX_MVP;
+float4x4 UNITY_MATRIX_IT_MV;
+float4 UNITY_LIGHTMODEL_AMBIENT;
+
+struct appdata_base {
+    float4 vertex : POSITION;
+    float3 normal : NORMAL;
+};
+
+struct v2f
+{
+	float4 pos : POSITION;
+	float4 color : COLOR0; 
+};
+
+v2f main(appdata_base v)
+{
+	v2f o;	
+	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	
+	float3 lightDir;
+	float4 lightColor = UNITY_LIGHTMODEL_AMBIENT;
+	for (int i = 0; i < 4; i++) {
+		lightDir = mul (glstate.light[i].position.xyz, (float3x3)UNITY_MATRIX_IT_MV);
+		float diff = saturate(dot(v.normal, lightDir));
+		lightColor.xyz += glstate.light[i].diffuse.xyz * diff;
+	}
+	o.color = lightColor;
+	return o; 
+}

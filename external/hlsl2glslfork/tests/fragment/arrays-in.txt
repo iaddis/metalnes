@@ -1,0 +1,6 @@
+uniform float index;
+uniform float table[10];
+float4 main() : COLOR0
+{
+    return table[index];
+}

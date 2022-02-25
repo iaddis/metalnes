@@ -1,0 +1,13 @@
+#line 1 "pp-linenumbers1-in.txt" 
+#line 11
+struct v2f {
+    float4 vertex : POSITION;
+    fixed4 color : COLOR;
+    half2 texcoord : TEXCOORD0;
+};
+fixed4 _TintColor;
+sampler2D _MainTex;
+half4 main (v2f i) : COLOR
+{
+    return i.color * tex2D (_MainTex, i.texcoord);
+}

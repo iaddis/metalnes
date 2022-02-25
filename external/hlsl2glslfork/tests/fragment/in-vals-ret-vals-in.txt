@@ -1,0 +1,11 @@
+#line 1 "in-vals-ret-vals-in.txt" 
+half4 main (
+	float2 uv : TEXCOORD0,
+	float4 color : COLOR
+) : COLOR
+{
+	half4 c;
+	c = color;
+	c.rg += uv;
+	return c;
+}

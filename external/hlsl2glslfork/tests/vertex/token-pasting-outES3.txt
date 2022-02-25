@@ -1,0 +1,14 @@
+uniform highp vec4 pastedName;
+#line 5
+#line 5
+highp vec4 xlat_main(  ) {
+    return pastedName;
+}
+void main() {
+    highp vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_Position = vec4(xl_retval);
+}
+
+// uniforms:
+// pastedName:<none> type 12 arrsize 0

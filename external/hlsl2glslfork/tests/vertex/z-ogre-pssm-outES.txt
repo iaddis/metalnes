@@ -1,0 +1,62 @@
+
+#line 20
+void xlat_main( in highp vec4 position, in highp vec3 normal, in highp vec2 uv, out highp vec4 oPosition, out highp vec3 oUv, out highp vec3 oLightDir, out highp vec3 oHalfAngle, out highp vec4 oLightPosition0, out highp vec4 oLightPosition1, out highp vec4 oLightPosition2, out highp vec3 oNormal, highp vec4 lightPosition, highp vec3 eyePosition, highp mat4 worldViewProjMatrix, highp mat4 texWorldViewProjMatrix0, highp mat4 texWorldViewProjMatrix1, highp mat4 texWorldViewProjMatrix2 ) {
+    #line 23
+    oPosition = (worldViewProjMatrix * position);
+    oUv.xy = uv;
+    #line 27
+    oUv.z = oPosition.z;
+    #line 31
+    oLightDir = normalize((lightPosition.xyz - (position * lightPosition.w).xyz));
+    highp vec3 eyeDir = normalize((eyePosition - position.xyz));
+    #line 35
+    oHalfAngle = normalize((eyeDir + oLightDir));
+    oLightPosition0 = (texWorldViewProjMatrix0 * position);
+    #line 39
+    oLightPosition1 = (texWorldViewProjMatrix1 * position);
+    oLightPosition2 = (texWorldViewProjMatrix2 * position);
+    oNormal = normal;
+}
+uniform highp vec4 xlu_lightPosition;
+uniform highp vec3 xlu_eyePosition;
+uniform highp mat4 xlu_worldViewProjMatrix;
+uniform highp mat4 xlu_texWorldViewProjMatrix0;
+uniform highp mat4 xlu_texWorldViewProjMatrix1;
+uniform highp mat4 xlu_texWorldViewProjMatrix2;
+attribute highp vec4 xlat_attrib_POSITION;
+attribute highp vec3 xlat_attrib_NORMAL;
+attribute highp vec2 xlat_attrib_TEXCOORD0;
+varying highp vec3 xlv_TEXCOORD0;
+varying highp vec3 xlv_TEXCOORD1;
+varying highp vec3 xlv_TEXCOORD2;
+varying highp vec4 xlv_TEXCOORD3;
+varying highp vec4 xlv_TEXCOORD4;
+varying highp vec4 xlv_TEXCOORD5;
+varying highp vec3 xlv_TEXCOORD6;
+void main() {
+    highp vec4 xlt_oPosition;
+    highp vec3 xlt_oUv;
+    highp vec3 xlt_oLightDir;
+    highp vec3 xlt_oHalfAngle;
+    highp vec4 xlt_oLightPosition0;
+    highp vec4 xlt_oLightPosition1;
+    highp vec4 xlt_oLightPosition2;
+    highp vec3 xlt_oNormal;
+    xlat_main( vec4(xlat_attrib_POSITION), vec3(xlat_attrib_NORMAL), vec2(xlat_attrib_TEXCOORD0), xlt_oPosition, xlt_oUv, xlt_oLightDir, xlt_oHalfAngle, xlt_oLightPosition0, xlt_oLightPosition1, xlt_oLightPosition2, xlt_oNormal, xlu_lightPosition, xlu_eyePosition, xlu_worldViewProjMatrix, xlu_texWorldViewProjMatrix0, xlu_texWorldViewProjMatrix1, xlu_texWorldViewProjMatrix2);
+    gl_Position = vec4(xlt_oPosition);
+    xlv_TEXCOORD0 = vec3(xlt_oUv);
+    xlv_TEXCOORD1 = vec3(xlt_oLightDir);
+    xlv_TEXCOORD2 = vec3(xlt_oHalfAngle);
+    xlv_TEXCOORD3 = vec4(xlt_oLightPosition0);
+    xlv_TEXCOORD4 = vec4(xlt_oLightPosition1);
+    xlv_TEXCOORD5 = vec4(xlt_oLightPosition2);
+    xlv_TEXCOORD6 = vec3(xlt_oNormal);
+}
+
+// uniforms:
+// eyePosition:<none> type 11 arrsize 0
+// lightPosition:<none> type 12 arrsize 0
+// texWorldViewProjMatrix0:<none> type 21 arrsize 0
+// texWorldViewProjMatrix1:<none> type 21 arrsize 0
+// texWorldViewProjMatrix2:<none> type 21 arrsize 0
+// worldViewProjMatrix:<none> type 21 arrsize 0

@@ -1,0 +1,12 @@
+// There was a bug where block comment followed by preprocessor
+// directive on the same line was not working
+// (it's allowed in HLSL)
+
+/* */ #define FOO
+
+#ifdef FOO
+float4 main() : COLOR { return 1.0; }
+
+/*
+comment
+*/ #endif

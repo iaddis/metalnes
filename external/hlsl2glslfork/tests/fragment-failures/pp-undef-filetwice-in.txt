@@ -1,0 +1,5 @@
+// this should only produce one warning.
+#undef __FILE__
+#undef __FILE__
+
+float4 main() : COLOR { return 0; }

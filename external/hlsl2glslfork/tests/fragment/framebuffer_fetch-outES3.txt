@@ -1,0 +1,15 @@
+#extension GL_EXT_shader_framebuffer_fetch : require
+
+#line 1
+void xlat_main( in highp vec4 col, inout mediump vec4 fragColor ) {
+    #line 3
+    fragColor.x = col.x;
+    fragColor.y *= 2.0;
+}
+in highp vec4 xlv_TEXCOORD0;
+void main() {
+    mediump vec4 xlt_fragColor = vec4(gl_FragData[0]);
+    xlat_main( vec4(xlv_TEXCOORD0), xlt_fragColor);
+    gl_FragData[0] = vec4(xlt_fragColor);
+;
+}

@@ -1,0 +1,14 @@
+obj/nes/khan
+empty.chr
+makefile
+nes.ini
+volumes.nes
+recordings/nes-001.ogg
+recordings/nestopia.ogg
+recordings/nintendulator.ogg
+recordings/fceux.ogg
+src/pads.s
+src/hello.s
+src/sound.s
+README.txt
+zip.in

@@ -1,0 +1,2 @@
+(1): ERROR: 'stat_2' : variables with qualifier 'const' must be initialized 
+(2): ERROR: 'const_3' : variables with qualifier 'const' must be initialized 

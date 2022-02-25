@@ -1,0 +1,56 @@
+uniform float uni_1;
+uniform float uni_2;
+#line 4
+float stat_1;
+const float stat_2 = 1.3;
+const float stat_3 = 1.5;
+const float const_3 = 1e-06;
+#line 9
+uniform float mutable_1;
+uniform float mutable_2;
+uniform float _mutable_with_underscore;
+#line 15
+#line 20
+float xlat_mutable_mutable_with_underscore;
+float xlat_mutablemutable_1;
+float xlat_mutablemutable_2;
+#line 16
+float func_const(  ) {
+    return 7.0;
+}
+#line 17
+float func_const_static(  ) {
+    return 7.0;
+}
+#line 15
+float func_static(  ) {
+    return 7.0;
+}
+#line 18
+float func_static_const(  ) {
+    return 7.0;
+}
+#line 20
+vec4 xlat_main(  ) {
+    xlat_mutablemutable_1 = 3.0;
+    xlat_mutablemutable_2 = 4.0;
+    #line 24
+    xlat_mutable_mutable_with_underscore = 5.0;
+    float func = (((func_static( ) + func_const( )) + func_const_static( )) + func_static_const( ));
+    return vec4( (((((((((uni_1 + uni_2) + stat_1) + 1.3) + 1.5) + 1e-06) + xlat_mutablemutable_1) + xlat_mutablemutable_2) + xlat_mutable_mutable_with_underscore) + func));
+}
+void main() {
+    xlat_mutable_mutable_with_underscore = _mutable_with_underscore;
+    xlat_mutablemutable_1 = mutable_1;
+    xlat_mutablemutable_2 = mutable_2;
+    vec4 xl_retval;
+    xl_retval = xlat_main( );
+    gl_Position = vec4(xl_retval);
+}
+
+// uniforms:
+// uni_1:<none> type 9 arrsize 0
+// uni_2:<none> type 9 arrsize 0
+// _mutable_with_underscore:<none> type 9 arrsize 0
+// mutable_1:<none> type 9 arrsize 0
+// mutable_2:<none> type 9 arrsize 0

@@ -1,0 +1,19 @@
+int someInt;
+float arr1[someInt]; // error
+
+float arr2[5.0]; // error
+
+float arr3[10];
+
+static const int kSize = 5;
+float arr4[kSize*2];
+
+float4 main() : POSITION
+{
+	float a = 0.0;
+	a += arr3[10]; // error, out of bounds
+	a += arr3[2*5]; // error, out of bounds
+	a += arr4[10]; // error, out of bounds
+	a += arr4[kSize*2+1]; // error, out of bounds
+	return a;
+}

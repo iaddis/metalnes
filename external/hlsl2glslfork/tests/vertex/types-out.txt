@@ -1,0 +1,76 @@
+
+#line 16
+struct v2f {
+    vec4 pos;
+    float fog;
+    vec2 uv;
+    vec4 color;
+};
+#line 9
+struct a2v {
+    vec4 pos;
+    vec2 uv;
+    vec3 normal;
+    vec4 color;
+};
+#line 1
+uniform mat4 mvp;
+uniform mat4 hmat4;
+uniform mat3 hmat3;
+uniform mat2 hmat2;
+#line 5
+uniform mat4 fmat4;
+uniform mat3 fmat3;
+uniform mat2 fmat2;
+#line 23
+#line 23
+v2f xlat_main( in a2v v ) {
+    v2f o;
+    o.pos = (mvp * v.pos);
+    #line 27
+    o.pos += (hmat4 * v.pos);
+    o.pos.xyz += (hmat3 * v.pos.xyz);
+    o.pos.xy += (hmat2 * v.pos.xy);
+    o.pos += (fmat4 * v.pos);
+    #line 31
+    o.pos.xyz += (fmat3 * v.pos.xyz);
+    o.pos.xy += (fmat2 * v.pos.xy);
+    o.color = v.color;
+    o.color = v.color;
+    #line 35
+    o.color = v.color;
+    o.color = v.color;
+    o.color.xyz += v.normal;
+    o.uv = v.uv;
+    #line 40
+    float dx = v.pos.x;
+    float dy = v.pos.y;
+    float dz = v.pos.z;
+    #line 44
+    return o;
+}
+varying float xlv_FOG;
+varying vec2 xlv_TEXCOORD0;
+varying vec4 xlv_COLOR;
+void main() {
+    v2f xl_retval;
+    a2v xlt_v;
+    xlt_v.pos = vec4(gl_Vertex);
+    xlt_v.uv = vec2(gl_MultiTexCoord0);
+    xlt_v.normal = vec3(gl_Normal);
+    xlt_v.color = vec4(gl_Color);
+    xl_retval = xlat_main( xlt_v);
+    gl_Position = vec4(xl_retval.pos);
+    xlv_FOG = float(xl_retval.fog);
+    xlv_TEXCOORD0 = vec2(xl_retval.uv);
+    xlv_COLOR = vec4(xl_retval.color);
+}
+
+// uniforms:
+// fmat2:<none> type 13 arrsize 0
+// fmat3:<none> type 17 arrsize 0
+// fmat4:<none> type 21 arrsize 0
+// hmat2:<none> type 13 arrsize 0
+// hmat3:<none> type 17 arrsize 0
+// hmat4:<none> type 21 arrsize 0
+// mvp:<none> type 21 arrsize 0

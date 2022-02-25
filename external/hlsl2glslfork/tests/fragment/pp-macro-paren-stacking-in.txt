@@ -1,0 +1,5 @@
+/* Should give you "RIGHT" instead of an error. */
+#define a(a,b) b
+float a((1+1), RIGHT) ;
+
+float4 main() : COLOR { return RIGHT; }

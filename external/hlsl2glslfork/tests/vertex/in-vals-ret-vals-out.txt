@@ -1,0 +1,29 @@
+
+#line 1
+uniform mat4 mvp;
+#line 12
+#line 12
+void xlat_main( in vec4 pos, in vec2 uv, in vec3 normal, in vec4 color, out vec4 opos, out float ofog, out vec2 ouv, out vec4 ocolor ) {
+    opos = (mvp * pos);
+    ocolor = color;
+    #line 16
+    ocolor.xyz += normal;
+    ouv = uv;
+}
+varying float xlv_FOG;
+varying vec2 xlv_TEXCOORD0;
+varying vec4 xlv_COLOR;
+void main() {
+    vec4 xlt_opos;
+    float xlt_ofog;
+    vec2 xlt_ouv;
+    vec4 xlt_ocolor;
+    xlat_main( vec4(gl_Vertex), vec2(gl_MultiTexCoord0), vec3(gl_Normal), vec4(gl_Color), xlt_opos, xlt_ofog, xlt_ouv, xlt_ocolor);
+    gl_Position = vec4(xlt_opos);
+    xlv_FOG = float(xlt_ofog);
+    xlv_TEXCOORD0 = vec2(xlt_ouv);
+    xlv_COLOR = vec4(xlt_ocolor);
+}
+
+// uniforms:
+// mvp:<none> type 21 arrsize 0

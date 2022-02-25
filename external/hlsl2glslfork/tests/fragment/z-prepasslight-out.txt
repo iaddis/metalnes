@@ -1,0 +1,169 @@
+float xll_saturate_f( float x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec2 xll_saturate_vf2( vec2 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec3 xll_saturate_vf3( vec3 x) {
+  return clamp( x, 0.0, 1.0);
+}
+vec4 xll_saturate_vf4( vec4 x) {
+  return clamp( x, 0.0, 1.0);
+}
+mat2 xll_saturate_mf2x2(mat2 m) {
+  return mat2( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0));
+}
+mat3 xll_saturate_mf3x3(mat3 m) {
+  return mat3( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0));
+}
+mat4 xll_saturate_mf4x4(mat4 m) {
+  return mat4( clamp(m[0], 0.0, 1.0), clamp(m[1], 0.0, 1.0), clamp(m[2], 0.0, 1.0), clamp(m[3], 0.0, 1.0));
+}
+vec2 xll_vecTSel_vb2_vf2_vf2 (bvec2 a, vec2 b, vec2 c) {
+  return vec2 (a.x ? b.x : c.x, a.y ? b.y : c.y);
+}
+vec3 xll_vecTSel_vb3_vf3_vf3 (bvec3 a, vec3 b, vec3 c) {
+  return vec3 (a.x ? b.x : c.x, a.y ? b.y : c.y, a.z ? b.z : c.z);
+}
+vec4 xll_vecTSel_vb4_vf4_vf4 (bvec4 a, vec4 b, vec4 c) {
+  return vec4 (a.x ? b.x : c.x, a.y ? b.y : c.y, a.z ? b.z : c.z, a.w ? b.w : c.w);
+}
+#line 19
+struct v2f {
+    vec4 pos;
+    vec4 uv;
+    vec3 ray;
+};
+#line 1
+uniform vec4 _ProjectionParams;
+uniform vec3 _WorldSpaceCameraPos;
+uniform vec4 _LightPositionRange;
+uniform vec4 _ZBufferParams;
+#line 14
+#line 18
+uniform vec4 unity_LightShadowBias;
+#line 26
+uniform sampler2D _CameraNormalsTexture;
+uniform sampler2D _CameraDepthTexture;
+uniform vec4 _LightDir;
+uniform vec4 _LightPos;
+#line 30
+uniform vec4 _LightColor;
+uniform vec4 _LightShadowData;
+uniform vec4 unity_LightmapFade;
+uniform mat4 _CameraToWorld;
+#line 34
+uniform mat4 _LightMatrix0;
+uniform sampler2D _LightTextureB0;
+uniform samplerCube _LightTexture0;
+uniform samplerCube _ShadowMapTexture;
+#line 38
+uniform mat4 unity_World2Shadow;
+#line 55
+#line 64
+#line 8
+float DecodeFloatRGBA( in vec4 enc ) {
+    #line 10
+    vec4 kDecodeDot = vec4( 1.0, 0.003921569, 1.53787e-05, 6.227372e-09);
+    return dot( enc, kDecodeDot);
+}
+#line 39
+float SampleCubeDistance( in vec3 vec ) {
+    vec4 packDist = textureCube( _ShadowMapTexture, vec);
+    #line 42
+    return DecodeFloatRGBA( packDist);
+}
+#line 44
+float unitySampleShadow( in vec3 vec, in float mydist ) {
+    #line 46
+    float z = 0.0078125;
+    vec4 shadowVals;
+    shadowVals.x = SampleCubeDistance( (vec + vec3( z, z, z)));
+    shadowVals.y = SampleCubeDistance( (vec + vec3( (-z), (-z), z)));
+    #line 50
+    shadowVals.z = SampleCubeDistance( (vec + vec3( (-z), z, (-z))));
+    shadowVals.w = SampleCubeDistance( (vec + vec3( z, (-z), (-z))));
+    vec4 shadows = xll_vecTSel_vb4_vf4_vf4 (lessThan( shadowVals, vec4( mydist)), vec4( _LightShadowData.xxxx), vec4( 1.0));
+    return dot( shadows, vec4( 0.25));
+}
+#line 55
+float ComputeShadow( in vec3 vec, in float z, in vec2 uv ) {
+    float fade = ((z * _LightShadowData.z) + _LightShadowData.w);
+    fade = xll_saturate_f(fade);
+    #line 59
+    float mydist = (length(vec) * _LightPositionRange.w);
+    mydist *= 0.97;
+    return unitySampleShadow( vec, mydist);
+    return 1.0;
+}
+#line 14
+float Linear01Depth( in float z ) {
+    return (1.0 / ((_ZBufferParams.x * z) + _ZBufferParams.y));
+}
+#line 4
+float Luminance( in vec3 c ) {
+    #line 6
+    return dot( c, vec3( 0.22, 0.707, 0.071));
+}
+#line 64
+vec4 xlat_main( in v2f i ) {
+    i.ray = (i.ray * (_ProjectionParams.z / i.ray.z));
+    vec2 uv = (i.uv.xy / i.uv.w);
+    #line 68
+    vec4 nspec = texture2D( _CameraNormalsTexture, uv);
+    vec3 normal = ((nspec.xyz * 2.0) - 1.0);
+    normal = normalize(normal);
+    float depth = texture2D( _CameraDepthTexture, uv).x;
+    #line 72
+    depth = Linear01Depth( depth);
+    vec4 vpos = vec4( (i.ray * depth), 1.0);
+    vec3 wpos = (_CameraToWorld * vpos).xyz;
+    vec3 tolight = (wpos - _LightPos.xyz);
+    #line 76
+    vec3 lightDir = (-normalize(tolight));
+    float att = (dot( tolight, tolight) * _LightPos.w);
+    float atten = texture2D( _LightTextureB0, vec2( att)).w;
+    atten *= ComputeShadow( tolight, vpos.z, uv);
+    #line 80
+    atten *= textureCube( _LightTexture0, (_LightMatrix0 * vec4( wpos, 1.0)).xyz).w;
+    float diff = max( 0.0, dot( lightDir, normal));
+    vec3 h = normalize((lightDir - normalize((wpos - _WorldSpaceCameraPos))));
+    float spec = pow( max( 0.0, dot( h, normal)), (nspec.w * 128.0));
+    #line 84
+    spec *= xll_saturate_f(atten);
+    vec4 res;
+    res.xyz = (_LightColor.xyz * (diff * atten));
+    res.w = (spec * Luminance( _LightColor.xyz));
+    #line 88
+    float fade = ((vpos.z * unity_LightmapFade.z) + unity_LightmapFade.w);
+    res *= xll_saturate_f((1.0 - fade));
+    return exp2((-res));
+}
+varying vec4 xlv_TEXCOORD0;
+varying vec3 xlv_TEXCOORD1;
+void main() {
+    vec4 xl_retval;
+    v2f xlt_i;
+    xlt_i.pos = vec4(0.0);
+    xlt_i.uv = vec4(xlv_TEXCOORD0);
+    xlt_i.ray = vec3(xlv_TEXCOORD1);
+    xl_retval = xlat_main( xlt_i);
+    gl_FragData[0] = vec4(xl_retval);
+}
+
+// uniforms:
+// _CameraDepthTexture:<none> type 25 arrsize 0
+// _CameraNormalsTexture:<none> type 25 arrsize 0
+// _CameraToWorld:<none> type 21 arrsize 0
+// _LightColor:<none> type 12 arrsize 0
+// _LightMatrix0:<none> type 21 arrsize 0
+// _LightPos:<none> type 12 arrsize 0
+// _LightPositionRange:<none> type 12 arrsize 0
+// _LightShadowData:<none> type 12 arrsize 0
+// _LightTexture0:<none> type 28 arrsize 0
+// _LightTextureB0:<none> type 25 arrsize 0
+// _ProjectionParams:<none> type 12 arrsize 0
+// _ShadowMapTexture:<none> type 28 arrsize 0
+// _WorldSpaceCameraPos:<none> type 11 arrsize 0
+// _ZBufferParams:<none> type 12 arrsize 0
+// unity_LightmapFade:<none> type 12 arrsize 0

@@ -1,0 +1,6 @@
+// pixel shader output with SV_TARGET semantic should work
+// (case insensitive)
+half4 main (float4 uv : TEXCOORD0) : SV_TARget
+{
+	return uv;
+}

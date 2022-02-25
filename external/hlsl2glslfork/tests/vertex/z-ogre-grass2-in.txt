@@ -1,0 +1,56 @@
+#line 1 "complex-ogre-grass2-in.txt" 
+// GRASS SHADOW RECEIVER
+void main(
+                float4 position : POSITION,
+        			  float4 normal   : NORMAL,
+        			  float2 uv		  : TEXCOORD0,
+              
+			  out float4 oPosition    : POSITION,
+			  out float4 oShadowUV    : TEXCOORD0,
+			  out float3 oUv	      : TEXCOORD1,
+			  out float4 oColour      : COLOR,
+        	  //out float4 oNormal      : NORMAL,
+
+              uniform float4x4        world,
+			  uniform float4x4        worldViewProj,
+              uniform float4x4        texViewProj,
+              
+              uniform float4 camObjPos,
+              
+			  uniform float4 objSpaceLight,
+			  uniform float4 lightColour,
+              
+			  uniform float4 offset)
+{	    
+	float4 mypos = position;
+	float4 factor = float4(1,1,1,1) - uv.yyyy;
+	mypos = mypos + offset * factor;
+	oPosition = mul(worldViewProj, mypos);
+	oUv.xy = uv.xy;    
+    // Transform position to world space
+	float4 worldPos = mul(world, mypos);    
+	// calculate shadow map coords
+	oShadowUV = mul(texViewProj, worldPos);  
+       
+    // Make vec from vertex to camera
+    float4 EyeVec = camObjPos - mypos;
+    // Dot the v to eye and the normal to see if they point
+    // in the same direction or opposite
+    float alignedEye = dot(normal, EyeVec); // -1..1
+    // If aligned is negative, we need to flip the normal
+    if (alignedEye < 0)  
+        normal = -normal;        
+    //oNormal = normal;
+    
+  	// get vertex light direction (support directional and point)
+	float3 lightVec = normalize(objSpaceLight.xyz -  (mypos.xyz * objSpaceLight.w));
+    // Dot the v to light and the normal to see if they point
+    // in the same direction or opposite
+    float alignedLight = dot(normal.xyz, lightVec); // -1..1
+    // If aligned is negative, shadowing/lighting is not possible.
+    oUv.z = (alignedLight < 0)? 0 : 1 ;
+         
+    float diffuseFactor = max(alignedLight, 0);
+	//oColour = diffuseFactor * lightColour;    
+	oColour = lightColour;    
+}

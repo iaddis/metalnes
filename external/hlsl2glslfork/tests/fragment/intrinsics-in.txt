@@ -1,0 +1,56 @@
+#line 1 "intrinsics-in.txt" 
+half4 main (float4 uv : TEXCOORD0, half4 huv : TEXCOORD1) : COLOR0 {
+	half4 c = 0;
+
+	// fmod() in HLSL different from mod() in GLSL
+	c.x += fmod(uv.x, 2.0);
+	c.xy += fmod(uv.xy, 2.0);
+	c.xyz += fmod(uv.xyz, 2.0);
+	c.xyzw += fmod(uv.xyzw, 2.0);
+	c.xyzw += fmod(huv.xyzw, 2.0);
+
+	// modf() in HLSL different from frac() in GLSL
+	half4 d;
+	c.x += modf (uv.x, d.x);
+	c.xy += modf (uv.xy, d.xy);
+	c.xyz += modf (uv.xyz, d.xyz);
+	c.xyzw += modf (uv.xyzw, d.xyzw);
+
+	// clip()
+	clip (c.x - 0.5);
+	clip (c.xy - 0.5);
+	clip (c.xyz - 0.5);
+	clip (c.xyzw - 0.5);
+
+	// operator % on integers
+	int2 ii = int2(1,2);
+	int2 jj = int2(3,4);
+	c.x += ii.x % jj.x;
+	c.xy += ii.xy % jj.xy;
+	int kk = ii.x % ii.y;
+	c.z += kk;
+
+	// operator % on floats
+	c.x += uv.x % uv.y;
+	c.xy += uv.xy % uv.zw;	
+	
+	// other intrinsics
+	c += lit(c.x, 0.2, 0.3);
+
+	c.x += round(2.5);
+	c.xy += round(fixed2(2.5,3.5));
+
+	c.x += trunc(2.5);
+	c.xy += trunc(fixed2(2.5,3.5));
+
+	c.xy += reflect(uv.xy, uv.zw);
+	c.xy += reflect(huv.xy, huv.zw);
+
+	c.xyz += faceforward(uv.xyz, uv.xyw, uv.yzw);
+	c.xyz += faceforward(huv.xyz, huv.xyw, huv.yzw);
+
+	c.x += log10(uv.x);
+	c.xyz += log10(uv.xyz);
+
+	return c;
+}

@@ -1,0 +1,33 @@
+#line 1 "complex-prepasslight-in.txt" 
+float4x4 glstate_matrix_mvp ;
+float4x4 glstate_matrix_modelview0 ;
+uniform float4 _ProjectionParams ;
+inline float4 ComputeScreenPos ( float4 pos )
+{
+    float4 o = pos * 0.5f ;
+    o . xy = float2 ( o . x , o . y * _ProjectionParams . x ) + o . w ;
+    o . zw = pos . zw ;
+    return o ;
+}
+struct appdata
+{
+    float4 vertex : POSITION ;
+    float3 normal : NORMAL ;
+}
+;
+struct v2f
+{
+    float4 pos : POSITION ;
+    float4 uv : TEXCOORD0 ;
+    float3 ray : TEXCOORD1 ;
+}
+;
+v2f main ( appdata v )
+{
+    v2f o ;
+    o . pos = mul ( glstate_matrix_mvp , v . vertex ) ;
+    o . uv = ComputeScreenPos ( o . pos ) ;
+    o . ray = mul ( glstate_matrix_modelview0 , v . vertex ) . xyz * float3 ( - 1 , - 1 , 1 ) ;
+    o . ray = lerp ( o . ray , v . normal , v . normal . z != 0 ) ;
+    return o ;
+}

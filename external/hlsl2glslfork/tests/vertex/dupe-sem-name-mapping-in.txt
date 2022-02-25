@@ -1,0 +1,20 @@
+#line 1 "dupe-sem-name-mapping-in.txt"
+
+struct a2v1 {
+	float4 texcoord : TEXCOORD;
+};
+
+struct a2v2 {
+	float4 texcoord : TEXCOORD0;
+};
+
+struct v2f {
+	float4 pos : POSITION;
+	float4 uv : TEXCOORD;
+};
+
+v2f main (a2v1 v, a2v2 v2)
+{
+	v2f o;
+	return o;
+}

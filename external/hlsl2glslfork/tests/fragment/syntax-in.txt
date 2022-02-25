@@ -1,0 +1,29 @@
+#line 1 "syntax-in.txt" 
+half4 main() : COLOR0 {
+	float foo = 1.0;
+	foo += 1.0f;
+	foo += 1e5f;
+	foo += -1.0e-3;
+	foo += 0.000001;
+	foo += 1.0e-6;
+	foo += 1.111111e+6;
+	foo += 1.111110e+6;
+	foo += 1.23456789;
+	foo += 2f;
+	foo += 3;
+	
+	float3 f3;
+	half4 v;
+	float boo;
+	v = half4(f3.zyx, 1);
+	v = half4(foo.xxx, 1);
+	v = half4(boo.xxx, 1);
+	v = foo.xxxx;
+	v = 2..xxxx;
+	//const float fci = 1;
+	//v = fci.xxxx;
+	const float fcf = 1.9;
+	v = fcf.xxxx;
+	
+	return foo;
+}

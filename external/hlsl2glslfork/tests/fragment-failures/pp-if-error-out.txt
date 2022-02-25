@@ -1,0 +1,2 @@
+(2): ERROR: '' : Invalid expression 
+(2): ERROR: '' : syntax error syntax error

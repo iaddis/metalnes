@@ -1,0 +1,63 @@
+mat2 xll_transpose_mf2x2(mat2 m) {
+  return mat2( m[0][0], m[1][0], m[0][1], m[1][1]);
+}
+mat3 xll_transpose_mf3x3(mat3 m) {
+  return mat3( m[0][0], m[1][0], m[2][0],
+               m[0][1], m[1][1], m[2][1],
+               m[0][2], m[1][2], m[2][2]);
+}
+mat4 xll_transpose_mf4x4(mat4 m) {
+  return mat4( m[0][0], m[1][0], m[2][0], m[3][0],
+               m[0][1], m[1][1], m[2][1], m[3][1],
+               m[0][2], m[1][2], m[2][2], m[3][2],
+               m[0][3], m[1][3], m[2][3], m[3][3]);
+}
+#line 1
+vec4 xlat_main( in vec4 pos ) {
+    #line 3
+    vec4 v = vec4( 0.0);
+    mat2 m2 = mat2( 1.0, 3.0, 2.0, 4.0);
+    #line 10
+    mat2 m2b = xll_transpose_mf2x2(mat2( vec2( 1.0, 2.0), vec2( 3.0, 4.0)));
+    #line 14
+    mat2 m2c = mat2( 1.0);
+    mat2 m2d = mat2( 1.0);
+    v.xy += (m2 * pos.xy);
+    v.xy += (m2b * pos.xy);
+    #line 18
+    v.xy += (m2c * pos.xy);
+    v.xy += (m2d * pos.xy);
+    #line 22
+    mat3 m3 = mat3( 1.0, 4.0, 7.0, 2.0, 5.0, 8.0, 3.0, 6.0, 9.0);
+    #line 27
+    mat3 m3b = xll_transpose_mf3x3(mat3( vec3( 1.0, 2.0, 3.0), vec3( 4.0, 5.0, 6.0), vec3( 7.0, 8.0, 9.0)));
+    #line 32
+    mat3 m3c = xll_transpose_mf3x3(mat3( vec3( 1.0, 2.0, 3.0), vec3( 4.0, 5.0, 6.0), pos.xyz));
+    #line 37
+    mat3 m3d = mat3( 1.0);
+    mat3 m3e = mat3( 1.0);
+    v.xyz += (m3 * pos.xyz);
+    v.xyz += (m3b * pos.xyz);
+    #line 41
+    v.xyz += (m3c * pos.xyz);
+    v.xyz += (m3d * pos.xyz);
+    v.xyz += (m3e * pos.xyz);
+    #line 46
+    mat4 m4 = mat4( 1.0, 5.0, 9.0, 13.0, 2.0, 6.0, 10.0, 14.0, 3.0, 7.0, 11.0, 15.0, 4.0, 8.0, 12.0, 16.0);
+    #line 52
+    mat4 m4b = xll_transpose_mf4x4(mat4( vec4( 1.0, 2.0, 3.0, 4.0), vec4( 5.0, 6.0, 7.0, 8.0), vec4( 9.0, 10.0, 11.0, 12.0), vec4( 13.0, 14.0, 15.0, 16.0)));
+    #line 58
+    mat4 m4c = mat4( 1.0);
+    mat4 m4d = mat4( 1.0);
+    v.xyzw += (m4 * pos.xyzw);
+    v.xyzw += (m4b * pos.xyzw);
+    #line 62
+    v.xyzw += (m4c * pos.xyzw);
+    v.xyzw += (m4d * pos.xyzw);
+    return v;
+}
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( vec4(gl_Vertex));
+    gl_Position = vec4(xl_retval);
+}

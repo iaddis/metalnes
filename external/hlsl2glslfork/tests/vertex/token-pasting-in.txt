@@ -1,0 +1,8 @@
+#define MAKE_VAR(first, second) float4 first ## second
+MAKE_VAR(pasted, Name);
+
+
+float4 main() : POSITION
+{
+    return pastedName;
+}

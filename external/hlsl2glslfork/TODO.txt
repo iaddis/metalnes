@@ -1,0 +1,10 @@
+Very rough list of to do items:
+
+* Cleanup AST structures and expose them (would like to use in Unity's surface shader analysis)
+* Full support for integer types & ops (emit as EXT_gpu_shader4)
+* Output of existing feature set into GLSL ES 3.00 syntax
+* Parse DX10+ HLSL; object types, template-like stuff etc.
+* Output into GLSL 3.20+
+* Translate geometry shaders
+* Translate hull & domain shaders
+* Translate compute shaders

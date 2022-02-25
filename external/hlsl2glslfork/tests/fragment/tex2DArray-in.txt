@@ -1,0 +1,17 @@
+#line 1 "tex2DArray-in.txt" 
+
+sampler2DArray myarr;
+
+fixed4 main (float4 uv : TEXCOORD0) : COLOR0
+{
+	float4 s = tex2DArray (myarr, uv.xyz);
+	float4 sswiz = tex2DArray (myarr, uv.xyw);
+	float4 sbias = tex2DArraybias (myarr, float4(uv.xyz, 1.5));
+
+	// Looks like Mac GL 2.x does not understand "texture2DArrayLod"
+	// part of the extension spec, so don't test for that...
+	//float4 slod = tex2DArraylod (myarr, float4(uv.xyz, 1.5));
+	float4 slod = 0;
+
+	return s + sswiz + sbias + slod;
+}

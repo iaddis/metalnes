@@ -1,0 +1,16 @@
+
+#line 4
+vec4 xlat_main( in vec2 uv, in vec4 color ) {
+    #line 6
+    vec4 c;
+    c = color;
+    c.xy += uv;
+    return c;
+}
+varying vec2 xlv_TEXCOORD0;
+varying vec4 xlv_COLOR;
+void main() {
+    vec4 xl_retval;
+    xl_retval = xlat_main( vec2(xlv_TEXCOORD0), vec4(xlv_COLOR));
+    gl_FragData[0] = vec4(xl_retval);
+}
