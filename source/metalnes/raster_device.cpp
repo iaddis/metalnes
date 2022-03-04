@@ -539,6 +539,8 @@ public:
     //    stbi_write_force_png_filter = 0;
     //    stbi_write_png_compression_level = 1;
         
+        // TODO: this needs to be thread safe
+        /*
         if (_context)
         _context->GetImageDataAsync( _ppuTextureOut, [=](render::ImageDataPtr image)
         {
@@ -552,7 +554,7 @@ public:
             }
         });
         
-        
+        */
 //        if (stbi_write_png( path.c_str(), _ppuImage->width, _ppuImage->height, 4,
 //                              _ppuImage->data, (int)_ppuImage->pitch ) != 0)
 //        {
