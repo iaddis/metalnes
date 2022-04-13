@@ -86,7 +86,10 @@ bool load_system(std::string rom_name)
     {
         return false;
     }
-    
+
+    // one system at a time....
+    _system_list.clear();
+
     _system_list.push_back(system);
     return true;
 }
