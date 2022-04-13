@@ -17,22 +17,13 @@ name: "nes-pad",
 description: "NES D-pad",
     
 pins: [
-    [ 1,   'vcc'   ],
-    [ 2,   'd3'    ],    
-    [ 3,   'd4'    ],
-    [ 4,   'd0'    ],
-    [ 5,   'out'    ],
-    [ 6,   'clk'    ],    
-    [ 7,   'vss'    ],
-       
-   [ 8,   'buttons0'        ],
-   [ 9,   'buttons1'        ],
-   [10,   'buttons2'    ],
-   [11,   'buttons3'    ],
-   [12,   'buttons4'      ],
-   [13,   'buttons5'    ],
-   [14,   'buttons6'    ],
-   [15,   'buttons7'    ]
+    [ 1,   'vss'        ],
+    [ 2,   'oe'    ],
+    [ 3,   'out'    ],
+    [ 4,   'd0'        ],
+    [ 5,   'vcc'        ],
+    [ 6,   'd3'        ],
+    [ 7,   'd4'        ],
 ],
   
 modules: [
@@ -45,6 +36,10 @@ connections: [
     ["shift.CLK", "clk"],
     ["shift.PL",  "out"],
     ["shift.DS",  "vss"],
+    ["d1",  "vcc"],
+    ["d2",  "vss"],
+    ["d3",  "vss"],
+    ["d4",  "vss"],
 
 ],
     
@@ -55,10 +50,15 @@ nodenames :
 
     out:3,
     clk:4,
+    oe:4,
     d0:5,
-    d3:6,
-    d4:7,
+    d1:6,
+    d2:7,
+    d3:8,
+    d4:9,
 
+
+    
     'buttons0': 10,
     'buttons1': 11,
     'buttons2': 12,

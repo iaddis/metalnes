@@ -524,6 +524,9 @@ system_state_ptr system_state::Create(std::string system_def_dir, std::string st
 
 //    _tracedColumns = "port0.shift.CLK,port0.shift.PL,cpu.out1,port0.d0,port0.buttons[],port0.shift.d[],port0.shift.q7,port0.shift.q6,port0.shift.q5,port0.shift.L0.clk";
     
+//    _tracedColumns = "cpu.joy1,cpu.joy2,cpu.out[],-,cpu.clk0,port0.buttons[],cpu.db[4:0]";
+
+    
     if (!_tracedColumns.empty())
     {
         auto log = state->add_handler<handler_log>("");

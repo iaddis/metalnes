@@ -17,12 +17,13 @@ modules: [
   [ "u2",        "74LS373",     0],
   [ "u3",        "74LS139",     0],
   [ "u4",        "SRAM2K",      0],
-  [ "u7",        "74LS368",     0],
-  [ "u8",        "74LS368",     0],
+  [ "u7",        "74LS368",     0],  // logic inverter
+  [ "u8",        "74LS368",     0],  // logic inverter
+  [ "u9",        "74HC04",      0],  // simple logic inverter
   [ "u10",       "nes-cic1",    0],
-  [ "port0",     "nes-pad",      0],
-  [ "port1",     "nes-pad",      0],
-  [ "cart.edge", "nes-cart72",   0],
+  [ "port0",     "nes-pad",     0],  // left controller port
+  [ "port1",     "nes-pad",     0],  // right controller port
+  [ "cart.edge", "nes-cart72",  0],  // cartridge interface
 
 
 ],
@@ -154,10 +155,9 @@ connections:
 
     
   
-    // wire up u7 inverter for ppu a13
-    [ "vss",       "u7./2OE"   ],
-    [ "ppu.ab13",  "u7.2A2"   ],
-    [ "u7./2Y2",   "cart.edge.ppu_/a13"   ],
+    // wire up inverter for ppu a13
+    [ "ppu.ab13",  "u9.3A"   ],
+    [ "u9.3Y",     "cart.edge.ppu_/a13"   ],
     
     
     // data <->  VRAM
@@ -172,39 +172,48 @@ connections:
   // controller ports
   //
 
-    [ "cpu.clk0", "u8.#2" ],
-    [ "cpu.clk0", "u7.#6" ],
 
-    [ "cpu.joy1", "u7.#1" ],
-    //[ "cpu.joy1", "u7.#15" ],
+     // left controller
+     [ "cpu.out0",   "port0.out" ],
+  
+     [ "u7./1OE",   "cpu.joy1" ],
+     [ "u7./2OE",   "cpu.joy1" ],
 
-    [ "cpu.joy2", "u8.#1" ],
-    [ "cpu.joy2", "u8.#15" ],
+     [ "u7.1A1",  "cpu.clk0"  ],
+     [ "u7.1A2",  "port0.d0"  ],
+     [ "u7.1A3",  "vcc"  ],
+     [ "u7.1A4",  "vss"  ],
+     [ "u7.2A1",  "vss"  ],
+     [ "u7.2A2",  "vss"  ],
+     
+     [ "u7./1Y1", "port0.clk"  ],
+     [ "u7./1Y2", "cpu.db0" ],
+     [ "u7./1Y3", "cpu.db1"  ],
+     [ "u7./1Y4", "cpu.db2"  ],
+     [ "u7./2Y1", "cpu.db3"  ],
+     [ "u7./2Y2", "cpu.db4"  ],
 
-    [ "u7.#3",  "cpu.db0" ],
-    [ "u7.#5",  "cpu.db1" ],
-    [ "u7.#9",  "cpu.db2" ],
+     
+     // right controller
+     [ "cpu.out0",   "port1.out" ],
 
+     [ "u8./1OE",  "cpu.joy2" ],
+     [ "u8./2OE",  "cpu.joy2" ],
 
-    [ "u8.#13", "cpu.db0" ],
-    [ "u8.#5",  "cpu.db1" ],
-    [ "u8.#11", "cpu.db2" ],
-    [ "u8.#7",  "cpu.db3" ],
-    [ "u8.#9",  "cpu.db4" ],
-
-    [ "port0.out", "cpu.out0"  ],
-    [ "port0.clk", "u7.#7" ],
-    [ "port0.d0",  "u7.#2"  ],
-
-    [ "port1.out", "cpu.out0"  ],
-    [ "port1.clk", "u7.#7" ],
-    [ "port1.d0",  "u7.#4"  ],
-                  
-  //      [ "port0.d0",  "vcc"  ],
-  //      [ "port1.d0",  "vcc"  ],
-              
-              
-              
+     [ "u8.1A1",  "cpu.clk0"  ],
+     [ "u8.1A2",  "port1.d0"  ],
+     [ "u8.1A3",  "vcc"  ],
+     [ "u8.1A4",  "vss"  ],
+     [ "u8.2A1",  "vss"  ],
+     [ "u8.2A2",  "vss"  ],
+     
+     [ "u8./1Y1", "port1.clk"  ],
+     [ "u8./1Y2", "cpu.db0" ],
+     [ "u8./1Y3", "cpu.db1"  ],
+     [ "u8./1Y4", "cpu.db2"  ],
+     [ "u8./2Y1", "cpu.db3"  ],
+     [ "u8./2Y2", "cpu.db4"  ],
+    
               
     // wire from cart to VRAM A10 and CS lines
     [ "cart.edge.ciram_a10", "u4.a10"   ],

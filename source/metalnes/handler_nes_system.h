@@ -456,9 +456,7 @@ public:
 
     
     
-
-    
-    void onGui()
+    void onGuiController(int &pad)
     {
         static const char *s_ButtonNames[8] =
         {
@@ -471,6 +469,23 @@ public:
             "Left",
             "Right"
         };
+
+        for (int i=0; i < 8; i++)
+        {
+            int bit = (0x80>>i); // flip bit ordering
+            bool isdown =  (pad & bit);
+            if (ToggleButton(s_ButtonNames[i], &isdown))
+            {
+                pad ^= bit;
+            }
+            ImGui::SameLine();
+        }
+
+    }
+
+    
+    void onGui()
+    {
 
 
         int halfCycle = getTime();
@@ -491,18 +506,20 @@ public:
     //    ImGui::SameLine();
         
         
-        for (int i=0; i < 8; i++)
-        {
-            bool isdown =  (_pad0 & (1<<i));
-            if (ToggleButton(s_ButtonNames[i], &isdown))
-            {
-                _pad0 ^= (1<<i);
-            }
-            ImGui::SameLine();
-        }
-
-        ToggleButton("ClearOnRead", &_pad_clear);
+        ImGui::PushID("#pad0");
+        ImGui::Text("pad0:");
         ImGui::SameLine();
+        onGuiController(_pad0);
+        ToggleButton("ClearOnRead", &_pad_clear);
+        ImGui::PopID();
+        
+        ImGui::PushID("#pad1");
+        ImGui::Text("pad1:");
+        ImGui::SameLine();
+        onGuiController(_pad1);
+        ImGui::PopID();
+
+
 
         ImGui::NewLine();
         
