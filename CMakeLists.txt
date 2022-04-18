@@ -68,7 +68,7 @@ set(COMMON_SOURCE
 
 if (APPLE)
     set(PLATFORM_SOURCE
-        ${COMMON_SOURCE_DIR}/Platform/OSX/CoreAudio.mm
+        app/OSX/CoreAudio.mm
       )
 
 elseif (UNIX)
